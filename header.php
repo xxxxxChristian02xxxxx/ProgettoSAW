@@ -11,22 +11,20 @@ if(isset($_SESSION['loggedIn'])) {
     $role_stmt = $con->prepare("SELECT ROLES FROM USERS WHERE MAIL =?");
     $role_stmt->bind_param('s', $email);
 
-    // Sposto risultato della query in una variabile
+    //Esecuzione della query
+    $role_stmt->execute();
     $role_stmt->bind_result($roles);
     $role_stmt->fetch();
 
-    //Esecuzione della query
-    $role_stmt->execute();
-
     //controllo che la query sia andata a buon fine
-    if ($role_stmt->num_rows() === 0){
+    if ($role_stmt->num_rows === 0){
         echo "no rows inserted / updated / canceled";
     }
 
     // Chiusura del prepared statement
     $role_stmt->close();
 
-    //ciusura connessione
+    //chiusura connessione
     $con->close();
 
     if($roles == 1){
