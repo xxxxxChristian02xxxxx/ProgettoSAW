@@ -1,0 +1,7 @@
+.module{
+    text-align: center;
+}
+.module form{
+    display: inline-block;
+    margin:auto;
+}
