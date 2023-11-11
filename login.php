@@ -19,7 +19,9 @@ require('header.php');
                 <label for="pass">Password:</label>
                 <input type="password" id="pass" name="pass"><br>
             </div>
-
+            <div class="Rememberme">
+                <input type="checkbox" id="rememberme" name="rememberme"><br>
+            </div>
             <div class="Submit">
                 <input type="submit" value="Sign-in">
             </div>
@@ -34,6 +36,7 @@ require('header.php');
         $email = trim($email);
         $password = $_POST['pass'];
         $password = trim($password);
+        $remember = $_POST['rememberme'];
 
         //Connessione al db
         require("connection.php");
@@ -56,6 +59,8 @@ require('header.php');
             $_SESSION['loggedIn'] = true;
             $_SESSION['firstname'] = $row["FIRSTNAME"];
             $_SESSION['lastname'] = $row["LASTNAME"];
+            //set cookie se il rememberme è settato su true
+            require ('RememberMe.php');
 
             header("Location: main.php");
             exit();
