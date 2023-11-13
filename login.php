@@ -37,7 +37,6 @@ require('header.php');
         $email = trim($email);
         $password = $_POST['pass'];
         $password = trim($password);
-        $remember = $_POST['ReMe'] ? 1 : 0;
 
         //Connessione al db
         require("connection.php");
@@ -58,25 +57,8 @@ require('header.php');
 
         if(password_verify($password, $storedPassword)){
             $_SESSION['loggedIn'] = true;
-            $_SESSION['id'] = $row["ID"];
             $_SESSION['firstname'] = $row["FIRSTNAME"];
             $_SESSION['lastname'] = $row["LASTNAME"];
-            $_SESSION['email'] = $row["EMAIL"];
-            $_SESSION['password'] = $row["PASSWORD"];
-            $_SESSION['roles'] = $row["ROLES"];
-            $_SESSION['banned'] = $row["BANNED"];
-            $_SESSION['remember'] = $remember;
-            if($remember){
-                require("connection.php");
-
-                $con->real_escape_string($remember);
-
-                $query = "UPDATE USERS SET REMEMBER='$remember'";
-
-                $con->query($query);
-
-                require("RememberMe.php");
-            }
 
             header("Location: main.php");
             exit();

@@ -28,9 +28,9 @@ if(isset($_COOKIE['ReMe'])){
     }
 }
 if(isset($_SESSION['loggedIn'])){
-    //require ("header.php");
     $firstname = $_SESSION['firstname'];
     $lastname = $_SESSION['lastname'];
+    require ('header.php');
     echo "<h2>Welcome $firstname $lastname";
 }
 ?>
