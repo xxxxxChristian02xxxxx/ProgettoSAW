@@ -14,22 +14,31 @@
     </div>
     <div class="RegistrationForm">
         <form id="UserRegistration" action="registration.php" method="POST">
-            <label for="firstname">Firstname:</label>
-            <input type="text" id="firstname" name="firstname"><br>
-
-            <label for="lastname">Lastname:</label>
-            <input type="text"  id="lastname" name="lastname"><br>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email"><br>
-
-            <label for="pass">Password:</label>
-            <input type="password" id="pass" name="pass"><br>
-
-            <label for="confirm">Confirm password:</label>
-            <input type="password" id="confirm" name="confirm"><br>
-
-            <input type="submit" value="Submit">
+            <table>
+                <tr>
+                    <td><label for="firstname">Firstname:</label></td>
+                    <td><input type="text" id="firstname" name="firstname"></td>
+                </tr>
+                <tr>
+                    <td><label for="lastname">Lastname:</label></td>
+                    <td><input type="text"  id="lastname" name="lastname"></td>
+                </tr>
+                <tr>
+                    <td><label for="email">Email:</label></td>
+                    <td><input type="email" id="email" name="email"></td>
+                </tr>
+                <tr>
+                    <td><label for="pass">Password:</label></td>
+                    <td><input type="password" id="pass" name="pass"></td>
+                </tr>
+                <tr>
+                    <td><label for="confirm">Confirm password:</label></td>
+                    <td><input type="password" id="confirm" name="confirm"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="Submit"></td>
+                </tr>
+            </table>
         </form>
     </div>
 
