@@ -11,13 +11,22 @@
         $token_key = hash('sha256', (time() . $salt));
         $token_value = hash('sha256', ("logged_in" . $salt));
 
-        $sessiondata = json_encode(['token_value' => $token_value, 'data' => $_SESSION]);
+        $sessiondata = json_encode(['token_value' => $token_value, 'firstname' => $firstname, 'lastname' => $lastname]);
         setcookie('ReMe', $sessiondata, $expire, '/');
         $expire = date("Y-m-d", $expire);
         require("connection.php");
 
+        $query = "SELECT ID FROM USERS WHERE EMAIL=?";
+        $stmt = $con->prepare($query);
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+
+        $stmt->bind_result($id);
+        $stmt->fetch();
+
+        $stmt->close();
         // Preparazione della query con prepared statement
-        $query = "UPDATE USERS SET TOKEN=?, EXPIRE=? WHERE ID=?";
+        $query = "UPDATE USERS SET REMEMBER = '1', TOKEN=?, EXPIRE=? WHERE ID=?";
         $stmt = $con->prepare($query);
         $stmt->bind_param('ssi', $token_value, $expire, $id);
 
@@ -27,6 +36,7 @@
         //$id = $row['id'];
         $stmt->execute();
 
+        $stmt->close();
     }
 ?>
 

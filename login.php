@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <title>Login</title>
+</head>
 <?php
 require('header.php');
 ?>
@@ -37,6 +40,12 @@ require('header.php');
         $email = trim($email);
         $password = $_POST['pass'];
         $password = trim($password);
+        if(isset($_POST['ReMe'])) {
+            $remember = true;
+        }
+        else{
+            $remember = false;
+        }
 
         //Connessione al db
         require("connection.php");
@@ -54,15 +63,18 @@ require('header.php');
         $row = $res->fetch_assoc();
 
         $storedPassword = $row["PASSWORD"];
-
-        if(password_verify($password, $storedPassword)){
+        if(password_verify($password, $storedPassword)) {
             $_SESSION['loggedIn'] = true;
             $_SESSION['firstname'] = $row["FIRSTNAME"];
             $_SESSION['lastname'] = $row["LASTNAME"];
 
+            if($remember){
+                require("RememberMe.php");
+            }
             header("Location: main.php");
             exit();
         }
+
     }
     ?>
 
