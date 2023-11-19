@@ -1,14 +1,3 @@
-<?php
-session_start();
-
-//funzione per rimanere non loggati
-    if(empty($_SESSION["loggedIn"])){
-        header("location: login.php");
-        die;
-    }
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 

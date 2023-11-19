@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <title>Login</title>
+</head>
 <?php
 require('header.php');
 ?>
@@ -10,22 +13,31 @@ require('header.php');
     </div>
     <div class="LoginForm">
         <form id="UserRegistration" action="login.php" method="POST">
-
-            <div class="Email">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email"><br>
-            </div>
-            <div class="Password">
-                <label for="pass">Password:</label>
-                <input type="password" id="pass" name="pass"><br>
-            </div>
-            <div class="RememberMe">
-                <label for="ReMe">Remember Me:</label>
-                <input type="checkbox" id="ReMe" name="ReMe"><br>
-            </div>
-            <div class="Submit">
-                <input type="submit" value="Sign-in">
-            </div>
+            <table>
+                <div class="Email">
+                    <tr>
+                        <td><label for="email">Email:</label></td>
+                        <td><input type="email" id="email" name="email"></td>
+                    </tr>
+                </div>
+                <div class="Password">
+                    <tr>
+                        <td><label for="pass">Password:</label></td>
+                        <td><input type="password" id="pass" name="pass"></td>
+                    </tr>
+                </div>
+                <div class="RememberMe">
+                    <tr>
+                        <td><label for="ReMe">Remember Me:</label></td>
+                        <td><input type="checkbox" id="ReMe" name="ReMe"></td>
+                    </tr>
+                </div>
+                <div class="Submit">
+                    <tr>
+                        <td colspan="2"><input type="submit" value="Sign-in"></td>
+                    </tr>
+                </div>
+            </table>
         </form>
     </div>
     <?php
@@ -37,6 +49,12 @@ require('header.php');
         $email = trim($email);
         $password = $_POST['pass'];
         $password = trim($password);
+        if(isset($_POST['ReMe'])) {
+            $remember = true;
+        }
+        else{
+            $remember = false;
+        }
 
         //Connessione al db
         require("connection.php");
@@ -54,15 +72,18 @@ require('header.php');
         $row = $res->fetch_assoc();
 
         $storedPassword = $row["PASSWORD"];
-
-        if(password_verify($password, $storedPassword)){
+        if(password_verify($password, $storedPassword)) {
             $_SESSION['loggedIn'] = true;
             $_SESSION['firstname'] = $row["FIRSTNAME"];
             $_SESSION['lastname'] = $row["LASTNAME"];
 
+            if($remember){
+                require("RememberMe.php");
+            }
             header("Location: main.php");
             exit();
         }
+
     }
     ?>
 
