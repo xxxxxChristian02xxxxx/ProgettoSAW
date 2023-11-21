@@ -63,7 +63,10 @@
             echo "<h2>Check input data, some are missing</h2>";
         }
         else{
-            require("connection.php");
+
+            include("function_files/connection.php");
+            $con = connect();
+
             //Sanificazione dell'input
             $firstname = $con->real_escape_string($firstname);
             $lastname = $con->real_escape_string($lastname);

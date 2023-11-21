@@ -1,45 +1,21 @@
 <?php
+echo "<link href='dressing.css' rel='stylesheet' type='text/css'>";
 if(isset($_SESSION['loggedIn'])) {
-    require('session.php');
-
-    //creo la connesione al DB
-    require("connection.php");
-
-    //Creazione del prepared statement per ottenere il privilegio dell'user
-    $role_stmt = $con->prepare("SELECT ROLES FROM USERS WHERE FIRSTNAME = ? AND LASTNAME = ?");
-    $role_stmt->bind_param('ss', $firstname, $lastname);
-
-    //Esecuzione della query
-    $role_stmt->execute();
-    $role_stmt->bind_result($roles);
-    $role_stmt->fetch();
+    require('function_files\session.php');
+    $session = getSession(true);
 
 
-    //controllo che la query sia andata a buon fine
-    if ($role_stmt->affected_rows == 0) {
-        echo "no rows inserted / updated / canceled";
+    echo "<a href=main.php class='header_button'>Home</a>";
+    echo "<a href='myprofile.php' class='header_button'>Show profile</a>";
+    if ($session['role'] == 1) {
+        echo "<a href= editusers.php class='header_button'>Edit Users</a>";
     }
+    echo "<a href=logout.php class='header_button'>Logout</a>";
 
-    // Chiusura del prepared statement
-    $role_stmt->close();
-
-    //chiusura connessione
-    $con->close();
-
-    if ($roles == 1) {
-        echo "<a href=main.php>| Home </a>";
-        echo "<a href=''>| Show profile </a>";
-        echo "<a href=logout.php>| Logout | </a>";
-        echo "<a href= editusers.php>| Edit Users |</a>";
-    } else {
-        echo "<a href=main.php>| Home </a>";
-        echo "<a href=''>| Show profile </a>";
-        echo "<a href=logout.php>| Logout | </a>";
-    }
 }
 else{
-    echo "<a href=index.php>| Home </a>";
-    echo "<a href=registration.php>| Sign-up </a>";
-    echo "<a href=login.php>| Sign-in | </a>";
+    echo "<a href=index.php class='header_button'>Home</a>";
+    echo "<a href=registration.php class='header_button'>Sign-up</a>";
+    echo "<a href=login.php class='header_button'>Sign-in</a>";
 }
 ?>
