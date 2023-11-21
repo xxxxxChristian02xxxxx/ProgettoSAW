@@ -5,8 +5,11 @@
 
     $_SESSION["loggedIn"] = false;
 
-    require("connection.php");
+    require("function_files\connection.php");
+    $con = connect();
+
     if (isset($_COOKIE['ReMe'])) {
+
         //fa qualcosa: query per verificare se esiste
         $cookie_val = $_COOKIE['ReMe'];
         $decodedata = json_decode($cookie_val, true);
@@ -16,6 +19,7 @@
         $firstname = $cookie_data['firstname'];
         $lastname = $cookie_data['lastname'];
 
+        //todo: a very large problem  firstname + lastname are not unique keys
         $query = "SELECT TOKEN FROM USERS WHERE FIRSTNAME=? AND LASTNAME=?";
         $stmt = $con->prepare($query);
         $stmt->bind_param('ss', $firstname, $lastname);
