@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 
@@ -8,7 +9,7 @@ mosrtare form del db che mostra la tabella USERS (estraggo dati dal db)
 su ogni riga implementazione bottoni delete e ban
 */
 //Verifica che la sessione sia attiva
-require("function_files\session.php");
+require("function_files/session.php");
 getSession(false);
 
 //Aggiunta dell'header
@@ -56,13 +57,30 @@ while ($page = $result->fetch_assoc()) { // loop
                 <td style="border:1px solid black;"><?php echo $page["EMAIL"] ?></td>
                 <td style="border:1px solid black;"><?php echo $page["PASSWORD"] ?></td>
                 <td style="border:1px solid black;"><?php echo $page["ROLES"] ?></td>
-                <td style="border:1px solid black;"><?php echo $page["BANNED"] ?></td>
+                <td style="border:1px solid black;"><?php echo $page["BANNED"] ?><br>
+                    <form method="post">
+                        <input type="hidden" name="id" value=<?php echo $page["ID"];?> >
+                        <input type="hidden" name="ban" value=<?php echo $page["BANNED"];?>>
+                        <?php
+                        if($page["BANNED"]){
+                            echo '<input type="submit" value="Unban">';
+                        }
+                        else{
+                            echo '<input type="submit" value="Ban">';
+                        }
+                        ?>
+
+                    </form>
+                </td>
                 <td style="border:1px solid black;"><?php echo $page["REMEMBER"] ?></td>
             </tr>
 
     <?php
 
 }
+// Chiusura della connessione
+$res->close();
+$con->close();
 ?>
     </table>
     </section>
@@ -73,7 +91,55 @@ while ($page = $result->fetch_assoc()) { // loop
 </section>
 
 <?php
-// Chiusura della connessione
-$res->close();
-$con->close();
+$con = connect();
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+    $ban = $_POST['ban'];
+    $id =  $_POST['id'];
+    $ban =  !$ban;
+    echo $ban . " ". $id;
+    $sql= "UPDATE USERS SET BANNED = ? WHERE ID =? ";
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param('ii',$ban, $id);
+
+    $stmt->execute();
+    if($stmt->affected_rows != 1){
+        echo "errore nell'update ";
+    }
+    $stmt->close();
+    header("Location: editusers.php");
+}
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    function ban_unban($ban, $id){
+        <?php
+        $con = connect();
+
+        $ban = !ban;
+
+        $sql= "UPDATE USERS SET BANNED = ? WHERE ID =? ";
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param('ii',$ban, $id);
+
+        $stmt->execute();
+        if($stmt->affected_rows != 1){
+            echo "errore nell'update ";
+        }
+
+        $stmt-> close();
+
+
+        ?>
+    }
+    </script>
