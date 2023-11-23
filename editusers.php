@@ -91,9 +91,8 @@ $con = connect();
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     $ban = $_POST['ban'];
     $id = $_POST['id'];
-    $ban = !$ban;
 
-    $sql ="SELECT BANNED FROM USERS WHERE ID = ? ";
+    $sql ="SELECT ROLES FROM USERS WHERE ID = ? ";
     $role_stmt = $con->prepare($sql);
     $role_stmt->bind_param('i', $id);
 
@@ -105,19 +104,24 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($role_stmt->affected_rows == 0) {
         echo "no rows inserted / updated / canceled";
     }
+    $role_stmt->close();
 
-    if ($role == 1) {
-        echo $ban . " " . $id;
+    if ($role != 1) {
+
+        $ban = !$ban;
         $sql = "UPDATE USERS SET BANNED = ? WHERE ID =? ";
         $stmt = $con->prepare($sql);
         $stmt->bind_param('ii', $ban, $id);
 
         $stmt->execute();
+
         if ($stmt->affected_rows != 1) {
             echo "errore nell'update ";
         }
         $stmt->close();
         header("Location: editusers.php");
+    }else{
+        echo "nada";
     }
 }
 ?>
