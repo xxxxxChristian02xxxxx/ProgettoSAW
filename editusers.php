@@ -20,7 +20,7 @@ include("function_files/connection.php");
 $con = connect();
 
 
-if (!GetRole('self')){
+if (!getrole('self')){
     header('Location: main.php');
 }
 
@@ -106,7 +106,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     include("function_files/connection.php");
     $con = connect();
 
-    $role = GetRole($id);
+    $role = getrole($id);
     echo $role;
     if ($role != 1) {
 

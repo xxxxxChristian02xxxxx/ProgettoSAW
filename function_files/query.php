@@ -1,10 +1,9 @@
 <?php
 
 //funzione per prelevare tutti i record di una tabella
-if (!function_exists('SelectAll')) {
-    function SelectAll()
+if (!function_exists('selectallll')) {
+    function selectall()
     {
-
         require('connection.php');
         $con = connect();
 
@@ -22,8 +21,8 @@ if (!function_exists('SelectAll')) {
 }
 
 //funzione per ritornare il ruolo di un utente
-if (!function_exists('GetRole')) {
-    function GetRole($id)
+if (!function_exists('getrole')) {
+    function getrole($id)
     {
 
         require('connection.php');
