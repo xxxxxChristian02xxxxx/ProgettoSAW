@@ -57,29 +57,27 @@ require('header.php');
         }
 
         //Connessione al db
-        require("connection.php");
+        include("function_files/connection.php");
+        $con = connect();
 
         //Sanificazione input
         $email = $con->real_escape_string($email);
         $password = $con->real_escape_string($password);
 
-        //Preparazione della query
+        //Preparazione della
+        //todo: trasform to prepared stmt brutto
         $query = "SELECT * FROM USERS WHERE EMAIL='$email'";
-
-        //Esecuzione della query
         $res = $con->query($query);
-
         $row = $res->fetch_assoc();
 
         $storedPassword = $row["PASSWORD"];
         if(password_verify($password, $storedPassword)) {
-            $_SESSION['loggedIn'] = true;
-            $_SESSION['firstname'] = $row["FIRSTNAME"];
-            $_SESSION['lastname'] = $row["LASTNAME"];
+            require('function_files/session.php');
+            setSession($row['ID']);
 
-            if($remember){
-                require("RememberMe.php");
-            }
+            require("function_files/RememberMe.php");
+            setRememberMe($remember);
+
             header("Location: main.php");
             exit();
         }

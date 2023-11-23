@@ -5,12 +5,14 @@
 
     if (isset($_COOKIE['ReMe'])) {
         //fa qualcosa: query per verificare se esiste
-        require("connection.php");
+        include("function_files/connection.php");
+        $con = connect();
+
+
         $cookie_val = $_COOKIE['ReMe'];
         $decodedata = json_decode($cookie_val, true);
         $token_val = $decodedata['token_value'];
-        $firstname = $decodedata['firstname'];
-        $lastname = $decodedata['lastname'];
+        $id = $decodedata['id'];
         $query = "SELECT EXPIRE FROM USERS WHERE TOKEN = ?";
         $stmt = $con->prepare($query);
         $stmt->bind_param('s', $token_val);
@@ -18,25 +20,24 @@
 
         $res = $stmt->get_result();
 
-        if ($res->num_rows) {
+        if ($res->num_rows == 1) {
             $expire = $res->fetch_assoc();
 
             //Se scaduto rimanda alla pagina di login
             if (date(time()) > $expire['EXPIRE']) {
                 header("Location: login.php");
             } else {
-                $_SESSION['loggedIn'] = true;
-                $_SESSION['firstname'] = $firstname;
-                $_SESSION['lastname'] = $lastname;
+                require('function_files/session.php');
+                setSession($id);
             }
+        }else{
+            //todo: create error
         }
         $stmt->close();
     }
-    if($_SESSION['loggedIn']) {
-        require('header.php');
-        echo "<h2>Welcome $firstname $lastname</h2>";
-    }
-    else{
-        header("Location: login.php");
-    }
+    require('header.php');
+    require('function_files/session.php');
+    $session = getSession(true);
+    echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </h2>" ;
+
 ?>
