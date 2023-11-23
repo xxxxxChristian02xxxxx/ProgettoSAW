@@ -16,6 +16,16 @@ session_start();
 require("function_files/session.php");
 getSession(false);
 
+include("function_files/connection.php");
+$con = connect();
+
+
+if (!checkRole('self')){
+    header('Location: main.php');
+}
+
+
+
 //Aggiunta dell'header
 require("header.php");
 
@@ -92,34 +102,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $ban = $_POST['ban'];
     $id = $_POST['id'];
 
-    $sql ="SELECT ROLES FROM USERS WHERE ID = ? ";
-    $role_stmt = $con->prepare($sql);
-    $role_stmt->bind_param('i', $id);
 
-//Esecuzione della query
-    $role_stmt->execute();
-    $role_stmt->bind_result($role);
-    $role_stmt->fetch();
+    include("function_files/connection.php");
+    $con = connect();
 
-    if ($role_stmt->affected_rows == 0) {
-        echo "no rows inserted / updated / canceled";
-    }
-    $role_stmt->close();
-
+    $role = checkRole($id);
+    echo $role;
     if ($role != 1) {
 
         $ban = !$ban;
-        $sql = "UPDATE USERS SET BANNED = ? WHERE ID =? ";
+        $sql = "UPDATE `users` SET `BANNED` = ? WHERE `users`.`ID` = ?";
         $stmt = $con->prepare($sql);
         $stmt->bind_param('ii', $ban, $id);
 
         $stmt->execute();
 
         if ($stmt->affected_rows != 1) {
-            echo "errore nell'update ";
+            echo $stmt->affected_rows;
         }
         $stmt->close();
-        header("Location: editusers.php");
+        echo '<script>window.location.href = "editusers.php";</script>';
     }else{
         echo "nada";
     }
@@ -138,25 +140,3 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-<script>
-    function ban_unban($ban, $id){
-        <?php
-        $con = connect();
-
-        $ban = !ban;
-
-        $sql= "UPDATE USERS SET BANNED = ? WHERE ID =? ";
-        $stmt = $con->prepare($sql);
-        $stmt->bind_param('ii',$ban, $id);
-
-        $stmt->execute();
-        if($stmt->affected_rows != 1){
-            echo "errore nell'update ";
-        }
-
-        $stmt-> close();
-
-
-        ?>
-    }
-    </script>

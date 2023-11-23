@@ -20,7 +20,7 @@
 
         $res = $stmt->get_result();
 
-        if ($res->num_rows) {
+        if ($res->num_rows == 1) {
             $expire = $res->fetch_assoc();
 
             //Se scaduto rimanda alla pagina di login
@@ -30,6 +30,8 @@
                 require('function_files/session.php');
                 setSession($id);
             }
+        }else{
+            //todo: create error
         }
         $stmt->close();
     }

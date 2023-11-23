@@ -64,12 +64,10 @@ require('header.php');
         $email = $con->real_escape_string($email);
         $password = $con->real_escape_string($password);
 
-        //Preparazione della query
+        //Preparazione della
+        //todo: trasform to prepared stmt brutto
         $query = "SELECT * FROM USERS WHERE EMAIL='$email'";
-
-        //Esecuzione della query
         $res = $con->query($query);
-
         $row = $res->fetch_assoc();
 
         $storedPassword = $row["PASSWORD"];
