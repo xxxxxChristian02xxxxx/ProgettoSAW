@@ -71,6 +71,7 @@ require('header.php');
         $row = $res->fetch_assoc();
 
         $storedPassword = $row["PASSWORD"];
+        echo $storedPassword;
         if(password_verify($password, $storedPassword)) {
             require('function_files/session.php');
             setSession($row['ID']);

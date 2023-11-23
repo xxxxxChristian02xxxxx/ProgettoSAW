@@ -35,26 +35,5 @@ if(!function_exists('setSession')) {
 
 
 
-if (!function_exists('checkRole')) {
-    function checkRole($id)
-    {
 
-        require('connection.php');
-        $con = connect();
 
-        $sql = "SELECT ROLES FROM USERS WHERE ID = ? ";
-        $role_stmt = $con->prepare($sql);
-        if ($id == 'self') {
-            $role_stmt->bind_param('i', $_SESSION['id']);
-        }else{
-            $role_stmt->bind_param('i', $id);
-        }
-
-        //Esecuzione della query
-        $role_stmt->execute();
-        $role_stmt->bind_result($role);
-        $role_stmt->fetch();
-
-        return $role;
-    }
-}
