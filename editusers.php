@@ -1,13 +1,17 @@
 
 <?php
 session_start();
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Edit Users</title>
+</head>
 
-/*
-verifica sessione
-includere header.php
-mosrtare form del db che mostra la tabella USERS (estraggo dati dal db)
-su ogni riga implementazione bottoni delete e ban
-*/
+
+<body>
+<?php
+
 //Verifica che la sessione sia attiva
 require("function_files/session.php");
 getSession(false);
@@ -18,14 +22,6 @@ require("header.php");
 include("function_files/connection.php");
 $con = connect();
 
-//creazione prepared statemet per prelevare tutta la tabella
-//$query = "SELECT * FROM USERS";
-//$stmt = $con->prepare($query);
-//$stmt->execute();
-
-//$stmt->bind_result($id,$name,$lastname,$mail,$password,$roles,$banned,$remember);
-//$stmt->fetch();
-//echo $id.$name.$lastname.$mail.$password.$roles.$banned.$remember;
 $sql = "SELECT * FROM USERS"; // query
 $res = $con->prepare($sql); // execute query
 $res->execute();
@@ -33,8 +29,8 @@ $result = $res->get_result();
 $i = 0;
 echo "<br>";
 ?>
-    <section>
-    <table style="border:1px solid black;width:100%;">
+    <section id="modify_users_section">
+    <table id ="modify_users_table" >
             <tr style="border:1px solid black;">
             <th style="border:1px solid black;"><?php echo "ID" ?></th>
             <th style="border:1px solid black;"><?php echo "NAME" ?></th>
@@ -94,19 +90,35 @@ $con->close();
 $con = connect();
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     $ban = $_POST['ban'];
-    $id =  $_POST['id'];
-    $ban =  !$ban;
-    echo $ban . " ". $id;
-    $sql= "UPDATE USERS SET BANNED = ? WHERE ID =? ";
-    $stmt = $con->prepare($sql);
-    $stmt->bind_param('ii',$ban, $id);
+    $id = $_POST['id'];
+    $ban = !$ban;
 
-    $stmt->execute();
-    if($stmt->affected_rows != 1){
-        echo "errore nell'update ";
+    $sql ="SELECT BANNED FROM USERS WHERE ID = ? ";
+    $role_stmt = $con->prepare($sql);
+    $role_stmt->bind_param('i', $id);
+
+//Esecuzione della query
+    $role_stmt->execute();
+    $role_stmt->bind_result($role);
+    $role_stmt->fetch();
+
+    if ($role_stmt->affected_rows == 0) {
+        echo "no rows inserted / updated / canceled";
     }
-    $stmt->close();
-    header("Location: editusers.php");
+
+    if ($role == 1) {
+        echo $ban . " " . $id;
+        $sql = "UPDATE USERS SET BANNED = ? WHERE ID =? ";
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param('ii', $ban, $id);
+
+        $stmt->execute();
+        if ($stmt->affected_rows != 1) {
+            echo "errore nell'update ";
+        }
+        $stmt->close();
+        header("Location: editusers.php");
+    }
 }
 ?>
 
