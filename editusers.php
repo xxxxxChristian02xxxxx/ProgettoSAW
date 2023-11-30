@@ -36,6 +36,25 @@ $sql = "SELECT * FROM USERS"; // query
 $res = $con->prepare($sql); // execute query
 $res->execute();
 $result = $res->get_result();
+/*if($result->num_rows>0) {
+
+    $users = array();
+
+    while($row = $result->fetch_assoc()) {
+        $users[] = $row;
+    }
+
+    // Conversione dell'array in payload
+    $jsonPayload = json_encode($users);
+
+    // Restituzione Payload JSON
+    header('Content-type: application/json');
+    echo $jsonPayload;
+}
+else{
+    echo "No users found";
+}
+*/
 $i = 0;
 echo "<br>";
 ?>
@@ -84,6 +103,7 @@ while ($page = $result->fetch_assoc()) { // loop
     <?php
 
 }
+
 // Chiusura della connessione
 $res->close();
 $con->close();
@@ -128,15 +148,4 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
 }
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
+</body>

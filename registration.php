@@ -3,6 +3,95 @@
 <head>
     <meta charset="utf-8">
     <title>Sign-up</title>
+
+    <style>
+        .error {
+            color: red;
+            display: block;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('UserRegistration').addEventListener('submit', function (event) {
+                if (!validateInput()) {
+                    event.preventDefault();
+                }
+
+                function validateInput() {
+
+                    // Recupero dei valori inseriti in input
+                    var firstname = document.getElementById('firstname').value;
+                    var lastname = document.getElementById('lastname').value;
+                    var email = document.getElementById('email').value;
+                    var password = document.getElementById('pass').value;
+                    var confirm = document.getElementById('confirm').value;
+
+
+                    if (firstname === '') {
+                        document.getElementById('firstnameError').innerHTML = 'Il campo firstname è obbligatorio';
+                    } else {
+                        document.getElementById('firstnameError').innerHTML = '';
+                    }
+
+                    if (lastname === '') {
+                        document.getElementById('lastnameError').innerHTML = 'Il campo lastname è obbligatorio';
+                    } else {
+                        document.getElementById('lastnameError').innerHTML = '';
+                    }
+
+                    if (email === '') {
+                        document.getElementById('emailError').innerHTML = 'Il campo email è obbligatorio';
+                    } else {
+                        document.getElementById('emailError').innerHTML = '';
+                    }
+
+                    if (password !== '' && confirm !== '') {
+                        if (password !== confirm) {
+                            alert('Passwords do not match');
+                            return false;
+                        }
+                    } else {
+                        document.getElementById('confirmError').innerHTML = 'I campi password e confirm è obbligatori';
+                    }
+
+
+                    var errorMessage = document.querySelectorAll('.error');
+                    for (var i = 0; i < errorMessage.length; i++) {
+                        if (errorMessage[i].innerHTML !== '') {
+                            return;
+                        }
+                    }
+
+                    if (document.getElementById('errorMessages').innerHTML === '') {
+                        document.getElementById('UserRegistration').submit();
+                    }
+                }
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('email').addEventListener('change', function (event) {
+                var emailInput = document.getElementById('email').value;
+
+                fetch('emailVerify.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    body: JSON.stringify({email: emailInput}),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data) {
+                            document.getElementById('emailError').innerHTML = 'Email already used, try a different one';
+                        }
+                        })
+                        .catch(error => {
+                            // Gestione degli errori durante la chiamata
+                            console.error('Si è verificato un errore durante la fetch:', error);
+                        })
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -17,23 +106,38 @@
             <table>
                 <tr>
                     <td><label for="firstname">Firstname:</label></td>
-                    <td><input type="text" id="firstname" name="firstname"></td>
+                    <td>
+                        <input type="text" id="firstname" name="firstname">
+                        <span id="firstnameError" class="error"></span>
+                    </td>
                 </tr>
                 <tr>
                     <td><label for="lastname">Lastname:</label></td>
-                    <td><input type="text"  id="lastname" name="lastname"></td>
+                    <td>
+                        <input type="text"  id="lastname" name="lastname">
+                        <span id="lastnameError" class="error"></span>
+                    </td>
                 </tr>
                 <tr>
                     <td><label for="email">Email:</label></td>
-                    <td><input type="email" id="email" name="email"></td>
+                    <td>
+                        <input type="email" id="email" name="email">
+                        <span id="emailError" class="error"></span>
+                    </td>
                 </tr>
                 <tr>
                     <td><label for="pass">Password:</label></td>
-                    <td><input type="password" id="pass" name="pass"></td>
+                    <td>
+                        <input type="password" id="pass" name="pass">
+                        <span id="passwordError" class="error"></span>
+                    </td>
                 </tr>
                 <tr>
                     <td><label for="confirm">Confirm password:</label></td>
-                    <td><input type="password" id="confirm" name="confirm"></td>
+                    <td>
+                        <input type="password" id="confirm" name="confirm">
+                        <span id="confirmError" class="error"></span>
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="2"><input type="submit" value="Submit"></td>
@@ -41,6 +145,8 @@
             </table>
         </form>
     </div>
+
+    <div id="errorMessages" class="error"></div>
 
     <?php
     if($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -56,14 +162,14 @@
         $confirm = $_POST['confirm'];
         $confirm = trim($confirm);
 
-        if($password != $confirm){
+        /*if($password != $confirm){
             echo "<h2>Passwords do not match</h2>";
         }
         else if(empty($firstname) || empty($lastname) || empty($email) || empty($password) || empty($confirm)){
             echo "<h2>Check input data, some are missing</h2>";
         }
         else{
-
+*/
             include("function_files/connection.php");
             $con = connect();
 
@@ -94,7 +200,7 @@
                 //Viene restituito un errore, non è stato possibile aggiungere utente al db
             }
         }
-    }
+//    }
 
     ?>
     <footer>

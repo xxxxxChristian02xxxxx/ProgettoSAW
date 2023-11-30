@@ -5,7 +5,7 @@
 
     $_SESSION["loggedIn"] = false;
 
-    require("function_files\connection.php");
+    require("function_files/connection.php");
     $con = connect();
 
     if (isset($_COOKIE['ReMe'])) {

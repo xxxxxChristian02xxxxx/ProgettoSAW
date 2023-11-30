@@ -7,6 +7,7 @@ if (!function_exists('getSession')) {
                 $session = [];
                 require('connection.php');
                 $con = connect();
+                //todo: prepared statement
                 $query = "SELECT * FROM USERS WHERE ID =" . $_SESSION['id'];
                 $row = $con->query($query)->fetch_assoc();
                 $con->close();

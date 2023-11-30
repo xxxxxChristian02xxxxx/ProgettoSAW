@@ -12,7 +12,7 @@ require('header.php');
         <h2>Insert email and password and click Sign-in</h2>
     </div>
     <div class="LoginForm">
-        <form id="UserRegistration" action="login.php" method="POST">
+        <form id="LoginForm" action="login.php" method="POST">
             <table>
                 <div class="Email">
                     <tr>

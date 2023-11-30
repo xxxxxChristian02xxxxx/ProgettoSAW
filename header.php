@@ -1,7 +1,7 @@
 <?php
 echo "<link href='dressing.css' rel='stylesheet' type='text/css'>";
 if(isset($_SESSION['loggedIn'])) {
-    require('function_files\session.php');
+    require('function_files/session.php');
     $session = getSession(true);
 
 
