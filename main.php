@@ -25,7 +25,7 @@
 
             //Se scaduto rimanda alla pagina di login
             if (date(time()) > $expire['EXPIRE']) {
-                header("Location: login.php");
+                header("Location: frontend/login.php");
             } else {
                 require('function_files/session.php');
                 setSession($id);
