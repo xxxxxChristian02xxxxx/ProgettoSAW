@@ -30,3 +30,33 @@
     box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 8%) 0px 3px 9px 0px, rgb(60 66 87 / 8%) 0px 2px 5px 0px;
 }
 
+#modify_users_table{
+    margin-left: auto;
+    margin-right:auto ;
+    border: 3px solid black;
+    border-collapse: collapse;
+
+}
+#modify_users_table th{
+
+        border-collapse: collapse;
+        margin-left: auto;
+        margin-right: auto;
+        border-width: 3px;
+        border-style: solid;
+        border-color: black;
+        border-image: initial;
+
+}
+#modify_users_table td{
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+}
+#modify_users_table tr:hover {
+    background-color: #cdcdcd;
+}
+#modify_users_section{
+    margin-top: 50px;
+
+}

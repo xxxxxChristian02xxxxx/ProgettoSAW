@@ -23,11 +23,17 @@ if (!function_exists('getSession')) {
             header('Location: index.php');
         }
     }
-
+}
+if(!function_exists('setSession')) {
     // TODO: change the parameters to id (have to do a query to get the other data)
-    function setSession($id){
+    function setSession($id)
+    {
         $_SESSION['loggedIn'] = true;
         $_SESSION['id'] = $id;
     }
 }
-?>
+
+
+
+
+
