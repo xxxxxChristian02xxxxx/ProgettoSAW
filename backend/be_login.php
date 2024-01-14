@@ -15,14 +15,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($email);
     $password = $data['pass'];
     $password = trim($password);
-    if (isset($data['ReMe'])) {
+    if ($data['ReMe']) {
         $remember = true;
     } else {
         $remember = false;
     }
 
     //Connessione al db
-    include("function_files/connection.php");
+    include('function_files/connection.php');
     $con = connect();
 
     //Sanificazione input
@@ -46,8 +46,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             require('function_files/session.php');
             setSession($row['ID']);
 
-            require("function_files/RememberMe.php");
-            setRememberMe($remember);
+            if($remember) {
+                require('function_files/RememberMe.php');
+                setRememberMe($remember);
+            }
 
             http_response_code(200);
             $response = array("success" => true);

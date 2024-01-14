@@ -55,7 +55,7 @@
         const formData = {
             email: document.getElementById('email').value,
             pass: document.getElementById('pass').value,
-            ReMe: document.getElementById('ReMe').value
+            ReMe: document.getElementById('ReMe').checked
         };
 
 
@@ -69,10 +69,8 @@
             .then(response => response.json())
             .then(data => {
 
-
                 if (data.success) {
-
-                    window.location.href = 'main.php';
+                    window.location.href = '../main.php';
                 } else {
                     window.alert('login failed');
                 }

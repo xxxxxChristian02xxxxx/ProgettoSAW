@@ -5,23 +5,22 @@
 session_start();
 
 //Verifica che la sessione sia attiva
-require("function_files/session.php");
-getSession(false);
+include('function_files/session.php');
 
 //Aggiunta dell'header
-require("header.php");
+include('frontend/header.php');
 ?>
 
 <div class="UpdateForm">
     <form id="UserUpdate" action="myprofile.php" method="POST">
         <label for="firstname">Firstname:</label>
-        <input type="text" id="firstname" name="firstname" value="$firstname"><br>
+        <input type="text" id="firstname" name="firstname" value="<?php echo $session['firstname']?>"><br>
 
         <label for="lastname">Lastname:</label>
-        <input type="text" id="lastname" name="lastname" value="$lastname"><br>
+        <input type="text" id="lastname" name="lastname" value="<?php echo $session['lastname']?>"><br>
 
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" value="$email"><br>
+        <input type="email" id="email" name="email" value="<?php echo $session['email']?>"><br>
 
         <label for="pass">New password:</label>
         <input type="password" id="pass" name="pass"><br>

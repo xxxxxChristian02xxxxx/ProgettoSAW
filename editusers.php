@@ -8,11 +8,10 @@ mosrtare form del db che mostra la tabella USERS (estraggo dati dal db)
 su ogni riga implementazione bottoni delete e ban
 */
 //Verifica che la sessione sia attiva
-require("function_files\session.php");
-getSession(false);
+include('function_files/session.php');
 
 //Aggiunta dell'header
-require("header.php");
+require('frontend/header.php');
 
 include("function_files/connection.php");
 $con = connect();

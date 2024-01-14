@@ -5,7 +5,7 @@
 
     if (isset($_COOKIE['ReMe'])) {
         //fa qualcosa: query per verificare se esiste
-        include("function_files/connection.php");
+        include('backend/function_files/connection.php');
         $con = connect();
 
 
@@ -27,7 +27,7 @@
             if (date(time()) > $expire['EXPIRE']) {
                 header("Location: frontend/login.php");
             } else {
-                require('function_files/session.php');
+                include('backend/function_files/session.php');
                 setSession($id);
             }
         }else{
@@ -35,8 +35,9 @@
         }
         $stmt->close();
     }
-    require('header.php');
-    require('function_files/session.php');
+
+    include('frontend/header.php');
+    include('backend/function_files/session.php');
     $session = getSession(true);
     echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </h2>" ;
 

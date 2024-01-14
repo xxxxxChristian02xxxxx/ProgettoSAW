@@ -1,14 +1,17 @@
 <?php
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
     session_start();
 
     session_destroy();
 
     $_SESSION["loggedIn"] = false;
 
-    require("function_files\connection.php");
+    include('backend/function_files/connection.php');
     $con = connect();
 
-    if (isset($_COOKIE['ReMe'])) {
+    if (isset($_COOKIE['ReMe']) && $_COOKIE['ReMe'] !== null) {
 
         //fa qualcosa: query per verificare se esiste
         $cookie_val = $_COOKIE['ReMe'];
@@ -40,9 +43,9 @@
         $stmt->close();
 
         setcookie('ReMe','', time()-3600, "/");
+
         unset($_COOKIE);
     }
-
-    header("Location: index.php");
+    header("Location: frontend/index.php");
     exit();
 ?>

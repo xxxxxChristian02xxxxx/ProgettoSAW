@@ -54,6 +54,10 @@
             document.getElementById('UserRegistration').addEventListener('submit', function (event) {
                 if (!validateInput()) {
                     event.preventDefault();
+
+                    validateInput();
+
+                    document.getElementById('UserRegistration').submit();
                 }
             });
         });
@@ -98,7 +102,7 @@
         <h1>User Registration</h1>
     </div>
     <div class="RegistrationForm">
-        <form id="UserRegistration" action="registration.php" method="POST">
+        <form id="UserRegistration" action="../backend/be_registration.php" method="POST">
             <table>
                 <tr>
                     <td><label for="firstname">Firstname:</label></td>

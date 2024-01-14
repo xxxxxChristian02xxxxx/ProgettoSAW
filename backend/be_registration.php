@@ -16,14 +16,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $confirm = $_POST['confirm'];
     $confirm = trim($confirm);
 
-    /*if($password != $confirm){
-        echo "<h2>Passwords do not match</h2>";
-    }
-    else if(empty($firstname) || empty($lastname) || empty($email) || empty($password) || empty($confirm)){
-        echo "<h2>Check input data, some are missing</h2>";
-    }
-    else{
-*/
     include("function_files/connection.php");
     $con = connect();
 
@@ -48,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $con->close();
 
         //Rimando alla pagina di login a seguito della registrazione
-        header("Location: login.php");
+        header("Location: ../frontend/login.php");
     } else {
         //Viene restituito un errore, non è stato possibile aggiungere utente al db
     }
