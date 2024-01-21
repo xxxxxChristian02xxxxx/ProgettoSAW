@@ -54,28 +54,43 @@
 
 
 <body>
-<div id="header">
-    <script>
-        $(function () {
-            $("#header").load("public_header.html");
-        });
-    </script>
-</div>
-<div class="containerStopwatch">
-    <div class="title">
-        <h1> Timer</h1>
-    </div>
-    <p id="time" class ="timer">25:00</p>
-    <div id ="stopwatchBottons">
-        <button id = "start" > Start</button>
-        <button id = "reset"> Reset</button>
 
+    <div id="header">
+        <script>
+            $(function () {
+                $("#header").load("public_header.html");
+            });
+        </script>
     </div>
+<div>
+    <div class="containerTimer">
+        <div class="title">
+            <h1> Timer</h1>
+        </div>
+        <p id="timeTimer" class ="timer">25:00</p>
+        <div id ="timerBottons">
+            <button id = "startTimer" > Start</button>
+            <button id = "resetTimer"> Reset</button>
+        </div>
+    </div>
+
+    <div class="containerStopwatch">
+        <div class="title">
+            <h1> Stopwatch</h1>
+        </div>
+        <p id="timeStopwatch" class ="timer">00:00</p>
+        <div id ="stopwatchBottons">
+            <button id = "startStopwatch" > Start</button>
+            <button id = "resetStopwatch"> Reset</button>
+
+        </div>
+    </div>
+
 </div>
 <script>
-const startElement= document.getElementById("start");
-const resetElement= document.getElementById("reset");
-const timeElement= document.getElementById("time");
+const startElement= document.getElementById("startTimer");
+const resetElement= document.getElementById("resetTimer");
+const timeElement= document.getElementById("timeTimer");
 let interval;
 let timeLeft = 1500; /*tempo rimasto : 1500 indica 25 secondi*/
 var bottonRound =0;
@@ -127,7 +142,7 @@ function startTimer() {
 }
 
 function resetTimer() {
-    console.log("reset")
+    console.log("resetTimer")
     clearInterval(interval);
     timeLeft = 1500;
     updateTimer();
@@ -137,11 +152,69 @@ function resetTimer() {
 function stopTimer() {
     clearInterval(interval);
 }
-
-
 resetElement.addEventListener("click", resetTimer)
 </script>
+<script>
 
+
+        const startElement_S= document.getElementById("startStopwatch");
+        const resetElement_S= document.getElementById("resetStopwatch");
+        const timeElement_S= document.getElementById("timeStopwatch");
+        let interval2;
+        var bottonRound2 =0;
+        var lefTime2 =0;
+
+        startElement_S.addEventListener('click', function() {
+            // Verifica lo stato del bottone
+            if (bottonRound2 === 0) {
+                // Prima volta che è stato cliccato
+                console.log('Primo clic');
+                startStopwatch();
+                // Aggiorna lo stato
+                bottonRound2 = 1;
+            } else {
+                // Seconda volta che è stato cliccato
+                console.log('Secondo clic');
+                stopStopwatch();
+                // Aggiorna lo stato
+                bottonRound2 = 0;
+            }
+        })
+
+        function updateStopwatch() {
+            let minutes = Math.floor(lefTime2 / 60);
+            let seconds = lefTime2 % 60;
+            /*
+                funzione per stampare a schermo il tempo che scorre ,padStart serve per stampare 0, col lo 0 davanti
+                con 2 -> voglio 2 digit e se non ho nulla metto "0" di default
+            */
+            let formattedTime2 = `${minutes.toString().padStart(2, "0")}: ${seconds.toString().padStart(2, "0")}`;
+            timeElement_S.innerHTML = formattedTime2;
+        }
+
+        function startStopwatch() {
+            /*intervallo che deve essere aggiornato ogni 1000 ms*/
+
+            interval2 = setInterval(() => {
+                lefTime2++;
+                updateStopwatch();
+            }, 1000)
+
+        }
+
+        function resetStopwatch() {
+            console.log("resetTimer")
+            clearInterval(interval2);
+            lefTime2 = 0;
+            updateStopwatch();
+            bottonRound2 = 0;
+        }
+
+        function stopStopwatch() {
+            clearInterval(interval2);
+        }
+        resetElement_S.addEventListener("click", resetStopwatch)
+    </script>S
 <footer>
     <p>Copyright © 2023. All rights reserved.</p>
 </footer>
