@@ -68,10 +68,12 @@
 /*css per il main */
 .containerStopwatch{
     margin:0 auto;
-    max-width: 400px;
+    max-width:540px;
     text-align: center;
     padding:20px;
     font-family: "Roboto",sans-serif;
+    border-radius: 90%;
+    border: 2px solid black;
 }
 .containerStopwatch button {
     font-size: 18px;

@@ -102,8 +102,8 @@ function updateTimer() {
     let minutes = Math.floor(timeLeft / 60);
     let seconds = timeLeft % 60;
     /*
-        funzione per stampare a schermo il tempo che scorre ,padStart serve per stampare 01, col lo 0 davanti
-        con 2 -> voglio 2 digit e se nnon ho nulla metto "0" idi default
+        funzione per stampare a schermo il tempo che scorre ,padStart serve per stampare 0, col lo 0 davanti
+        con 2 -> voglio 2 digit e se non ho nulla metto "0" di default
     */
     let formattedTime = `${minutes.toString().padStart(2, "0")}: ${seconds.toString().padStart(2, "0")}`;
     timeElement.innerHTML = formattedTime;
