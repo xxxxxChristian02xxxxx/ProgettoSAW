@@ -131,6 +131,7 @@ function resetTimer() {
     clearInterval(interval);
     timeLeft = 1500;
     updateTimer();
+    bottonRound = 0;
 }
 
 function stopTimer() {
