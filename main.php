@@ -216,7 +216,7 @@ resetElement.addEventListener("click", resetTimer)
         resetElement_S.addEventListener("click", resetStopwatch)
     </script>S
 <footer>
-    <p>Copyright © 2023. All rights reserved.</p>
+    <p>Copyright © 2023. All rights reserved   .</p>
 </footer>
 </body>
 </html>
