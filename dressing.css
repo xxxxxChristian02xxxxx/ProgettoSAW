@@ -98,8 +98,11 @@
     margin-bottom: 10px;
     color: black;
 }
-#startTimer{
+#Timer{
     background-color: green;
+}
+#Timer[aria-label="Stop"]{
+    background-color: red;
 }
 #resetTimer{
     background-color:grey;
@@ -129,8 +132,11 @@
 .containerStopwatch button:hover {
     opacity: .7;
 }
-#startStopwatch{
+#Stopwatch{
     background-color: green;
+}
+#Stopwatch[aria-label="Stop"]{
+    background-color: red;
 }
 #resetStopwatch{
     background-color:grey;
