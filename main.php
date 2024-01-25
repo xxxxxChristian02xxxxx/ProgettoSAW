@@ -57,7 +57,7 @@
 <div>
     <div>
         <form id="UserRegistration" action="login.php" method="POST">
-            <label for="Testo_materie">scegli la amteria:</label>
+            <label for="Testo_materie">Scegli la materia:</label>
             <input type="text" id="Testo_materie" name="Testo_materie">
         </form>
     </div>
