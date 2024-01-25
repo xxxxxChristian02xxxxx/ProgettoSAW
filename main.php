@@ -44,7 +44,7 @@
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Login</title>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -55,6 +55,12 @@
 
 <body>
 <div>
+    <div>
+        <form id="UserRegistration" action="login.php" method="POST">
+            <label for="Testo_materie">scegli la amteria:</label>
+            <input type="text" id="Testo_materie" name="Testo_materie">
+        </form>
+    </div>
     <div class="containerTimer">
         <div class="title">
             <h1> Timer</h1>
@@ -64,6 +70,54 @@
             <button id = "Timer">Start</button>
             <button id = "resetTimer">Reset</button>
         </div>
+    </div>
+    <div class="container_popup">
+    <div class="popup" id="popup">
+        <div class="popup-inner">
+            <h2> Are you sure to leave? </h2>
+            <div id ="statistiche_sessioone_studio ">
+                <p>
+                    <div>
+                            <div>
+                                <p id="durata_session">durata sessione:</p>
+                                <span>
+                                    <p id="tempo_durata_session">tempo</p>
+                                </span>
+                            </div>
+                            <div>
+                                <p id="materia_studiata">materia studiata:</p>
+                                <span>
+                                    <p id="materia_materia_studiata">materia</p>
+                                </span>
+                            </div>
+                            <div>
+                                <p id="soldi_ottenuti">soldi ottenuti:</p>
+                                <span>
+                                    <p id="soldi_soldi_ottenuti">soldi</p>
+                                </span>
+                            </div>
+                            <p></p>
+                     </div>
+                </p>
+            </div>
+            <div id="descrizione">
+                <div>
+                    <textarea id ="area_descrizione "rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
+
+                </div>
+
+            </div>
+
+            <div >
+                <span class="popup_button">
+                <botton id="closePopUp" > yes </botton>
+                </span>
+                <span class="popup_button">
+                    <botton id="cancelPopup">  Cancel </botton>
+                </span>
+            </div>
+        </div>
+    </div>
     </div>
 
     <div class="containerStopwatch">
@@ -79,157 +133,111 @@
     </div>
 
 </div>
+
 <script>
-    function toggleButton(buttonId){
-        // Riferimento all'elemento del bottone
-        var button = document.getElementById(buttonId);
-        console.log(button.innerHTML);
-        if(button.innerHTML === "Start"){
+    let interval;
+    let timeLeft = 1500; /*tempo rimasto : 1500 indica 25 secondi*/
+    var counting  = false; //
+    var button = document.getElementById("Timer");
+    const startTime ="25 : 00" ;
+    var timeSpentForMoney =0;
+
+    const subjectName=null;
+    const startElement= document.getElementById("Timer");
+    const resetElement= document.getElementById("resetTimer");
+    const timeElement= document.getElementById("timeTimer");
+    const closeButton = document.getElementById("closePopUp");
+    const cancelButton = document.getElementById("cancelPopup")
+    const popUp =document.getElementById("popup");
+
+    var timeDuratioSession =document.getElementById("tempo_durata_session");
+    var subSubStudied = document.getElementById("materia_materia_studiata");
+    var moneyMoneyObtained= document.getElementById("soldi_soldi_ottenuti")
+    var descriptionArea=document.getElementById("area_descrizione ");
+
+
+
+
+
+
+    var formattedTime;
+    //-------------------------EVENTO PER DIRE SE SONO IN STOP OPPURE IN START -------------------------//
+    startElement.addEventListener('click', function() {
+        counting =true;
+        // Verifica lo stato del bottone
+        if (button.innerHTML === "Start") {
+            // Prima volta che è stato cliccato
+            console.log('Primo clic');
+
+            console.log(counting);
+            startTimer();
+            // Aggiorna lo stato
             button.innerHTML = "Stop";
-            // Impostazione attributo per cambiare colore bottone
             button.setAttribute("aria-label", "Stop");
-        }
-        else{
+        } else {
+            // Seconda volta che è stato cliccato
+            console.log('Secondo clic');
+            console.log(counting);
+            stopTimer();
+            // Aggiorna lo stato
             button.innerHTML = "Start";
             button.removeAttribute("aria-label");
         }
-    }
-</script>
-<script>
-const startElement= document.getElementById("Timer");
-const resetElement= document.getElementById("resetTimer");
-const timeElement= document.getElementById("timeTimer");
-let interval;
-let timeLeft = 1500; /*tempo rimasto : 1500 indica 25 secondi*/
-var bottonRound =0;
 
-startElement.addEventListener('click', function() {
-    // Verifica lo stato del bottone
-    if (bottonRound === 0) {
-        // Prima volta che è stato cliccato
-        console.log('Primo clic');
-        startTimer();
-        // Aggiorna lo stato
-        bottonRound = 1;
-    } else {
-        // Seconda volta che è stato cliccato
-        console.log('Secondo clic');
-        stopTimer();
-        // Aggiorna lo stato
-        bottonRound = 0;
-    }
-})
+    })
+    //-------------------------EVENTO PER DIRE SE SONO IN STOP OPPURE IN START -------------------------//
+    ;
 
-function updateTimer() {
-    let minutes = Math.floor(timeLeft / 60);
-    let seconds = timeLeft % 60;
-    /*
-        funzione per stampare a schermo il tempo che scorre ,padStart serve per stampare 0, col lo 0 davanti
-        con 2 -> voglio 2 digit e se non ho nulla metto "0" di default
-    */
-    let formattedTime = `${minutes.toString().padStart(2, "0")}: ${seconds.toString().padStart(2, "0")}`;
-    timeElement.innerHTML = formattedTime;
-}
-
-function startTimer() {
-    /*intervallo che deve essere aggiornato ogni 1000 ms*/
-    toggleButton('Timer');
-    interval = setInterval(() => {
-        timeLeft--;
-        updateTimer();
-        if (timeLeft === 0) {
-            /*una vlta finito il timer pulisco l'intervallo*/
-            clearInterval(interval);
-            alert("finito");
-            timeLeft = 1500;
-            updateTimer();
-        }
-    }, 1000)
-}
-
-function resetTimer() {
-    console.log("resetTimer")
-    clearInterval(interval);
-    timeLeft = 1500;
-    updateTimer();
-    bottonRound = 0;
-    if(startElement_S.innerHTML === "Stop") {
-        toggleButton('Timer');
-    }
-}
-
-function stopTimer() {
-    clearInterval(interval);
-    toggleButton('Stopwatch');
-}
-resetElement.addEventListener("click", resetTimer)
-</script>
-<script>
-        const startElement_S= document.getElementById("Stopwatch");
-        const resetElement_S= document.getElementById("resetStopwatch");
-        const timeElement_S= document.getElementById("timeStopwatch");
-        let interval2;
-        let bottonRound2 =0;
-        let startTime = 0;
-
-        startElement_S.addEventListener('click', function() {
-            // Verifica lo stato del bottone
-            if (bottonRound2 === 0) {
-                // Prima volta che è stato cliccato
-                console.log('Primo clic');
-                startStopwatch();
-                // Aggiorna lo stato
-                bottonRound2 = 1;
-            } else {
-                // Seconda volta che è stato cliccato
-                console.log('Secondo clic');
-                stopStopwatch();
-                // Aggiorna lo stato
-                bottonRound2 = 0;
+    if((formattedTime!==startTime)  ){
+        resetElement.addEventListener("click",()=> {
+             {
+                 showStudySession();
+                stopTimer();
+                popUp.classList.add("open");//aggiungo il css
+                counting = false
             }
         })
+    }else
+    {
+        alert('There is no counter')
+    }
 
-        function updateStopwatch() {
-            let currentTime = new Date();
-            let elapsedTime = startTime ? Math.floor((currentTime - startTime) / 1000) : 0;
-            let minutes = Math.floor(elapsedTime / 60);
-            let seconds = elapsedTime % 60;
-            /*
-                funzione per stampare a schermo il tempo che scorre ,padStart serve per stampare 0, col lo 0 davanti
-                con 2 -> voglio 2 digit e se non ho nulla metto "0" di default
-            */
-            let formattedTime2 = `${minutes.toString().padStart(2, "0")}: ${seconds.toString().padStart(2, "0")}`;
-            timeElement_S.innerHTML = formattedTime2;
-        }
+    //-------------------------EVENTO PER DIRE CHIUDERE IL POPUP RESETTANDO -------------------------//
 
-        function startStopwatch() {
-            toggleButton('Stopwatch');
-            startTime = new Date();
-            /*intervallo che deve essere aggiornato ogni 1000 ms*/
-            interval2 = setInterval(() => {
-                updateStopwatch();
-            }, 1000)
+    closeButton.addEventListener("click",()=>{
+        popUp.classList.remove("open");//aggiungo il css
+        if(button.innerHTML==="Stop"){
+            button.innerHTML = "Start";
+            button.removeAttribute("aria-label");
         }
+        resetTimer()
 
-        function resetStopwatch() {
-            console.log("resetStopwatch")
-            clearInterval(interval2);
-            interval2 = undefined;
-            startTime = null;
-            updateStopwatch();
-            bottonRound2 = 0;
-            console.log(startElement.innerHTML);
-            if(startElement_S.innerHTML === "Stop") {
-                toggleButton('Stopwatch');
-            }
-        }
+    })
+    //-------------------------EVENTO PER DIRE CHIUDERE IL POPUP CONTINUANDO -------------------------//
 
-        function stopStopwatch() {
-            clearInterval(interval2);
-            toggleButton('Stopwatch');
+    cancelButton.addEventListener("click",()=>{
+        if(button.innerHTML==="Stop"){
+            button.innerHTML = "Start";
+            button.removeAttribute("aria-label");
         }
-        resetElement_S.addEventListener("click", resetStopwatch)
-    </script>
+        popUp.classList.remove("open");//aggiungo il css
+    })
+
+    const dataTime={
+        timeSpent : document.getElementById("timeTimer"),
+        money : timeSpentForMoney,
+        subjactName: null,
+        description:null
+    }
+</script>
+<script src="js/main_timer.js"></script>
+
+
+<script src="js/main_choose_sub.js"></script>
+
+
+
+
 <footer>
     <p>Copyright © 2023. All rights reserved   .</p>
 </footer>
