@@ -58,21 +58,21 @@
             ReMe: document.getElementById('ReMe').checked
         };
 
-
-        fetch('../backend/be_login.php', {
-            method: 'POST',
+        //chimata dal frontend login in backend login
+        fetch('../backend/be_login.php', { // dico il percorso del file di back end
+            method: 'POST', //metodo get o post
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json' // specifico la uso
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(formData) // encode
         })
-            .then(response => response.json())
-            .then(data => {
+            .then(response => response.json()) //prendo la risposta di login backend(ha ottenuto i risultati delle query ) e li ha messi nella variabile
+            .then(data => { //prendo i dati ottenuti e li processo
 
                 if (data.success) {
-                    window.location.href = '../main.php';
+                    window.location.href = '../main.php'; // se chiamata è andata bene faccio display del main.php
                 } else {
-                    window.alert('login failed');
+                    window.alert('login failed'); //altimenti mando messaggio di errore
                 }
             })
             .catch(error => {

@@ -1,3 +1,15 @@
+//-------------------------FUNZIONE PER POPOLARE IL MENU A TENDINA   -------------------------//
+// Funzione per popolare il menu a tendina
+function populateSelect(options) {
+    subChoosen.innerHTML = "";
+    subChoosen.innerHTML = "<div><option value=''> Materia</option> <span> <button> - </button ></span></div>";
+    options.forEach(option => {
+        var optionElement = document.createElement("option");
+        optionElement.value = option;
+        optionElement.textContent = option;
+        subChoosen.appendChild(optionElement);
+    });
+}
 
 //-------------------------FUNZIONE PER IL TOGGLE -------------------------//
 function toggleButton(buttonId){
@@ -18,7 +30,7 @@ function toggleButton(buttonId){
     function showStudySession(){
         moneyMoneyObtained.innerHTML =timeSpentForMoney;
         timeDuratioSession.innerHTML=  formattedTime;
-        subSubStudied.innerHTML = null;
+        subSubStudied.innerHTML = subChoosen;
 
     }
     //-------------------------FUNZIONE PER FARE L'UPDATE DEL TIMER -------------------------//

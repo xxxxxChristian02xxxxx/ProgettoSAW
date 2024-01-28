@@ -8,7 +8,7 @@ ini_set('display_errors', 1);
 $postData = file_get_contents("php://input");
 
 // Decode the JSON data
-$data = json_decode($postData, true);
+$data = json_decode($postData, true); // prendo i dati che mi erano stati mandati dal login frontend tramite jason con apifetch
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $data['email'];

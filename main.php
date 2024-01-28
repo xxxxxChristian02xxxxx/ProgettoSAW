@@ -56,10 +56,22 @@
 <body>
 <div>
     <div>
-        <form id="UserRegistration" action="login.php" method="POST">
             <label for="Testo_materie">Scegli la materia:</label>
             <input type="text" id="Testo_materie" name="Testo_materie">
-        </form>
+            <select id="scelta" name="scelta">
+
+                <div>
+                    <option>
+                        opzione 1
+                    </option>
+                    <spam>
+                        <button>
+                            -
+                        </button>
+                    </spam>
+                </div>
+
+            </select>
     </div>
     <div class="containerTimer">
         <div class="title">
@@ -156,10 +168,6 @@
     var descriptionArea=document.getElementById("area_descrizione ");
 
 
-
-
-
-
     var formattedTime;
     //-------------------------EVENTO PER DIRE SE SONO IN STOP OPPURE IN START -------------------------//
     startElement.addEventListener('click', function() {
@@ -224,12 +232,29 @@
     })
 
     const dataTime={
+        typeSession:null;
         timeSpent : document.getElementById("timeTimer"),
         money : timeSpentForMoney,
         subjactName: null,
-        description:null
+        description:null,
+        season:null;
     }
 </script>
+
+<script>
+    const subChoosen = document.getElementById("scelta");
+
+    //-------------------------EVENTO PER FARE IL DISPLAY DELLE MATERIE -------------------------//
+    window.addEventListener("DOMContentLoaded", () => {
+        var displaySubjects = ["italiano", "matematica","inglese"];
+        populateSelect(displaySubjects);
+    });
+
+
+
+</script>
+
+
 <script src="js/main_timer.js"></script>
 
 
