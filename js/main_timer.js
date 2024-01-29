@@ -1,14 +1,32 @@
 //-------------------------FUNZIONE PER POPOLARE IL MENU A TENDINA   -------------------------//
-// Funzione per popolare il menu a tendina
 function populateSelect(options) {
     subChoosen.innerHTML = "";
-    subChoosen.innerHTML = "<div><option value=''> Materia</option> <span> <button> - </button ></span></div>";
+    subChoosen.innerHTML = "<div><option value=''> </option> <span> <button> - </button ></span></div>";
     options.forEach(option => {
         var optionElement = document.createElement("option");
         optionElement.value = option;
         optionElement.textContent = option;
         subChoosen.appendChild(optionElement);
     });
+
+}
+    //-------------------------FUNZIONE VEDERE SE LA MATERIA AGGIUNTA è VALIDA    -------------------------//
+function isSubPresent(addSubject){
+    console.log(displaySubjects);
+    // esempio :
+    // sub.replace(/\s/g, '').toLowerCase() =>tolgo gli spazi e metto no case sensitive
+    for (let i = 0; i < displaySubjects.length; i++) {
+        var subpr = displaySubjects[i].replace(/\s/g, '').toLowerCase();
+        var subnew = addSubject.toString().replace(/\s/g, '').toLowerCase();
+        console.log(subnew, ",", subpr);
+        if (subnew === subpr) {
+            console.log("sono qui");
+            return false;
+        }
+    }
+    return true;
+
+
 }
 
 //-------------------------FUNZIONE PER IL TOGGLE -------------------------//

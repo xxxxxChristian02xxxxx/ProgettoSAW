@@ -56,80 +56,80 @@
 <body>
 <div>
     <div>
+        <span>
             <label for="Testo_materie">Scegli la materia:</label>
-            <input type="text" id="Testo_materie" name="Testo_materie">
-            <select id="scelta" name="scelta">
-
-                <div>
-                    <option>
-                        opzione 1
-                    </option>
-                    <spam>
-                        <button>
-                            -
-                        </button>
-                    </spam>
-                </div>
-
-            </select>
+            <select id="scelta" name="scelta"></select>
+        </span>
+        <span>
+            <label for="add_materie">aggiungi una materia:</label>
+            <input type="text" id="add_materie" name="Testo_materie">
+        </span>
+        <span>
+             <button id="newsub"> + </button>
+        </span>
     </div>
-    <div class="containerTimer">
-        <div class="title">
-            <h1> Timer</h1>
+    <div>
+        <div class="containerTimer">
+            <div class="title">
+                <h1> Timer</h1>
+
+            </div>
+
+            <p id="timeTimer" class ="timer">25:00</p>
+
+            <div id ="timerBottons">
+                <button id = "Timer">Start</button>
+
+                <button id = "resetTimer">Reset</button>
+            </div>
         </div>
-        <p id="timeTimer" class ="timer">25:00</p>
-        <div id ="timerBottons">
-            <button id = "Timer">Start</button>
-            <button id = "resetTimer">Reset</button>
-        </div>
-    </div>
     <div class="container_popup">
-    <div class="popup" id="popup">
-        <div class="popup-inner">
-            <h2> Are you sure to leave? </h2>
-            <div id ="statistiche_sessioone_studio ">
-                <p>
+        <div class="popup" id="popup">
+            <div class="popup-inner">
+                <h2> Are you sure to leave? </h2>
+                <div id ="statistiche_sessioone_studio ">
+                    <p>
+                        <div>
+                                <div>
+                                    <p id="durata_session">durata sessione:</p>
+                                    <span>
+                                        <p id="tempo_durata_session">tempo</p>
+                                    </span>
+                                </div>
+                                <div>
+                                    <p id="materia_studiata">materia studiata:</p>
+                                    <span>
+                                        <p id="materia_materia_studiata">materia</p>
+                                    </span>
+                                </div>
+                                <div>
+                                    <p id="soldi_ottenuti">soldi ottenuti:</p>
+                                    <span>
+                                        <p id="soldi_soldi_ottenuti">soldi</p>
+                                    </span>
+                                </div>
+                                <p></p>
+                         </div>
+                    </p>
+                </div>
+                <div id="descrizione">
                     <div>
-                            <div>
-                                <p id="durata_session">durata sessione:</p>
-                                <span>
-                                    <p id="tempo_durata_session">tempo</p>
-                                </span>
-                            </div>
-                            <div>
-                                <p id="materia_studiata">materia studiata:</p>
-                                <span>
-                                    <p id="materia_materia_studiata">materia</p>
-                                </span>
-                            </div>
-                            <div>
-                                <p id="soldi_ottenuti">soldi ottenuti:</p>
-                                <span>
-                                    <p id="soldi_soldi_ottenuti">soldi</p>
-                                </span>
-                            </div>
-                            <p></p>
-                     </div>
-                </p>
-            </div>
-            <div id="descrizione">
-                <div>
-                    <textarea id ="area_descrizione "rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
+                        <textarea id ="area_descrizione "rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
+
+                    </div>
 
                 </div>
 
-            </div>
-
-            <div >
-                <span class="popup_button">
-                <botton id="closePopUp" > yes </botton>
-                </span>
-                <span class="popup_button">
-                    <botton id="cancelPopup">  Cancel </botton>
-                </span>
+                <div >
+                    <span class="popup_button">
+                    <botton id="closePopUp" > yes </botton>
+                    </span>
+                    <span class="popup_button">
+                        <botton id="cancelPopup">  Cancel </botton>
+                    </span>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 
     <div class="containerStopwatch">
@@ -149,7 +149,7 @@
 <script>
     let interval;
     let timeLeft = 1500; /*tempo rimasto : 1500 indica 25 secondi*/
-    var counting  = false; //
+    var counting  = false; // false: timer is at max, true:timer is running
     var button = document.getElementById("Timer");
     const startTime ="25 : 00" ;
     var timeSpentForMoney =0;
@@ -158,6 +158,8 @@
     const startElement= document.getElementById("Timer");
     const resetElement= document.getElementById("resetTimer");
     const timeElement= document.getElementById("timeTimer");
+
+
     const closeButton = document.getElementById("closePopUp");
     const cancelButton = document.getElementById("cancelPopup")
     const popUp =document.getElementById("popup");
@@ -171,9 +173,10 @@
     var formattedTime;
     //-------------------------EVENTO PER DIRE SE SONO IN STOP OPPURE IN START -------------------------//
     startElement.addEventListener('click', function() {
-        counting =true;
+        counting=true;
         // Verifica lo stato del bottone
         if (button.innerHTML === "Start") {
+
             // Prima volta che è stato cliccato
             console.log('Primo clic');
 
@@ -183,6 +186,7 @@
             button.innerHTML = "Stop";
             button.setAttribute("aria-label", "Stop");
         } else {
+
             // Seconda volta che è stato cliccato
             console.log('Secondo clic');
             console.log(counting);
@@ -193,22 +197,24 @@
         }
 
     })
-    //-------------------------EVENTO PER DIRE SE SONO IN STOP OPPURE IN START -------------------------//
+    //-------------------------EVENTO PER RESETTARE -------------------------//
     ;
 
-    if((formattedTime!==startTime)  ){
+
         resetElement.addEventListener("click",()=> {
+            if(counting)  {
              {
                  showStudySession();
                 stopTimer();
                 popUp.classList.add("open");//aggiungo il css
-                counting = false
+
+            }
+            }else
+            {
+                alert('There is no counter')
             }
         })
-    }else
-    {
-        alert('There is no counter')
-    }
+
 
     //-------------------------EVENTO PER DIRE CHIUDERE IL POPUP RESETTANDO -------------------------//
 
@@ -218,7 +224,8 @@
             button.innerHTML = "Start";
             button.removeAttribute("aria-label");
         }
-        resetTimer()
+        resetTimer();
+        counting=false;
 
     })
     //-------------------------EVENTO PER DIRE CHIUDERE IL POPUP CONTINUANDO -------------------------//
@@ -232,25 +239,39 @@
     })
 
     const dataTime={
-        typeSession:null;
+        typeSession:null,
         timeSpent : document.getElementById("timeTimer"),
         money : timeSpentForMoney,
         subjactName: null,
         description:null,
-        season:null;
+        season:null
     }
 </script>
 
 <script>
     const subChoosen = document.getElementById("scelta");
+    var displaySubjects = ["italiano", "matematica","inglese"];
 
     //-------------------------EVENTO PER FARE IL DISPLAY DELLE MATERIE -------------------------//
     window.addEventListener("DOMContentLoaded", () => {
-        var displaySubjects = ["italiano", "matematica","inglese"];
         populateSelect(displaySubjects);
     });
 
-
+    //-------------------------EVENTO PER FAGGIUNGERE UNA MATERIA  -------------------------//
+    var addSubject;
+    const newSubject = document.getElementById("newsub");
+    const subject= {
+        newSub : addSubject
+    }
+    newSubject.addEventListener("click", ()=>{
+        addSubject = document.getElementById("add_materie").value;
+        console.log(addSubject, "ciao");
+        if(!isSubPresent(addSubject)){
+            console.log("mteria gia inserita");
+        }else {
+            databaseDelivery(subject);
+        }
+    })
 
 </script>
 
