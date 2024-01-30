@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 
 $json_data = file_get_contents('php://input');
 $time_studying = json_decode($json_data, true);
-
+echo ("sono nel bak");
 require("backend/function_files/session.php");
 $session = getSession(true);
 

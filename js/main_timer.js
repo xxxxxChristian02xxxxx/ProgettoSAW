@@ -29,6 +29,13 @@ function isSubPresent(addSubject){
 
 }
 
+function blockSelection(){
+
+}
+function unlockSelection(){
+
+}
+
 //-------------------------FUNZIONE PER IL TOGGLE -------------------------//
 function toggleButton(buttonId){
     // Riferimento all'elemento del bottone
@@ -46,9 +53,10 @@ function toggleButton(buttonId){
 }
 //-------------------------FUNZIONE PER IL TOGGLE -------------------------//
     function showStudySession(){
+        console.log(subSubStudied);
+        timeDuratioSession.innerHTML=  timmeSpentForSession;
         moneyMoneyObtained.innerHTML =timeSpentForMoney;
-        timeDuratioSession.innerHTML=  formattedTime;
-        subSubStudied.innerHTML = subChoosen;
+        subSubStudied.innerHTML = subEventuallyStudied.value;
 
     }
     //-------------------------FUNZIONE PER FARE L'UPDATE DEL TIMER -------------------------//
@@ -58,7 +66,7 @@ function toggleButton(buttonId){
         /*  funzione per stampare a schermo il tempo che scorre ,padStart serve per stampare 0, col lo 0 davanti con 2 -> voglio 2 digit e se non ho nulla metto "0" di default*/
         formattedTime = `${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
         timeElement.innerHTML = formattedTime;
-
+        timmeSpentForSession ++;
 
     }
     //-------------------------FUNZIONE PER IL INZIARE E STOPPARE IL TIMER IL TIMER -------------------------//
@@ -86,6 +94,17 @@ function toggleButton(buttonId){
         timeLeft = 1500;
         showStudySession();
         updateTimer();
+        console.log("mando al back");
+        const dataTime={
+            typeSession:null,
+            timeSpent :timmeSpentForSession,
+            money : timeSpentForMoney,
+            subjactName: subEventuallyStudied.value,
+            description:null,
+            season:null
+        }
+        console.log("json: ",dataTime);
+
         databaseDelivery(dataTime);
 
     }
@@ -97,7 +116,7 @@ function toggleButton(buttonId){
     }
 
 function databaseDelivery(dataTime){
-
+    console.log("entratat nella funzione");
 
         fetch('../backend/main_backend.php', { // dico il percorso del file di back end
             method: 'POST', //metodo get o post
@@ -107,6 +126,7 @@ function databaseDelivery(dataTime){
             body: JSON.stringify(dataTime) // encode
         })
             .then(response => response.json()) //prendo la risposta di login backend(ha ottenuto i risultati delle query ) e li ha messi nella variabile
+
             .then(data => { //prendo i dati ottenuti e li processo
 
                 if (data.success) {

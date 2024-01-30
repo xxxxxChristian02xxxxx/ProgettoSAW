@@ -56,6 +56,7 @@
 <body>
 <div>
     <div>
+
         <span>
             <label for="Testo_materie">Scegli la materia:</label>
             <select id="scelta" name="scelta"></select>
@@ -65,9 +66,12 @@
             <input type="text" id="add_materie" name="Testo_materie">
         </span>
         <span>
-             <button id="newsub"> + </button>
+            <button id="newsub"> + </button>
         </span>
+
     </div>
+
+
     <div>
         <div class="containerTimer">
             <div class="title">
@@ -83,6 +87,8 @@
                 <button id = "resetTimer">Reset</button>
             </div>
         </div>
+    </div>
+        <!-- pop up timer-->
     <div class="container_popup">
         <div class="popup" id="popup">
             <div class="popup-inner">
@@ -99,7 +105,7 @@
                                 <div>
                                     <p id="materia_studiata">materia studiata:</p>
                                     <span>
-                                        <p id="materia_materia_studiata">materia</p>
+                                        <p id="materia_materia_studiata"></p>
                                     </span>
                                 </div>
                                 <div>
@@ -132,6 +138,7 @@
         </div>
     </div>
 
+
     <div class="containerStopwatch">
         <div class="title">
             <h1> Stopwatch</h1>
@@ -144,15 +151,74 @@
         </div>
     </div>
 
-</div>
 
+    <!-- pop up stopwatch-->
+    <div class="container_popup">
+        <div class="popup" id="popup_sto">
+            <div class="popup-inner">
+                <h2> Are you sure to leave? </h2>
+                <div id ="statistiche_sessioone_studio ">
+                    <p>
+                    <div>
+                        <div>
+                            <p id="durata_session">durata sessione:</p>
+                            <span>
+                                <p id="tempo_durata_session">tempo</p>
+                            </span>
+                        </div>
+                        <div>
+                            <p id="materia_studiata">materia studiata:</p>
+                            <span>
+                                <p id="materia_materia_studiata">materia</p>
+                            </span>
+                        </div>
+                        <div>
+                            <p id="soldi_ottenuti">soldi ottenuti:</p>
+                            <span>
+                                <p id="soldi_soldi_ottenuti">soldi</p>
+                            </span>
+                        </div>
+                        <p></p>
+                    </div>
+                    </p>
+                </div>
+                <div id="descrizione">
+                    <div>
+                        <textarea id ="area_descrizione "rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
+
+                    </div>
+
+                </div>
+
+                <div >
+                        <span class="popup_button">
+                        <botton id="closePopUp" > yes </botton>
+                        </span>
+                    <span class="popup_button">
+                            <botton id="cancelPopup">  Cancel </botton>
+                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
+    const dataTime={
+        typeSession:null,
+        timeSpent :null,
+        money : null,
+        subjactName: null,
+        description:null,
+        season:null
+    }
+
     let interval;
     let timeLeft = 1500; /*tempo rimasto : 1500 indica 25 secondi*/
     var counting  = false; // false: timer is at max, true:timer is running
     var button = document.getElementById("Timer");
     const startTime ="25 : 00" ;
     var timeSpentForMoney =0;
+    var timmeSpentForSession =0;
 
     const subjectName=null;
     const startElement= document.getElementById("Timer");
@@ -166,36 +232,40 @@
 
     var timeDuratioSession =document.getElementById("tempo_durata_session");
     var subSubStudied = document.getElementById("materia_materia_studiata");
+    var subEventuallyStudied = document.getElementById("scelta").value;
     var moneyMoneyObtained= document.getElementById("soldi_soldi_ottenuti")
     var descriptionArea=document.getElementById("area_descrizione ");
-
-
     var formattedTime;
+
+
     //-------------------------EVENTO PER DIRE SE SONO IN STOP OPPURE IN START -------------------------//
     startElement.addEventListener('click', function() {
-        counting=true;
-        // Verifica lo stato del bottone
-        if (button.innerHTML === "Start") {
+        subEventuallyStudied=document.getElementById("scelta");
+        console.log(subEventuallyStudied.value);
+        if(subEventuallyStudied.value !=='') {
+            counting = true;
+            // Verifica lo stato del bottone
+            if (button.innerHTML === "Start") {
+                blockSelection();
+                // Prima volta che è stato cliccato
+                console.log('Primo clic');
 
-            // Prima volta che è stato cliccato
-            console.log('Primo clic');
+                console.log(counting);
+                startTimer();
+                // Aggiorna lo stato
+                button.innerHTML = "Stop";
+                button.setAttribute("aria-label", "Stop");
+            } else {
 
-            console.log(counting);
-            startTimer();
-            // Aggiorna lo stato
-            button.innerHTML = "Stop";
-            button.setAttribute("aria-label", "Stop");
-        } else {
-
-            // Seconda volta che è stato cliccato
-            console.log('Secondo clic');
-            console.log(counting);
-            stopTimer();
-            // Aggiorna lo stato
-            button.innerHTML = "Start";
-            button.removeAttribute("aria-label");
+                // Seconda volta che è stato cliccato
+                console.log('Secondo clic');
+                console.log(counting);
+                stopTimer();
+                // Aggiorna lo stato
+                button.innerHTML = "Start";
+                button.removeAttribute("aria-label");
+            }
         }
-
     })
     //-------------------------EVENTO PER RESETTARE -------------------------//
     ;
@@ -225,6 +295,7 @@
             button.removeAttribute("aria-label");
         }
         resetTimer();
+        unlockSelection();
         counting=false;
 
     })
@@ -238,14 +309,6 @@
         popUp.classList.remove("open");//aggiungo il css
     })
 
-    const dataTime={
-        typeSession:null,
-        timeSpent : document.getElementById("timeTimer"),
-        money : timeSpentForMoney,
-        subjactName: null,
-        description:null,
-        season:null
-    }
 </script>
 
 <script>
@@ -260,16 +323,14 @@
     //-------------------------EVENTO PER FAGGIUNGERE UNA MATERIA  -------------------------//
     var addSubject;
     const newSubject = document.getElementById("newsub");
-    const subject= {
-        newSub : addSubject
-    }
     newSubject.addEventListener("click", ()=>{
         addSubject = document.getElementById("add_materie").value;
+        console.log(addSubject);
         console.log(addSubject, "ciao");
         if(!isSubPresent(addSubject)){
             console.log("mteria gia inserita");
         }else {
-            databaseDelivery(subject);
+            databaseDelivery(dataTime);
         }
     })
 
