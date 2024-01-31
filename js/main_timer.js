@@ -95,7 +95,7 @@ function toggleButton(buttonId){
             /*una vlta finito il timer pulisco l'intervallo*/
             clearInterval(interval);
             alert("finito");
-            timeLeft = 1500;
+            timeLeft = 1500 ;
             updateTimer();
         }
         }, 1000)

@@ -243,7 +243,7 @@
     var displayTimer = document.getElementById("conainertimer");
     var displayStopwatch = document.getElementById("constainerstopwatch");
     var swipeCount =0;
-    var idTimerOrStopwatch = true; //0  stopwatch , 1 timer
+    var idTimerOrStopwatch = true ; //0  stopwatch , 1 timer
 
 
 
