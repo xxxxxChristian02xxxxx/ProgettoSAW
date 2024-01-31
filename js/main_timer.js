@@ -35,8 +35,20 @@ function blockSelection(){
 function unlockSelection(){
 
 }
+//-------------------------FUNZIONE PER IL PER TIMER E STOPWATCH -------------------------//
+function toggleButtonTS(buttonId) {
+    if ((swipeCount % 2 )=== 0) {
+        displayTimer.classList.remove("hide");
+        displayStopwatch.classList.add("hide");
+        idTimerOrStopwatch = true;
+    } else {
+        displayStopwatch.classList.remove("hide");
+        displayTimer.classList.add("hide");
+        idTimerOrStopwatch=false;
+    }
+}
 
-//-------------------------FUNZIONE PER IL TOGGLE -------------------------//
+//-------------------------FUNZIONE PER IL TOGGLE TASTO START -------------------------//
 function toggleButton(buttonId){
     // Riferimento all'elemento del bottone
     var button = document.getElementById(buttonId);
@@ -61,6 +73,7 @@ function toggleButton(buttonId){
     }
     //-------------------------FUNZIONE PER FARE L'UPDATE DEL TIMER -------------------------//
     function updateTimer() {
+
         let minutes = Math.floor(timeLeft / 60);
         let seconds = timeLeft % 60;
         /*  funzione per stampare a schermo il tempo che scorre ,padStart serve per stampare 0, col lo 0 davanti con 2 -> voglio 2 digit e se non ho nulla metto "0" di default*/
@@ -71,6 +84,7 @@ function toggleButton(buttonId){
     }
     //-------------------------FUNZIONE PER IL INZIARE E STOPPARE IL TIMER IL TIMER -------------------------//
     function startTimer() {
+
         /*intervallo che deve essere aggiornato ogni 1000 ms*/
         toggleButton('Timer');
         interval = setInterval(() => {
@@ -96,7 +110,7 @@ function toggleButton(buttonId){
         updateTimer();
         console.log("mando al back");
         const dataTime={
-            typeSession:null,
+            typeSession:idTimerOrStopwatch,
             timeSpent :timmeSpentForSession,
             money : timeSpentForMoney,
             subjactName: subEventuallyStudied.value,

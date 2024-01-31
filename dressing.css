@@ -65,7 +65,28 @@
     display: block;
 }
 
-/*css per il main */
+/* CSS PER IL MAIN SEZIONI DI PAGINAZIONE */
+.split_container{
+    display: grid;
+    grid-auto-rows: 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.split-left{
+    padding:1rem;
+}
+.split-left{
+    padding:1rem;
+}
+.split-right{
+    padding:1rem;
+    text-align: right;
+}
+.hide{
+    display: none;
+}
+
+/*css per il main -timer  */
+
 .containerTimer{
     margin:0 auto;
     max-width:540px;

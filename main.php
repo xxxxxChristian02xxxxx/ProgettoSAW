@@ -54,7 +54,7 @@
 
 
 <body>
-<div>
+<>
     <div>
 
         <span>
@@ -68,27 +68,41 @@
         <span>
             <button id="newsub"> + </button>
         </span>
-
     </div>
 
+<div class ="split_container">
+    <div class = "split-left">
+        <button id = "buttom-Swipe-left "> << </button>
+    </div>
 
-    <div>
-        <div class="containerTimer">
+    <div class = "split-center">
+        <div class="containerTimer" id ="conainertimer">
             <div class="title">
                 <h1> Timer</h1>
-
             </div>
-
             <p id="timeTimer" class ="timer">25:00</p>
-
             <div id ="timerBottons">
                 <button id = "Timer">Start</button>
-
                 <button id = "resetTimer">Reset</button>
             </div>
         </div>
+        <div class="containerStopwatch" id ="constainerstopwatch">
+            <div class="title">
+                <h1> Stopwatch</h1>
+            </div>
+            <p id="timeStopwatch" class ="timer">00:00</p>
+            <div id ="stopwatchBottons">
+                <button id = "Stopwatch" >Start</button>
+                <button id = "resetStopwatch">Reset</button>
+            </div>
+        </div>
     </div>
-        <!-- pop up timer-->
+
+    <div class = "split-right">
+        <button id = "buttom-Swipe-right ">  > </button>
+    </div>
+</div>
+    <!-- pop up timer-->
     <div class="container_popup">
         <div class="popup" id="popup">
             <div class="popup-inner">
@@ -137,21 +151,6 @@
             </div>
         </div>
     </div>
-
-
-    <div class="containerStopwatch">
-        <div class="title">
-            <h1> Stopwatch</h1>
-        </div>
-        <p id="timeStopwatch" class ="timer">00:00</p>
-        <div id ="stopwatchBottons">
-            <button id = "Stopwatch" >Start</button>
-            <button id = "resetStopwatch">Reset</button>
-
-        </div>
-    </div>
-
-
     <!-- pop up stopwatch-->
     <div class="container_popup">
         <div class="popup" id="popup_sto">
@@ -201,7 +200,8 @@
             </div>
         </div>
     </div>
-</div>
+
+
 <script>
     const dataTime={
         typeSession:null,
@@ -212,6 +212,7 @@
         season:null
     }
 
+    //gestione timer
     let interval;
     let timeLeft = 1500; /*tempo rimasto : 1500 indica 25 secondi*/
     var counting  = false; // false: timer is at max, true:timer is running
@@ -225,7 +226,6 @@
     const resetElement= document.getElementById("resetTimer");
     const timeElement= document.getElementById("timeTimer");
 
-
     const closeButton = document.getElementById("closePopUp");
     const cancelButton = document.getElementById("cancelPopup")
     const popUp =document.getElementById("popup");
@@ -237,11 +237,40 @@
     var descriptionArea=document.getElementById("area_descrizione ");
     var formattedTime;
 
+    //gestione switch tra timer e stopwatch
+    const swipeLeft = document.getElementById("buttom-Swipe-left ");
+    const swipeRight = document.getElementById("buttom-Swipe-right ");
+    var displayTimer = document.getElementById("conainertimer");
+    var displayStopwatch = document.getElementById("constainerstopwatch");
+    var swipeCount =0;
+    var idTimerOrStopwatch = true; //0  stopwatch , 1 timer
 
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //-----------------SCRIPT PER SWITCH TRA TIMER E STOPWATCH  ------------------------------------
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    displayStopwatch.classList.add("hide");
+    swipeLeft.addEventListener("click", ()=>{
+        if(!counting) {
+            swipeCount++;
+            toggleButtonTS();
+        }
+
+    })
+    swipeRight.addEventListener("click", ()=>{
+        if(!counting) {
+            swipeCount++;
+            toggleButtonTS();
+        }
+    })
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //-----------------SCRIPT PER IL TIMER  --------------------------------------------------------
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     //-------------------------EVENTO PER DIRE SE SONO IN STOP OPPURE IN START -------------------------//
     startElement.addEventListener('click', function() {
         subEventuallyStudied=document.getElementById("scelta");
-        console.log(subEventuallyStudied.value);
         if(subEventuallyStudied.value !=='') {
             counting = true;
             // Verifica lo stato del bottone
@@ -274,7 +303,7 @@
         resetElement.addEventListener("click",()=> {
             if(counting)  {
              {
-                 showStudySession();
+                showStudySession();
                 stopTimer();
                 popUp.classList.add("open");//aggiungo il css
 
@@ -309,9 +338,11 @@
         popUp.classList.remove("open");//aggiungo il css
     })
 
-</script>
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //-----------------SCRIPT PER LA SCELTA DELLA MATERIA ------------------------------------------
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
-<script>
+
     const subChoosen = document.getElementById("scelta");
     var displaySubjects = ["italiano", "matematica","inglese"];
 
@@ -334,12 +365,20 @@
         }
     })
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //-----------------SCRIPT PER IL STOPWATCH -----------------------------------------------------
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
 </script>
 
 
+
+
+
 <script src="js/main_timer.js"></script>
-
-
 <script src="js/main_choose_sub.js"></script>
 
 
