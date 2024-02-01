@@ -1,64 +1,79 @@
 <?php
-include('backend/verifyCookie.php');
+    session_start();
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
+    if (isset($_COOKIE['ReMe'])) {
+        //fa qualcosa: query per verificare se esiste
+        include('backend/function_files/connection.php');
+        $con = connect();
+
+
+        $cookie_val = $_COOKIE['ReMe'];
+        $decodedata = json_decode($cookie_val, true);
+        $token_val = $decodedata['token_value'];
+        $id = $decodedata['id'];
+        $query = "SELECT EXPIRE FROM USERS WHERE TOKEN = ?";
+        $stmt = $con->prepare($query);
+        $stmt->bind_param('s', $token_val);
+        $stmt->execute();
+
+        $res = $stmt->get_result();
+
+        if ($res->num_rows == 1) {
+            $expire = $res->fetch_assoc();
+
+            //Se scaduto rimanda alla pagina di login
+            if (date(time()) > $expire['EXPIRE']) {
+                header("Location: frontend/login.php");
+            } else {
+                include('backend/function_files/session.php');
+                setSession($id);
+            }
+        }else{
+            //todo: create error
+        }
+        $stmt->close();
+    }
+    //Verifica che la sessione sia attiva
+    include('backend/function_files/session.php');
+    //Aggiunta dell'header
+    include('frontend/header.php');
+    $session = getSession(true);
 ?>
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Study sessions</title>
+    <link href="https://cdn.datatables.net/v/dt/dt-1.13.8/datatables.min.css" rel="stylesheet">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/v/dt/dt-1.13.8/datatables.min.js"></script>
 </head>
 <body>
-    <div class="search-options">
-        <div class="options">
-            <label for="rowsPerPage">Show </label>
-            <select id="rowsPerPage" onchange="changeRowsPerPage()">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-                <option value="25">25</option>
-            </select>
-            <span> rows</span>
-        </div>
-
-        <div class="search">
-            <label for="search">Search:</label>
-            <input type="text" id="search" placeholder="Search...">
-        </div>
+    <div class="selectOptions">
+        <label for="rowsPerPage">Show </label>
+        <select id="rowsPerPage" onchange="changeRowsPerPage()">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+        </select>
+        <span> rows</span>
     </div>
-    <div class="filters">
-        <div class="columnFilter">
-            <label for="columnFilter">Filter by: </label>
-            <select id="columnFilter">
-            </select>
-        </div>
-
-        <div class="valueFilter">
-            <label for="valueFilter">Value:</label>
-            <select id="valueFilter">
-            </select>
-
-            <button id="filterButton">Filter</button>
-            <button id="resetFilter">Reset Filter</button>
-        </div>
-    </div>
-
-    <div id="studySessionTableContainer">
-        <table class="studySessionTable">
-            <thead>
-            <tr>
-                <th>SESSION ID</th>
-                <th>TYPE</th>
-                <th>DATE</th>
-                <th>TOTAL TIME</th>
-                <th>TOTAL REWARD</th>
-                <th>SEASON</th>
-                <th>DESCRIPTION</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
+    <table class="studySessionTable">
+        <thead>
+        <tr>
+            <th>SESSION ID</th>
+            <th>TYPE</th>
+            <th>DATE</th>
+            <th>TOTAL TIME</th>
+            <th>TOTAL REWARD</th>
+            <th>SEASON</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
     <div id="pagination"></div>
 </body>
 </html>
@@ -74,17 +89,6 @@ include('backend/verifyCookie.php');
             .then(data => {
                 populateTable(data, currentPage);
                 updatePagination(data, currentPage);
-
-                populateColumnSelection(data);
-
-                document.getElementById("search").addEventListener("input", function() {
-                    if(this.value === ""){
-                        populateTable(data, currentPage);
-                    }
-                    else{
-                        searchTable(data);
-                    }
-                });
             })
             .catch(error => console.error('Error in reaching data:', error));
     }
@@ -155,147 +159,4 @@ include('backend/verifyCookie.php');
         getData(currentPage);
     }
 
-    function searchTable(data) {
-        var input, filter, text;
-
-        input = document.getElementById("search");
-        filter = input.value.toUpperCase();
-
-        var table = document.querySelector('.studySessionTable tbody');
-        table.innerHTML = '';
-
-        // Tengo traccia degli indici delle righe che soddisfano i criteri della ricerca
-        var foundIndexes = [];
-
-        // Iterazione attraverso le righe della struttura dati
-        for(i=0; i<data.length; i++){
-            var found = false;
-            // Iterazione sulla colonna della riga
-            for(j = 0; j<Object.values(data[i]).length; j++) {
-                text = String(Object.values(data[i])[j]);
-                if (text.toUpperCase().includes(filter)) {
-                    found = true;
-                    break;
-                }
-            }
-
-            if(found) {
-                foundIndexes.push(i);
-            }
-
-        }
-
-        // Indice del primo elemento da visualizzare nella tabella
-        var start = (currentPage - 1) * rowsPerPage;
-        // Indice ultimo elemento da visualizzare nella tabella per la pagina corrente
-        var end = Math.min(start + rowsPerPage, foundIndexes.length);
-
-        // Vengono mostrate solo le righe che soddisfano i criteri di ricerca
-        for(var k=start; k<end; k++){
-            var rowIndex = foundIndexes[k];
-            var rowData = data[rowIndex];
-
-            var row = table.insertRow(-1);
-
-            //Aggiunta delle colonne alla riga
-            Object.keys(rowData).forEach(function (key) {
-                var newCell = row.insertCell(-1);
-                newCell.textContent = rowData[key];
-            });
-        }
-
-        // Aggiornamento controlli di paginazione
-        updatePagination(data, currentPage);
-    }
-
-
-    function populateColumnSelection(data) {
-        var columnSelection = document.getElementById('columnFilter');
-        columnSelection.innerHTML='';
-
-        var emptyOption = document.createElement('option');
-        emptyOption.value = '';
-        emptyOption.text = 'Select column';
-        columnSelection.appendChild(emptyOption);
-
-        //Elenco colonne dalla prima riga dei dati
-        var columns = Object.keys(data[0]);
-
-        columns.forEach(function(column) {
-            var option = document.createElement('option');
-            option.value = column;
-            option.text = column;
-            columnSelection.appendChild(option);
-        });
-
-        columnSelection.addEventListener('change', function () {
-            var selectedColumn = this.value;
-            console.log(selectedColumn);
-
-            if(selectedColumn === '') {
-                var filterValue = document.getElementById('valueFilter');
-                filterValue.innerHTML = '';
-                document.getElementsByClassName('valueFilter').display = 'none';
-                return;
-            }
-
-            var filterValueElements = document.getElementsByClassName('valueFilter');
-            if(filterValueElements.length > 0) {
-                filterValueElements[0].style.display = 'inline';
-            }
-            populateValueSelection(data, selectedColumn);
-        });
-    }
-
-    //Funzione per popolare dinamicamente la selezioni del valori ripsetto cui filtrare
-    function populateValueSelection(data, selectedColumn) {
-        var filterValue = document.getElementById('valueFilter');
-        filterValue.innerHTML = '';
-
-        var emptyOption = document.createElement('option');
-        emptyOption.value = '';
-        emptyOption.text = 'Select value';
-        filterValue.appendChild(emptyOption);
-
-        var uniqueValues = [...new Set(data.map(item => item[selectedColumn]))];
-
-        uniqueValues.forEach(function (value) {
-            var option = document.createElement('option');
-            option.value = value;
-            option.text = value;
-            filterValue.appendChild(option);
-        });
-
-        document.addEventListener('click', function(event) {
-            if(event.target.id === 'filterButton'){
-                filterTable(data);
-            }
-        });
-    }
-
-    function filterTable(data) {
-        var filterColumn = document.getElementById('columnFilter').value;
-        var filterValue = document.getElementById('valueFilter').value;
-
-        // Confronta il valore di filterColumn per ogni riga con il valore del filtro filterValue usando il metodo filter sull'array data
-        var filteredData = data.filter(function (row) {
-            return row[filterColumn].toString() === filterValue.toString();
-        });
-
-        populateTable(filteredData, 1);
-
-        document.addEventListener('click', function(event) {
-            if(event.target.id === 'resetFilter'){
-                resetFilters(data);
-            }
-        });
-    }
-
-    function resetFilters(data){
-        document.getElementById('columnFilter').value='';
-        document.getElementById('valueFilter').value='';
-
-        populateTable(data, 1);
-    }
-    // SECONDO ME MANCA IL DOVE METTO LA DESCRIZIONE
 </script>

@@ -225,31 +225,13 @@
     text-align: center;
 }
 
-.search-options {
+.selectOptions {
     font-family: 'Open Sans', sans-serif;
     width: 75%;
     margin: auto;
     margin-top: 20px;
     margin-bottom: 10px;
-    display: flex;
 }
-
-.filters {
-    font-family: 'Open Sans', sans-serif;
-    width: 75%;
-    margin: auto;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    display: flex;
-}
-.valueFilter {
-    margin-left: 10px;
-    display: none;
-}
-.search {
-    margin-left: auto;
-}
-
 .studySessionTable {
     font-family: 'Open Sans', sans-serif;
     border-collapse: collapse;
