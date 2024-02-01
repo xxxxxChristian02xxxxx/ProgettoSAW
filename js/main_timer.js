@@ -111,15 +111,15 @@ function resetTimer() {
     console.log("mando al back");
     const dataTime={
         typeSession:idTimerOrStopwatch,
-        timeSpent :timmeSpentForSession,
-        money : timeSpentForMoney,
-        subjactName: subEventuallyStudied.value,
-        description:null,
-        season:null
+        timeSpent:timmeSpentForSession,
+        money:timeSpentForMoney,
+        subjectName: subEventuallyStudied.value,
+        description:"null",
+        season:1
     }
-    console.log("json: ",dataTime);
-
-    databaseDelivery(dataTime);
+    var json_data = JSON.stringify(dataTime);
+    console.log(json_data);
+    databaseDelivery(json_data);
 
 }
 //-------------------------FUNZIONE PER FERMARE IL TIMER  -------------------------//
@@ -129,26 +129,16 @@ function stopTimer() {
     console.log(startTime, formattedTime);
 }
 
-function databaseDelivery(dataTime){
+function databaseDelivery(json_data) {
     console.log("entratat nella funzione");
 
-    fetch('../backend/main_backend.php', { // dico il percorso del file di back end
+    fetch('backend/main_backend.php', { // dico il percorso del file di back end
         method: 'POST', //metodo get o post
         headers: {
             'Content-Type': 'application/json' // specifico la uso
         },
-        body: JSON.stringify(dataTime) // encode
+        body: json_data // encode
     })
-        .then(response => response.json()) //prendo la risposta di login backend(ha ottenuto i risultati delle query ) e li ha messi nella variabile
-
-        .then(data => { //prendo i dati ottenuti e li processo
-
-            if (data.success) {
-                window.location.href = '../main.php'; // se chiamata è andata bene faccio display del main.php
-            } else {
-                window.alert('something has failed'); //altimenti mando messaggio di errore
-            }
-        })
         .catch(error => {
             console.error('Error:', error);
         });
