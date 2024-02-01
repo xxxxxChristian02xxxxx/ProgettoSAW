@@ -33,7 +33,7 @@ include('backend/verifyCookie.php');
         </div>
 
         <div class="valueFilter">
-            <label for="valueFilter">Value:</label>
+            <label for="valueFilter">Value: </label>
             <select id="valueFilter">
             </select>
 
