@@ -22,7 +22,7 @@
             <select id="scelta" name="scelta"></select>
         </span>
     <span>
-            <label for="add_materie">aggiungi una materia:</label>
+            <label for="add_materie">Aggiungi una materia:</label>
             <input type="text" id="add_materie" name="Testo_materie">
         </span>
     <span>
