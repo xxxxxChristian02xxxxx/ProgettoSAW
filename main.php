@@ -42,7 +42,7 @@
             </div>
             <p id="timeTimer" class ="timer">25:00</p>
             <div id ="timerBottons">
-                <button id = "Timer">Start</button>
+                <button id = "TimerStart">Start</button>
                 <button id = "resetTimer">Reset</button>
             </div>
         </div>
@@ -52,7 +52,7 @@
             </div>
             <p id="timeStopwatch" class ="timer">00:00</p>
             <div id ="stopwatchBottons">
-                <button id = "Stopwatch" >Start</button>
+                <button id = "startStopwatch" >Start</button>
                 <button id = "resetStopwatch">Reset</button>
             </div>
         </div>
@@ -73,19 +73,19 @@
                     <div>
                         <p id="durata_session">durata sessione:</p>
                         <span>
-                                        <p id="tempo_durata_session">tempo</p>
+                                        <p id="timeDurationTimer">tempo</p>
                                     </span>
                     </div>
                     <div>
                         <p id="materia_studiata">materia studiata:</p>
                         <span>
-                                        <p id="materia_materia_studiata"></p>
+                                        <p id="subStudiedTimer"></p>
                                     </span>
                     </div>
                     <div>
                         <p id="soldi_ottenuti">soldi ottenuti:</p>
                         <span>
-                                        <p id="soldi_soldi_ottenuti">soldi</p>
+                                        <p id="moneyGottenTimer">soldi</p>
                                     </span>
                     </div>
                     <p></p>
@@ -102,10 +102,10 @@
 
             <div >
                     <span class="popup_button">
-                    <botton id="closePopUp" > yes </botton>
+                    <botton id="closeTimerPopUp" > yes </botton>
                     </span>
                 <span class="popup_button">
-                        <botton id="cancelPopup">  Cancel </botton>
+                        <botton id="cancelTimerPopup">  Cancel </botton>
                     </span>
             </div>
         </div>
@@ -122,19 +122,19 @@
                     <div>
                         <p id="durata_session">durata sessione:</p>
                         <span>
-                                <p id="tempo_durata_session">tempo</p>
+                                <p id="moneyDurationStopwatch">tempo</p>
                             </span>
                     </div>
                     <div>
                         <p id="materia_studiata">materia studiata:</p>
                         <span>
-                                <p id="materia_materia_studiata">materia</p>
+                                <p id="subStudiedStopwatch">materia</p>
                             </span>
                     </div>
                     <div>
                         <p id="soldi_ottenuti">soldi ottenuti:</p>
                         <span>
-                                <p id="soldi_soldi_ottenuti">soldi</p>
+                                <p id="moneyGottenStopwatch">soldi</p>
                             </span>
                     </div>
                     <p></p>
@@ -151,10 +151,10 @@
 
             <div >
                         <span class="popup_button">
-                        <botton id="closePopUp" > yes </botton>
+                        <botton id="closeStopwatchPopUp" > yes </botton>
                         </span>
                 <span class="popup_button">
-                            <botton id="cancelPopup">  Cancel </botton>
+                            <botton id="cancelStopwatchPopup">  Cancel </botton>
                         </span>
             </div>
         </div>
@@ -176,26 +176,30 @@
     let interval;
     let timeLeft = 1500; /*tempo rimasto : 1500 indica 25 secondi*/
     var counting  = false; // false: timer is at max, true:timer is running
-    var button = document.getElementById("Timer");
+    var buttonT = document.getElementById("TimerStart");
+    var buttonS = document.getElementById("startStopwatch");
     const startTime ="25 : 00" ;
+
     var timeSpentForMoney =0;
     var timmeSpentForSession =0;
+    var formattedTime;
+
 
     const subjectName=null;
-    const startElement= document.getElementById("Timer");
-    const resetElement= document.getElementById("resetTimer");
-    const timeElement= document.getElementById("timeTimer");
+    const startTimerElement= document.getElementById("TimerStart");
+    const resetTimerElement= document.getElementById("resetTimer");
+    const timeTimerElement= document.getElementById("timeTimer");
 
-    const closeButton = document.getElementById("closePopUp");
-    const cancelButton = document.getElementById("cancelPopup")
-    const popUp =document.getElementById("popup");
+    const closeButtonTimer = document.getElementById("closeTimerPopUp");
+    const cancelButtonTimer = document.getElementById("cancelTimerPopup")
+    const popUpTimer =document.getElementById("popup");
 
-    var timeDuratioSession =document.getElementById("tempo_durata_session");
-    var subSubStudied = document.getElementById("materia_materia_studiata");
-    var subEventuallyStudied = document.getElementById("scelta").value;
-    var moneyMoneyObtained= document.getElementById("soldi_soldi_ottenuti")
+    var timeDuratioSession =document.getElementById("timeDurationTimer");
+    var subSubStudied = document.getElementById("subStudiedTimer"); //materia nel popup
+    var subEventuallyStudied = document.getElementById("scelta").value; // materia presa dalla select-option
+    var moneyMoneyObtained= document.getElementById("moneyGottenTimer")
     var descriptionArea=document.getElementById("area_descrizione ");
-    var formattedTime;
+
 
     //gestione switch tra timer e stopwatch
     const swipeLeft = document.getElementById("buttom-Swipe-left ");
@@ -203,9 +207,18 @@
     var displayTimer = document.getElementById("conainertimer");
     var displayStopwatch = document.getElementById("constainerstopwatch");
     var swipeCount =0;
-    var idTimerOrStopwatch = true ; //0  stopwatch , 1 timer
+    var idTimerOrStopwatch = false ; //0  stopwatch , 1 timer
 
 
+
+    //gestione stopwatch
+    const startStopwatchElement= document.getElementById("startStopwatch");
+    const resetStopwatchElement= document.getElementById("resetStopwatch");
+    const timeStopwatchElement= document.getElementById("timeStopwatch");
+
+    const closeButtonStopwatch = document.getElementById("closeStopwatchPopUp");
+    const cancelButtonStopwatch = document.getElementById("cancelStopwatchPopup")
+    const popUpStopwatch =document.getElementById("popup_sto");
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //-----------------SCRIPT PER SWITCH TRA TIMER E STOPWATCH  ------------------------------------
@@ -229,30 +242,30 @@
     //-----------------SCRIPT PER IL TIMER  --------------------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //-------------------------EVENTO PER DIRE SE SONO IN STOP OPPURE IN START -------------------------//
-    startElement.addEventListener('click', function() {
+    startTimerElement.addEventListener('click', function() {
         subEventuallyStudied=document.getElementById("scelta");
         if(subEventuallyStudied.value !=='') {
             counting = true;
             // Verifica lo stato del bottone
-            if (button.innerHTML === "Start") {
+            if (buttonT.innerHTML === "Start") {
                 blockSelection();
                 // Prima volta che è stato cliccato
                 console.log('Primo clic');
 
                 console.log(counting);
-                startTimer();
+                startTimer(idTimerOrStopwatch);
                 // Aggiorna lo stato
-                button.innerHTML = "Stop";
-                button.setAttribute("aria-label", "Stop");
+                buttonT.innerHTML = "Stop";
+                buttonT.setAttribute("aria-label", "Stop");
             } else {
 
                 // Seconda volta che è stato cliccato
                 console.log('Secondo clic');
                 console.log(counting);
-                stopTimer();
+                stopTimer(idTimerOrStopwatch);
                 // Aggiorna lo stato
-                button.innerHTML = "Start";
-                button.removeAttribute("aria-label");
+                buttonT.innerHTML = "Start";
+                buttonT.removeAttribute("aria-label");
             }
         }
     })
@@ -260,12 +273,12 @@
     ;
 
 
-    resetElement.addEventListener("click",()=> {
+    resetTimerElement.addEventListener("click",()=> {
         if(counting)  {
             {
                 showStudySession();
                 stopTimer();
-                popUp.classList.add("open");//aggiungo il css
+                popUpTimer.classList.add("open");//aggiungo il css
 
             }
         }else
@@ -277,25 +290,25 @@
 
     //-------------------------EVENTO PER DIRE CHIUDERE IL POPUP RESETTANDO -------------------------//
 
-    closeButton.addEventListener("click",()=>{
-        popUp.classList.remove("open");//aggiungo il css
-        if(button.innerHTML==="Stop"){
-            button.innerHTML = "Start";
-            button.removeAttribute("aria-label");
+    closeButtonTimer.addEventListener("click",()=>{
+        popUpTimer.classList.remove("open");//aggiungo il css
+        if(buttonT.innerHTML==="Stop"){
+            buttonT.innerHTML = "Start";
+            buttonT.removeAttribute("aria-label");
         }
-        resetTimer();
+        resetTimer(idTimerOrStopwatch);
         unlockSelection();
         counting=false;
 
     })
     //-------------------------EVENTO PER DIRE CHIUDERE IL POPUP CONTINUANDO -------------------------//
 
-    cancelButton.addEventListener("click",()=>{
-        if(button.innerHTML==="Stop"){
-            button.innerHTML = "Start";
-            button.removeAttribute("aria-label");
+    cancelButtonTimer.addEventListener("click",()=>{
+        if(buttonT.innerHTML==="Stop"){
+            buttonT.innerHTML = "Start";
+            buttonT.removeAttribute("aria-label");
         }
-        popUp.classList.remove("open");//aggiungo il css
+        popUpTimer.classList.remove("open");//aggiungo il css
     })
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -328,8 +341,70 @@
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //-----------------SCRIPT PER IL STOPWATCH -----------------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    startStopwatchElement.addEventListener('click', function() {
+        subEventuallyStudied=document.getElementById("scelta");
+
+        if(subEventuallyStudied.value !=='') {
+            counting = true;
+            // Verifica lo stato del bottone
+            if (buttonS.innerHTML === "Start") {
+                blockSelection();
+                // Prima volta che è stato cliccato
+                console.log('Primo clic');
+
+                console.log(counting, idTimerOrStopwatch);
+                startTimer(idTimerOrStopwatch);
+                // Aggiorna lo stato
+                buttonS.innerHTML = "Stop";
+                buttonS.setAttribute("aria-label", "Stop");
+            } else {
+
+                // Seconda volta che è stato cliccato
+                console.log('Secondo clic');
+                console.log(counting);
+                stopTimer(idTimerOrStopwatch);
+                // Aggiorna lo stato
+                buttonS.innerHTML = "Start";
+                buttonS.removeAttribute("aria-label");
+            }
+        }
+    })
+    //-------------------------EVENTO PER RESETTARE -------------------------//
+    ;
 
 
+    resetStopwatchElement.addEventListener("click",()=> {
+        if(counting)  {
+            {
+                showStudySession();
+                stopTimer();
+                popUpStopwatch.classList.add("open");//aggiungo il css
+            }
+        }else
+        {
+            alert('There is no counter')
+        }
+    })
+    closeButtonStopwatch.addEventListener("click",()=>{
+        popUpStopwatch.classList.remove("open");//aggiungo il css
+        if(buttonS.innerHTML==="Stop"){
+            buttonS.innerHTML = "Start";
+            buttonS.removeAttribute("aria-label");
+        }
+        resetTimer(idTimerOrStopwatch);
+        unlockSelection();
+        counting=false;
+
+    })
+    //-------------------------EVENTO PER DIRE CHIUDERE IL POPUP CONTINUANDO -------------------------//
+
+    cancelButtonStopwatch.addEventListener("click",()=>{
+        if(buttonS.innerHTML==="Stop"){
+            buttonS.innerHTML = "Start";
+            buttonS.removeAttribute("aria-label");
+        }
+        popUpStopwatch.classList.remove("open");//aggiungo il css
+    })
 
 
 </script>
@@ -339,7 +414,6 @@
 
 
 <script src="js/main_timer.js"></script>
-<script src="js/main_choose_sub.js"></script>
 
 
 

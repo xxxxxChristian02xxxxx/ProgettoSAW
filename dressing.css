@@ -119,10 +119,10 @@
     margin-bottom: 10px;
     color: black;
 }
-#Timer{
+#TimerStart{
     background-color: green;
 }
-#Timer[aria-label="Stop"]{
+#TimerStart[aria-label="Stop"]{
     background-color: red;
 }
 #resetTimer{
@@ -153,16 +153,15 @@
 .containerStopwatch button:hover {
     opacity: .7;
 }
-#Stopwatch{
+#startStopwatch{
     background-color: green;
 }
-#Stopwatch[aria-label="Stop"]{
+#startStopwatch[aria-label="Stop"]{
     background-color: red;
 }
 #resetStopwatch{
     background-color:grey;
 }
-
 
 
 /*CSS per il popup */
