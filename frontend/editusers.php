@@ -1,19 +1,13 @@
 <?php
 session_start();
 
-/*
-verifica sessione
-includere header.php
-mosrtare form del db che mostra la tabella USERS (estraggo dati dal db)
-su ogni riga implementazione bottoni delete e ban
-*/
+session_start();
 //Verifica che la sessione sia attiva
-include('function_files/session.php');
-
+include('../backend/function_files/session.php');
 //Aggiunta dell'header
-require('frontend/header.php');
+include('header.php');
 
-include("function_files/connection.php");
+include("../backend/function_files/connection.php");
 $con = connect();
 
 //creazione prepared statemet per prelevare tutta la tabella

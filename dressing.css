@@ -225,7 +225,7 @@
 }
 
 .search-options {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
     width: 75%;
     margin: auto;
     margin-top: 20px;
@@ -234,7 +234,7 @@
 }
 
 .filters {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
     width: 75%;
     margin: auto;
     margin-top: 20px;
@@ -250,7 +250,7 @@
 }
 
 .studySessionTable {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
     border-collapse: collapse;
     border: 1px solid black;
     width: 75%;
@@ -276,3 +276,31 @@
     justify-content: center;
     height: 25px;
 }
+
+.UpdateForm {
+    font-family: 'Roboto', sans-serif;;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
+}
+
+ #UserUpdate {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     width: 400px;
+     margin: auto;
+ }
+ #UserUpdate label{
+     text-align: left;
+     width: 50%;
+ }
+
+ #UserUpdate input{
+     width: 50%;
+ }
+
+ #UserUpdate input[type='submit'] {
+     width: 25%;
+ }

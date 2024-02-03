@@ -70,7 +70,7 @@
             .then(data => { //prendo i dati ottenuti e li processo
 
                 if (data.success) {
-                    window.location.href = '../main.php'; // se chiamata è andata bene faccio display del main.php
+                    window.location.href = 'main.php'; // se chiamata è andata bene faccio display del main.php
                 } else {
                     window.alert('login failed'); //altimenti mando messaggio di errore
                 }

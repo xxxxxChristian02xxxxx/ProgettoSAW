@@ -1,17 +1,20 @@
-<html>
-<head></head>
+<html lang="en">
+<head>
+    <title>My profile</title>
+    <script src="../js/emailVerify.js"></script>
+</head>
 <body>
+
 <?php
 session_start();
-
 //Verifica che la sessione sia attiva
-include('function_files/session.php');
-
+include('../backend/function_files/session.php');
 //Aggiunta dell'header
-include('frontend/header.php');
+include('header.php');
 ?>
 
 <div class="UpdateForm">
+    <h2>My profile</h2>
     <form id="UserUpdate" action="myprofile.php" method="POST">
         <label for="firstname">Firstname:</label>
         <input type="text" id="firstname" name="firstname" value="<?php echo $session['firstname']?>"><br>
@@ -21,6 +24,7 @@ include('frontend/header.php');
 
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" value="<?php echo $session['email']?>"><br>
+        <span id="emailError" class="error"></span>
 
         <label for="pass">New password:</label>
         <input type="password" id="pass" name="pass"><br>
@@ -30,6 +34,8 @@ include('frontend/header.php');
 
         <input type="submit" value="Update">
     </form>
+</div>
+<div id="errorMessages" class="error"></div>
     <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //Memorizzazione in variabili dei dati inseriti nel form
@@ -44,7 +50,7 @@ include('frontend/header.php');
         $confirm = $_POST['confirm'];
         $confirm = trim($confirm);
 
-        require("function_files/connection.php");
+        require("../backend/function_files/connection.php");
         $con = connect();
 
         //Sanificazione dell'input
@@ -89,5 +95,6 @@ include('frontend/header.php');
         $con->close();
     }
     ?>
+
 </body>
 </html>

@@ -1,5 +1,9 @@
 <?php
-    include('backend/verifyCookie.php');
+    session_start();
+    //Verifica che la sessione sia attiva
+    include('../backend/function_files/session.php');
+    //Aggiunta dell'header
+    include('header.php');
 
     $session = getSession(true);
     echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </h2>" ;
@@ -10,7 +14,6 @@
     <title>Login</title>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
-    <link href='dressing.css' rel='stylesheet' type='text/css'>
 </head>
 
 
@@ -413,7 +416,7 @@
 
 
 
-<script src="js/main_timer.js"></script>
+<script src="../js/main_timer.js"></script>
 
 
 
