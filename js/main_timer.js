@@ -68,7 +68,7 @@ function toggleButton(buttonId){
 //-------------------------FUNZIONE PER IL TOGGLE -------------------------//
 function showStudySession(){
     console.log("showStudySession",subSubStudied);
-    console.log("showStudySession",timeDuratioSession,timeSpentForMoney,subEventuallyStudied.value);
+    console.log("showStudySession",timeDuratioSession.innerHTML,timeSpentForMoney,subEventuallyStudied.value);
 
     timeDuratioSession.innerHTML=  timmeSpentForSession;
     moneyMoneyObtained.innerHTML =timeSpentForMoney;
@@ -143,7 +143,8 @@ function resetTimer(typeClock) {
         description:"null",
         season:1
     }
-    console.log("json: ",dataTime);
+
+    console.log("json: ", dataTime);
     if(typeClock){
         console.log("sono qui");
         timmeSpentForSession = 0;
@@ -152,7 +153,7 @@ function resetTimer(typeClock) {
         timeLeft=1500;
     }
     updateTimer(typeClock);
-    jsonClear(dataTime)
+    //jsonClear(dataTime)
     timeDuratioSession=0;
     timeSpentForMoney=0;
     timeSpentForMoney =0;
@@ -185,14 +186,16 @@ function stopTimer(typeClock) {
 
 function databaseDelivery(json_data) {
     console.log("entratat nella funzione");
+    console.log('json_data: ', json_data);
 
-    fetch('backend/main_backend.php', { // dico il percorso del file di back end
+    fetch('../backend/main_backend.php', { // dico il percorso del file di back end
         method: 'POST', //metodo get o post
         headers: {
             'Content-Type': 'application/json' // specifico la uso
         },
-        body: json_data // encode
+        body: JSON.stringify(json_data) // encode
     })
+
         .catch(error => {
             console.error('Error:', error);
         });

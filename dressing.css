@@ -226,7 +226,7 @@
 
 .search-options {
     font-family: 'Roboto', sans-serif;
-    width: 75%;
+    width: 85%;
     margin: auto;
     margin-top: 20px;
     margin-bottom: 10px;
@@ -235,7 +235,7 @@
 
 .filters {
     font-family: 'Roboto', sans-serif;
-    width: 75%;
+    width: 85%;
     margin: auto;
     margin-top: 20px;
     margin-bottom: 10px;
@@ -249,22 +249,23 @@
     margin-left: auto;
 }
 
-.studySessionTable {
+.dataTable {
     font-family: 'Roboto', sans-serif;
     border-collapse: collapse;
     border: 1px solid black;
-    width: 75%;
+    width: 85%;
     margin: auto;
+    font-size: 12px;
 }
 
-.studySessionTable th {
+.dataTable th {
     height: 50px;
     border: 0.5px solid black;
     text-align: center;
     background-color: lightgreen;
 }
 
-.studySessionTable tbody tr td{
+.dataTable tbody tr td{
     height: 40px;
     border: 0.5px solid black;
     text-align: center;

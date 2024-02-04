@@ -47,7 +47,7 @@ include('header.php');
     </div>
 
     <div id="studySessionTableContainer">
-        <table class="studySessionTable">
+        <table class="dataTable" id="studysessionsTable">
             <thead>
             <tr>
                 <th>SESSION ID</th>

@@ -3,17 +3,15 @@ session_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-$json_data = file_get_contents('php://input');
-$time_studying = json_decode($json_data, true);
-echo ("sono nel bak");
-
 require("function_files/session.php");
 $session = getSession(true);
 
-// Percorso del file di destinazione
-$file = "xrdycftgvhbjknlkmòlnjlbkhvgcfxd.log";
+$json_data = file_get_contents('php://input');
+$time_studying = json_decode($json_data, true);
+
 
 // Scrivi il messaggio nel file (sovrascrivendo eventuali contenuti precedenti)
+echo "sono nel backend";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
     //Memorizzazione in variabili dei dati inseriti nel form
@@ -29,19 +27,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     include("function_files/connection.php");
     $con = connect();
 
+    echo "sono dopo la connessione";
     //---------------QUERY PER MODIFICARE I SOLDI TOTALI DELL' UTENTE ---------------//
 
-    $query = "UPDATE users SET MONEY = MONEY + ? WHERE ID =?";
+    $query = "UPDATE USERS SET MONEY = MONEY + ? WHERE ID =?";
     $stmt = $con->prepare($query);
     $stmt->bind_param('ii',$moneyObtainedFromSession, $userId);
     $stmt->execute();
     if ($stmt->affected_rows !== 1) {
         echo "error nella modifica dei soldi dell'utente ";
     }
-    $message ="superato la prima query    /n";
-    file_put_contents($file, $message);
+    //$message ="superato la prima query    /n";
+    //file_put_contents($file, $message);
     //---------------QUERY PER AGGIORNARE LA MATERIA STUDIATA SE NUOVA  ---------------//
-    $query = "INSERT INTO subjects (NAME) VALUES (?) ON DUPLICATE KEY UPDATE NAME=NAME";
+    $query = "INSERT INTO SUBJECTS (NAME) VALUES (?) ON DUPLICATE KEY UPDATE NAME=NAME";
     $stmt=$con->prepare($query);
     $stmt->bind_param('s',$subjectStudied);
     //Esecuzione della query
@@ -51,11 +50,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     } else {
         $mat = "error per aggiungere la materia studiata";
     }
-    $message ="superato la seconda query    /n";
-    file_put_contents($file, $message);
+    //$message ="superato la seconda query    /n";
+    //file_put_contents($file, $message);
     //---------------QUERY PER OTTENERE TUTTE LE MATERIE DI UNA PERSONA PER IL MENU A TENDINA ---------------//
-    $query = "SELECT DISTINCT NAME FROM subjects WHERE ID =?";
-    $res = $con->prepare($query);
+    $query = "SELECT DISTINCT NAME FROM SUBJECTS WHERE ID =?";
+    $stmt = $con->prepare($query);
     $stmt->bind_param('i',$userId);
     $stmt->execute();
     $stmt->bind_result($subjectStudied);
@@ -64,28 +63,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     while($stmt->fetch()) {
         $subjects[] = $subjectStudied;
     }
-    $message ="superato la terza query    /n";
-    file_put_contents($file, $message);
+    //$message ="superato la terza query    /n";
+    //file_put_contents($file, $message);
 
     //---------------QUERY PER AGGIUGRE TEMPO TOTALE DI SESSIONE STUDIO  ---------------//
     //---------------QUERY PER AGGIUGRE TEMPO INZIO DI SESSIONE STUDIO  ---------------//
     //---------------QUERY PER AGGIUGRE TEMPO FINE DI SESSIONE STUDIO  ---------------//
-    $message ="arrivato la quarta query    /n";
-    file_put_contents($file, $message);
-    $query = "INSERT INTO study_sessions (SESSION_ID, TYPE, DATE, TOTAL_TIME, TOTAL_REWARD, USER, SEASON, DESCRIPTION) VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?)";
-    $message ="superato la  query    /n";
-    file_put_contents($file, $message);
+    //$message ="arrivato la quarta query    /n";
+    //file_put_contents($file, $message);
+    $query = "INSERT INTO STUDY_SESSIONS (SESSION_ID, TYPE, DATE, TOTAL_TIME, TOTAL_REWARD, USER, SEASON, DESCRIPTION) VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?)";
+    //$message ="superato la  query    /n";
+    //file_put_contents($file, $message);
     $stmt = $con->prepare($query);
-    $message ="prepare     /n";
-    file_put_contents($file, $message);
+    //$message ="prepare     /n";
+    //file_put_contents($file, $message);
     $stmt->bind_param('iiiiis', $typesession, $total_time_spent, $total_reward_obtained, $userId, $seasonId, $descriptionSession);
-    $message ="bind     /n";
-    file_put_contents($file, $message);
+    //$message ="bind     /n";
+    //file_put_contents($file, $message);
     $stmt->execute();
-    $message ="execuete     /n";
-    file_put_contents($file, $message);
-    $message ="superato la quarta query    /n";
-    file_put_contents($file, $message);
+    //$message ="execuete     /n";
+    //file_put_contents($file, $message);
+    //$message ="superato la quarta query    /n";
+    //file_put_contents($file, $message);
+
+    // Recupero l'id della sessione
+    $sessionId = mysqli_insert_id($con);
+
+    // Query per ricavare id della materia studiata
+    $query = "SELECT ID FROM SUBJECTS WHERE NAME = ?";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param("s", $subjectStudied);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    $row = $res->fetch_assoc();
+    $subjectId = $row['ID'];
+
+    $query = "INSERT INTO SUBJECT_SESSIONS (SUBJECT_ID, SESSION_ID) VALUES (?, ?)";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param("ii", $subjectId, $sessionId);
+    $stmt->execute();
 
     $con->close();
 

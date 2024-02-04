@@ -97,7 +97,7 @@
             </div>
             <div id="descrizione">
                 <div>
-                    <textarea id ="area_descrizione "rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
+                    <textarea id ="area_descrizione" rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
 
                 </div>
 
@@ -105,10 +105,10 @@
 
             <div >
                     <span class="popup_button">
-                    <botton id="closeTimerPopUp" > yes </botton>
+                    <button id="closeTimerPopUp" > yes </button>
                     </span>
                 <span class="popup_button">
-                        <botton id="cancelTimerPopup">  Cancel </botton>
+                        <button id="cancelTimerPopup">  Cancel </button>
                     </span>
             </div>
         </div>
@@ -154,10 +154,10 @@
 
             <div >
                         <span class="popup_button">
-                        <botton id="closeStopwatchPopUp" > yes </botton>
+                        <button id="closeStopwatchPopUp" > yes </button>
                         </span>
                 <span class="popup_button">
-                            <botton id="cancelStopwatchPopup">  Cancel </botton>
+                            <button id="cancelStopwatchPopup">  Cancel </button>
                         </span>
             </div>
         </div>
@@ -172,7 +172,7 @@
         money : null,
         subjactName: null,
         description:null,
-        season:null
+        season: null
     }
 
     //gestione timer
@@ -279,7 +279,8 @@
     resetTimerElement.addEventListener("click",()=> {
         if(counting)  {
             {
-                showStudySession();
+                resetTimer(idTimerOrStopwatch);
+                //showStudySession();
                 stopTimer();
                 popUpTimer.classList.add("open");//aggiungo il css
 
@@ -373,9 +374,6 @@
         }
     })
     //-------------------------EVENTO PER RESETTARE -------------------------//
-    ;
-
-
     resetStopwatchElement.addEventListener("click",()=> {
         if(counting)  {
             {

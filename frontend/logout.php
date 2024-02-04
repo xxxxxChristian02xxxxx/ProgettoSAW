@@ -8,7 +8,7 @@
 
     $_SESSION["loggedIn"] = false;
 
-    include('backend/function_files/connection.php');
+    include('../backend/function_files/connection.php');
     $con = connect();
 
     if (isset($_COOKIE['ReMe']) && $_COOKIE['ReMe'] !== null) {
@@ -46,6 +46,6 @@
 
         unset($_COOKIE);
     }
-    header("Location: frontend/index.php");
+    header("Location: index.php");
     exit();
 ?>
