@@ -36,7 +36,7 @@ function unlockSelection(){
 
 }
 //-------------------------FUNZIONE PER IL PER TIMER E STOPWATCH -------------------------//
-function toggleButtonTS(buttonId) {
+function toggleButtonTS() {
     console.log(swipeCount);
     if ((swipeCount % 2 )=== 0) {
         displayTimer.classList.remove("hide");
@@ -63,32 +63,27 @@ function toggleButton(buttonId){
         button.innerHTML = "Start";
         button.removeAttribute("aria-label");
     }
-    console.log(counting, button.innerHTML);
 }
 //-------------------------FUNZIONE PER IL TOGGLE -------------------------//
-function showStudySession(){
-    console.log("showStudySession",subSubStudied);
-    console.log("showStudySession",timeDuratioSession.innerHTML,timeSpentForMoney,subEventuallyStudied.value);
-
-    timeDuratioSession.innerHTML=  timmeSpentForSession;
-    moneyMoneyObtained.innerHTML =timeSpentForMoney;
-    subSubStudied.innerHTML = subEventuallyStudied.value;
-
+function showStudySession(typeClock){
+        console.log(timmeSpentForSession);
+        timeDuratioSession.innerHTML = timmeSpentForSession + " secondi" ;
+        moneyMoneyObtained.innerHTML = timeSpentForMoney;
+        subSubStudied.innerHTML = subEventuallyStudied.value ;
 }
 //-------------------------FUNZIONE PER FARE L'UPDATE DEL TIMER -------------------------//
 function updateTimer(typeClock) {
 
 
+
     if(typeClock){
-        console.log("stopwa",timmeSpentForSession);
+
         let minutes = Math.floor(timmeSpentForSession / 60);
         let seconds = timmeSpentForSession % 60;
         /*  funzione per stampare a schermo il tempo che scorre ,padStart serve per stampare 0, col lo 0 davanti con 2 -> voglio 2 digit e se non ho nulla metto "0" di default*/
         formattedTime = `${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
         timeStopwatchElement.innerHTML = formattedTime;
-
     }else{
-        console.log("timer");
         let minutes = Math.floor(timeLeft / 60);
         let seconds = timeLeft % 60;
         /*  funzione per stampare a schermo il tempo che scorre ,padStart serve per stampare 0, col lo 0 davanti con 2 -> voglio 2 digit e se non ho nulla metto "0" di default*/
@@ -96,17 +91,17 @@ function updateTimer(typeClock) {
         timeTimerElement.innerHTML = formattedTime;
 
     }
-    timmeSpentForSession ++;
+   // timmeSpentForSession ++;
 
 }
 //-------------------------FUNZIONE PER IL INZIARE E STOPPARE IL TIMER IL TIMER -------------------------//
 function startTimer(typeClock) {
-    console.log("starttime", typeClock);
     if(typeClock) {    /*intervallo che deve essere aggiornato ogni 1000 ms*/
         console.log("dentro stopwatch secton");
         toggleButton('startStopwatch');
         interval = setInterval(() => {
             timeLeft++;
+            timmeSpentForSession++;
             timeSpentForMoney++
             updateTimer(typeClock);
         }, 1000)
@@ -115,6 +110,7 @@ function startTimer(typeClock) {
         console.log("inizio setinterval");
         interval = setInterval(() => {
             timeLeft--;
+            timmeSpentForSession++;
             timeSpentForMoney++
             updateTimer();
             if (timeLeft === 0) {
@@ -124,40 +120,37 @@ function startTimer(typeClock) {
                 timeLeft = 1500;
                 updateTimer(typeClock);
             }
+            console.log("tempo ora :",timmeSpentForSession)
         }, 1000)
     }
 }
 //-------------------------FUNZIONE PER IL RESETTARE IL TIMER -------------------------//
 function resetTimer(typeClock) {
-    console.log("resetTimer")
     clearInterval(interval);
 
-    showStudySession();
+    showStudySession(typeClock);
 
-    console.log("mando al back");
     const dataTime={
         typeSession:idTimerOrStopwatch,
         timeSpent:timmeSpentForSession,
         money:timeSpentForMoney,
         subjectName: subEventuallyStudied.value,
-        description:"null",
+        description:descriptionArea.value,
         season:1
     }
 
-    console.log("json: ", dataTime);
-    if(typeClock){
+    //console.log("json: ", dataTime);
+    if(!typeClock){
         console.log("sono qui");
-        timmeSpentForSession = 0;
-
-    }else{
         timeLeft=1500;
     }
     updateTimer(typeClock);
     //jsonClear(dataTime)
-    timeDuratioSession=0;
+    //timeDuratioSession=0;
     timeSpentForMoney=0;
-    timeSpentForMoney =0;
-    console.log("json: ",dataTime);
+    timmeSpentForSession = 0;
+
+    //console.log("json: ",dataTime);
     databaseDelivery(dataTime);
 
 }
@@ -174,7 +167,6 @@ function jsonClear(json){
 function stopTimer(typeClock) {
     clearInterval(interval);
     console.log("stopTimer", typeClock);
-
     if(typeClock){
         toggleButton('startStopwatch');
 
@@ -185,8 +177,7 @@ function stopTimer(typeClock) {
 }
 
 function databaseDelivery(json_data) {
-    console.log("entratat nella funzione");
-    console.log('json_data: ', json_data);
+    console.log('json_data in delivery: ', json_data);
 
     fetch('../backend/main_backend.php', { // dico il percorso del file di back end
         method: 'POST', //metodo get o post
@@ -196,8 +187,9 @@ function databaseDelivery(json_data) {
         body: JSON.stringify(json_data) // encode
     })
 
-        .catch(error => {
-            console.error('Error:', error);
-        });
+        .then(response => console.log(response))
+    .catch(error => {
+        console.error('Error:', error);
+    });
 
 }
