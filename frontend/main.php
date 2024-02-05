@@ -53,7 +53,8 @@
             <div class="title">
                 <h1> Stopwatch</h1>
             </div>
-            <p id="timeStopwatch" class ="timer">00:00</p>
+            <p id="timeStopwatch" class ="timer"  >00:00 </p>
+            <div> <input type="range" id="stopwatchRange "></div>
             <div id ="stopwatchBottons">
                 <button id = "startStopwatch" >Start</button>
                 <button id = "resetStopwatch">Reset</button>
@@ -175,7 +176,7 @@
     const startStopwatchElement= document.getElementById("startStopwatch");
     const resetStopwatchElement= document.getElementById("resetStopwatch");
     const timeStopwatchElement= document.getElementById("timeStopwatch");
-
+    const rangeStart =document.getElementById("stopwatchRange ");
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //-----------------SCRIPT PER SWITCH TRA TIMER E STOPWATCH  ------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -313,6 +314,21 @@
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //-----------------SCRIPT PER IL STOPWATCH -----------------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    if (isStopawatchStarted) {
+        rangeStart.addEventListener("input", function() {
+            // Ottieni il valore corrente del range
+            const rangeValue = this.value;
+            const hours = Math.floor(rangeValue / 3600);
+            const minutes = Math.floor((rangeValue % 3600) / 60);
+            const seconds = rangeValue % 60;
+
+            // Formatta l'ora come stringa e visualizzala nell'elemento timeStopwatch
+            timeStopwatchElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        });
+    }
+
+
     startStopwatchElement.addEventListener('click', function() {
         subEventuallyStudied=document.getElementById("scelta");
         if(subEventuallyStudied.value !=='') {
@@ -380,6 +396,7 @@
         }
         popUp.classList.remove("open");//aggiungo il css
     })
+
 
 
 </script>
