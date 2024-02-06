@@ -14,7 +14,7 @@ include('header.php');
 ?>
 
 <div class="UpdateForm">
-    <h2>My profile</h2>
+    <h1>My profile</h1>
     <form id="UserUpdate" action="myprofile.php" method="POST">
         <label for="firstname">Firstname:</label>
         <input type="text" id="firstname" name="firstname" value="<?php echo $session['firstname']?>"><br>

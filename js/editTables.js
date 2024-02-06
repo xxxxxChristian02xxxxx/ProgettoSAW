@@ -1,36 +1,34 @@
-var currentPage = 1;
-var rowsPerPage = 5;
-
 // Funzione per popolare la tabella
-function populateTable(data, currentPage, table) {
+function populateTable(data, currentPage, rowsPerPage, table) {
+    if(table){
+        //Pulizia della tabella
+        table.innerHTML = '';
 
-    //Pulizia della tabella
-    table.innerHTML = '';
+        // Indice del primo elemento da visualizzare nella tabella
+        var start = (currentPage - 1) * rowsPerPage;
+        // Indice ultimo elemento da visualizzare nella tabella per la pagina corrente
+        var end = Math.min(start + rowsPerPage, data.length);
 
-    // Indice del primo elemento da visualizzare nella tabella
-    var start = (currentPage - 1) * rowsPerPage;
-    // Indice ultimo elemento da visualizzare nella tabella per la pagina corrente
-    var end = Math.min(start + rowsPerPage, data.length);
+        //Popolamento della tabella
+        for(var i=start; i<end; i++){
+            var newRow = document.createElement('tr');
+            //Aggiunta delle colonne alla riga
+            Object.keys(data[i]).forEach(function (key) {
+                var newCell = document.createElement('td');
+                newCell.textContent = data[i][key];
+                newRow.appendChild(newCell)
+            });
 
-    //Popolamento della tabella
-    for(var i=start; i<end; i++){
-        var newRow = document.createElement('tr');
-        //Aggiunta delle colonne alla riga
-        Object.keys(data[i]).forEach(function (key) {
-            var newCell = document.createElement('td');
-            newCell.textContent = data[i][key];
-            newRow.appendChild(newCell)
-        });
+            table.appendChild(newRow);
+        }
 
-        table.appendChild(newRow);
+        // Aggiornamento controlli di paginazione
+        updatePagination(data, currentPage, rowsPerPage, table);
     }
-
-    // Aggiornamento controlli di paginazione
-    updatePagination(data, currentPage, table);
 }
 
 // Funzione per la gestione della paginazione
-function updatePagination(data, currentPage, table) {
+function updatePagination(data, currentPage, rowsPerPage, table) {
 
     var totalPages = Math.ceil(data.length / rowsPerPage);
 
@@ -41,10 +39,11 @@ function updatePagination(data, currentPage, table) {
 
         var button = document.createElement('button');
         button.textContent = i.toString();
-        button.onclick = function () {
+
+        button.addEventListener('click', function () {
             currentPage = parseInt(this.textContent.toString());
-            getData(currentPage, table);
-        };
+            populateTable(data, currentPage, rowsPerPage, table);
+        });
 
         if(i === currentPage){
             button.classList.add('active');
@@ -52,20 +51,20 @@ function updatePagination(data, currentPage, table) {
 
         paginationContainer.appendChild(button);
     }
+
 }
 
 // Funzione per cambaire il numero di righe per pagina
 function changeRowsPerPage() {
-    rowsPerPage = parseInt(document.getElementById('rowsPerPage').value);
-    currentPage = 1;
+    var rowsPerPage = parseInt(document.getElementById('rowsPerPage').value);
+    var currentPage = 1;
 
-    getData(currentPage);
+    getData(currentPage, rowsPerPage);
 }
 
-function searchTable(data, table) {
-    var input, filter, text;
+function searchTable(data, input, currentPage, rowsPerPage, table) {
+    var filter, text;
 
-    input = document.getElementById("search");
     filter = input.value.toUpperCase();
 
     table.innerHTML = '';
@@ -111,11 +110,11 @@ function searchTable(data, table) {
     }
 
     // Aggiornamento controlli di paginazione
-    updatePagination(data, currentPage);
+    updatePagination(data, currentPage, table);
 }
 
 
-function populateColumnSelection(data) {
+function populateColumnSelection(data, table) {
     var columnSelection = document.getElementById('columnFilter');
     columnSelection.innerHTML='';
 
@@ -136,12 +135,11 @@ function populateColumnSelection(data) {
 
     columnSelection.addEventListener('change', function () {
         var selectedColumn = this.value;
-        console.log(selectedColumn);
 
+        var filterValue = document.getElementById('valueFilter');
         if(selectedColumn === '') {
-            var filterValue = document.getElementById('valueFilter');
             filterValue.innerHTML = '';
-            document.getElementsByClassName('valueFilter').display = 'none';
+            filterValue.style.display = 'none';
             return;
         }
 
@@ -149,12 +147,12 @@ function populateColumnSelection(data) {
         if(filterValueElements.length > 0) {
             filterValueElements[0].style.display = 'inline';
         }
-        populateValueSelection(data, selectedColumn);
+        populateValueSelection(data, selectedColumn, table);
     });
 }
 
 //Funzione per popolare dinamicamente la selezioni del valori ripsetto cui filtrare
-function populateValueSelection(data, selectedColumn) {
+function populateValueSelection(data, selectedColumn, table) {
     var filterValue = document.getElementById('valueFilter');
     filterValue.innerHTML = '';
 
@@ -172,34 +170,39 @@ function populateValueSelection(data, selectedColumn) {
         filterValue.appendChild(option);
     });
 
+    filterValue.addEventListener('change', function () {
+        var selectedValue = this.value;
+    });
+
     document.addEventListener('click', function(event) {
         if(event.target.id === 'filterButton'){
-            filterTable(data);
+            filterTable(data, table);
         }
     });
 }
 
-function filterTable(data) {
+function filterTable(data, table) {
     var filterColumn = document.getElementById('columnFilter').value;
     var filterValue = document.getElementById('valueFilter').value;
+    var rowsPerPage = document.getElementById('rowsPerPage').value;
 
     // Confronta il valore di filterColumn per ogni riga con il valore del filtro filterValue usando il metodo filter sull'array data
     var filteredData = data.filter(function (row) {
         return row[filterColumn].toString() === filterValue.toString();
     });
 
-    populateTable(filteredData, 1);
+    populateTable(filteredData, 1, rowsPerPage, table);
 
     document.addEventListener('click', function(event) {
         if(event.target.id === 'resetFilter'){
-            resetFilters(data);
+            resetFilters(data, table);
         }
     });
 }
 
-function resetFilters(data){
+function resetFilters(data, table){
     document.getElementById('columnFilter').value='';
     document.getElementById('valueFilter').value='';
-
-    populateTable(data, 1, table);
+    var rowsPerPage = document.getElementById('rowsPerPage').value;
+    populateTable(data, 1, rowsPerPage, table);
 }

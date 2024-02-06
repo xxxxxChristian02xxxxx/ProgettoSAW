@@ -20,7 +20,7 @@ if (!function_exists('getSession')) {
             return true;
         } else {
             echo('user not logged in');
-            header("Location: frontend/index.php");
+            header("Location: index.php");
         }
     }
 }

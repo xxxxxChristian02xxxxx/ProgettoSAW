@@ -19,7 +19,6 @@
 
 <body>
 <div>
-
         <span>
             <label for="Testo_materie">Scegli la materia:</label>
             <select id="scelta" name="scelta"></select>
