@@ -250,9 +250,14 @@
             buttonT.innerHTML = "Start";
             buttonT.removeAttribute("aria-label");
         }
+        if(buttonS.innerHTML==="Stop"){
+            buttonS.innerHTML = "Start";
+            buttonS.removeAttribute("aria-label");
+        }
         resetTimer(idTimerOrStopwatch);
         unlockSelection();
         isTimerStarted=false;
+        isStopawatchStarted=false;
 
     })
     //-------------------------EVENTO PER DIRE CHIUDERE IL POPUP CONTINUANDO -------------------------//
@@ -374,19 +379,7 @@
         console.log("bottone dello stopwatch " , buttonS.innerHTML)
 
     })
-    closeButtonPopUp.addEventListener("click",()=>{
-        console.log("bottone dello stopwatch " , buttonS.innerHTML)
 
-        popUp.classList.remove("open");//aggiungo il css
-        if(buttonS.innerHTML==="Stop"){
-            buttonS.innerHTML = "Start";
-            buttonS.removeAttribute("aria-label");
-        }
-        resetTimer(idTimerOrStopwatch);
-        unlockSelection();
-        isStopawatchStarted=false;
-
-    })
     //-------------------------EVENTO PER DIRE CHIUDERE IL POPUP CONTINUANDO -------------------------//
 
     cancelButtonPopUp.addEventListener("click",()=>{

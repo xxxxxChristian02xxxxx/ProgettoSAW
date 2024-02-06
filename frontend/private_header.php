@@ -1,4 +1,4 @@
-<link href='dressing.css' rel='stylesheet' type='text/css'>
+<link href='../dressing.css' rel='stylesheet' type='text/css'>
 <header>
   <a href='main.php' class='header_button'>Home</a>
   <a href='myprofile.php' class='header_button'>Show profile</a>
