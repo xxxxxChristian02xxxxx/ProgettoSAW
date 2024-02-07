@@ -188,6 +188,7 @@
     //gestione tendina delle materie
     var subChoosen = document.getElementById("scelta");
     const newSubject = document.getElementById("newsub");
+    const textMateria = document.getElementById("add_materie");
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //-----------------SCRIPT PER SWITCH TRA TIMER E STOPWATCH  ------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -387,7 +388,7 @@
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //-----------------SCRIPT PER LA SCELTA DELLA MATERIA ------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    var displaySubjects  =["italiano", "inglese", "matematica"];
+    var displaySubjects  =["italiano", "inglese", "matematica", "informatica"];
     //subjectsRequests();
     //-------------------------EVENTO PER FARE IL DISPLAY DELLE MATERIE -------------------------//
     window.addEventListener("DOMContentLoaded", () => {
@@ -397,13 +398,14 @@
     var addSubject;
     newSubject.addEventListener("click", ()=>{
         addSubject = document.getElementById("add_materie").value;
-        console.log(addSubject);
-        console.log(addSubject, "ciao");
         if(!isSubPresent(addSubject)){
-            console.log("mteria gia inserita");
+            alert("mteria gia inserita");
         }else {
-            databaseDelivery(dataTime);
+            //databaseDelivery(dataTime);
         }
+        textMateria.value ="";
+        //subjectsRequests();
+        populateSelect(displaySubjects);
     })
 
 </script>
