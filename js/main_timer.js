@@ -140,15 +140,13 @@ function resetTimer(typeClock) {
     }
 
     //console.log("json: ", dataTime);
-    if(!typeClock){
-        console.log("sono qui");
-        timeLeft=1500;
-    }
+    timeLeft=1500;
+    timmeSpentForSession = 0;
     updateTimer(typeClock);
     //jsonClear(dataTime)
     //timeDuratioSession=0;
     timeSpentForMoney=0;
-    timmeSpentForSession = 0;
+
 
     //console.log("json: ",dataTime);
     databaseDelivery(dataTime);
@@ -191,5 +189,19 @@ function databaseDelivery(json_data) {
     .catch(error => {
         console.error('Error:', error);
     });
+
+}
+function subjectsRequests() {
+
+    fetch('../backend/main_backend.php', { // dico il percorso del file di back end
+    })
+
+        .then(response => console.log(response))
+        .then(data => {
+            displaySubjects = data['subjects'];
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 
 }

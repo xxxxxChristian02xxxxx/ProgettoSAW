@@ -52,19 +52,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     //$message ="superato la seconda query    /n";
     //file_put_contents($file, $message);
-    //---------------QUERY PER OTTENERE TUTTE LE MATERIE DI UNA PERSONA PER IL MENU A TENDINA ---------------//
-    $query = "SELECT DISTINCT NAME FROM SUBJECTS WHERE ID =?";
-    $stmt = $con->prepare($query);
-    $stmt->bind_param('i',$userId);
-    $stmt->execute();
-    $stmt->bind_result($subjectStudied);
-
-    $subjects = array();
-    while($stmt->fetch()) {
-        $subjects[] = $subjectStudied;
-    }
-    //$message ="superato la terza query    /n";
-    //file_put_contents($file, $message);
 
     //---------------QUERY PER AGGIUGRE TEMPO TOTALE DI SESSIONE STUDIO  ---------------//
     //---------------QUERY PER AGGIUGRE TEMPO INZIO DI SESSIONE STUDIO  ---------------//

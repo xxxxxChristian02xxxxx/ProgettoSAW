@@ -43,6 +43,8 @@
                 <h1> Timer</h1>
             </div>
             <p id="timeTimer" class ="timer">25:00</p>
+            <p id="prova" ></p>
+            <div> <input type="range" id="TimerRange "></div>
             <div id ="timerBottons">
                 <button id = "TimerStart">Start</button>
                 <button id = "resetTimer">Reset</button>
@@ -53,7 +55,6 @@
                 <h1> Stopwatch</h1>
             </div>
             <p id="timeStopwatch" class ="timer"  >00:00 </p>
-            <div> <input type="range" id="stopwatchRange "></div>
             <div id ="stopwatchBottons">
                 <button id = "startStopwatch" >Start</button>
                 <button id = "resetStopwatch">Reset</button>
@@ -132,13 +133,16 @@
 
     //gestione timer
     let interval;
-    let timeLeft = 1500; /*tempo rimasto : 1500 indica 25 secondi*/
+
+
+
+
     var isTimerStarted  = false; // false: timer is at max, true:timer is running
     var isStopawatchStarted = false // false : stopwatch is at max , true : stopwatch is running
     var buttonT = document.getElementById("TimerStart");
     var buttonS = document.getElementById("startStopwatch");
     const startTime ="25 : 00" ;
-
+    let timeLeft = 1500; /*tempo rimasto : 1500 indica 25 secondi*/
     var timeSpentForMoney =0;
     var timmeSpentForSession = 0;
     var formattedTime;
@@ -147,12 +151,15 @@
     const startTimerElement= document.getElementById("TimerStart");
     const resetTimerElement= document.getElementById("resetTimer");
     const timeTimerElement= document.getElementById("timeTimer");
+    const rangeStart =document.getElementById("TimerRange ");
+
 
     //popup
     const closeButtonPopUp = document.getElementById("closePopUp");
     const cancelButtonPopUp = document.getElementById("cancelPopup")
     const popUp =document.getElementById("popup");
     const textPopUp = document.getElementById("area_descrizione");
+    const prova=document.getElementById("prova");
 
     var timeDuratioSession =document.getElementById("timeDuration");
     var subSubStudied = document.getElementById("subStudied"); //materia nel popup
@@ -175,7 +182,9 @@
     const startStopwatchElement= document.getElementById("startStopwatch");
     const resetStopwatchElement= document.getElementById("resetStopwatch");
     const timeStopwatchElement= document.getElementById("timeStopwatch");
-    const rangeStart =document.getElementById("stopwatchRange ");
+
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //-----------------SCRIPT PER SWITCH TRA TIMER E STOPWATCH  ------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -196,6 +205,29 @@
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //-----------------SCRIPT PER IL TIMER  --------------------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //-------------------------EVENTO LA GESTIONE DEL RANGE PER IL TIMER   -------------------------//
+    rangeStart.value = 5;
+    rangeStart.min = 0;
+    rangeStart.max = 24;
+    rangeStart.addEventListener("input",()=> {
+
+        let timeOnClock = (7200/rangeStart.max) * rangeStart.value;
+        let hours = Math.floor(timeOnClock / 3600);
+        var remainingSeconds = timeOnClock % 3600;
+        let minutes = Math.floor(remainingSeconds / 60);
+        let seconds = remainingSeconds % 60;
+        console.log(timeOnClock);
+
+        if (hours) {
+            formattedTime = `${hours.toString().padStart(2, "0")} : ${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
+        } else {
+            formattedTime = `${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
+        }
+        timeTimerElement.innerText = formattedTime;
+    })
+
+
     //-------------------------EVENTO PER DIRE SE SONO IN STOP OPPURE IN START -------------------------//
     startTimerElement.addEventListener('click', function() {
         subEventuallyStudied=document.getElementById("scelta");
@@ -253,7 +285,10 @@
             buttonS.innerHTML = "Start";
             buttonS.removeAttribute("aria-label");
         }
+
         resetTimer(idTimerOrStopwatch);
+        textPopUp.value ="";
+        textPopUp.placeholder ="scrivi qui ...";
         unlockSelection();
         isTimerStarted=false;
         isStopawatchStarted=false;
@@ -293,28 +328,9 @@
         wordCounter.textContent = text.length + "/" + limitWords; // Aggiorna il conteggio dei caratteri
     });
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    //-----------------SCRIPT PER LA SCELTA DELLA MATERIA ------------------------------------------
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    const subChoosen = document.getElementById("scelta");
-    var displaySubjects = ["italiano", "matematica","inglese"];
-    //-------------------------EVENTO PER FARE IL DISPLAY DELLE MATERIE -------------------------//
-    window.addEventListener("DOMContentLoaded", () => {
-        populateSelect(displaySubjects);
-    });
-    //-------------------------EVENTO PER FAGGIUNGERE UNA MATERIA  -------------------------//
-    var addSubject;
-    const newSubject = document.getElementById("newsub");
-    newSubject.addEventListener("click", ()=>{
-        addSubject = document.getElementById("add_materie").value;
-        console.log(addSubject);
-        console.log(addSubject, "ciao");
-        if(!isSubPresent(addSubject)){
-            console.log("mteria gia inserita");
-        }else {
-            databaseDelivery(dataTime);
-        }
-    })
+
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //-----------------SCRIPT PER IL STOPWATCH -----------------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -389,7 +405,29 @@
         popUp.classList.remove("open");//aggiungo il css
     })
 
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //-----------------SCRIPT PER LA SCELTA DELLA MATERIA ------------------------------------------
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    const subChoosen = document.getElementById("scelta");
+    var displaySubjects  =["italiano", "inglese", "matematica"];
+    //subjectsRequests();
+    //-------------------------EVENTO PER FARE IL DISPLAY DELLE MATERIE -------------------------//
+    window.addEventListener("DOMContentLoaded", () => {
+        populateSelect(displaySubjects);
+    });
+    //-------------------------EVENTO PER FAGGIUNGERE UNA MATERIA  -------------------------//
+    var addSubject;
+    const newSubject = document.getElementById("newsub");
+    newSubject.addEventListener("click", ()=>{
+        addSubject = document.getElementById("add_materie").value;
+        console.log(addSubject);
+        console.log(addSubject, "ciao");
+        if(!isSubPresent(addSubject)){
+            console.log("mteria gia inserita");
+        }else {
+            databaseDelivery(dataTime);
+        }
+    })
 
 </script>
 
