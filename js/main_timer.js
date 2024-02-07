@@ -8,7 +8,6 @@ function populateSelect(options) {
         optionElement.textContent = option;
         subChoosen.appendChild(optionElement);
     });
-
 }
 //-------------------------FUNZIONE VEDERE SE LA MATERIA AGGIUNTA è VALIDA    -------------------------//
 function isSubPresent(addSubject){
@@ -25,15 +24,12 @@ function isSubPresent(addSubject){
         }
     }
     return true;
-
-
 }
-
 function blockSelection(){
-
+     subChoosen.disabled =true;
 }
 function unlockSelection(){
-
+    subChoosen.disabled =false;
 }
 //-------------------------FUNZIONE PER IL PER TIMER E STOPWATCH -------------------------//
 function toggleButtonTS() {
@@ -48,7 +44,6 @@ function toggleButtonTS() {
         idTimerOrStopwatch=true;
     }
 }
-
 //-------------------------FUNZIONE PER IL TOGGLE TASTO START -------------------------//
 function toggleButton(buttonId){
     // Riferimento all'elemento del bottone
@@ -84,15 +79,11 @@ function updateTimer(typeClock) {
         }
         if(typeClock){
             timeStopwatchElement.innerHTML = formattedTime;
-
         }else{
             timeTimerElement.innerHTML = formattedTime;
-
         }
 }
-
 //-------------------------FUNZIONE PER IL INZIARE E STOPPARE IL TIMER IL TIMER -------------------------//
-
 function startClock(typeClock) {
     if(typeClock) {    /*intervallo che deve essere aggiornato ogni 1000 ms*/
         console.log("dentro stopwatch secton");
@@ -128,9 +119,7 @@ function startClock(typeClock) {
                 isTimerDone=true;
                 popUp.classList.add("open");//aggiungo il css
                 timeGone = startTimeTI;
-
                 updateTimer(typeClock);
-
             }
         }, 1000)
     }
@@ -138,9 +127,7 @@ function startClock(typeClock) {
 //-------------------------FUNZIONE PER IL RESETTARE IL TIMER -------------------------//
 function resetClock(typeClock) {
     clearInterval(interval);
-
     showStudySession(typeClock);
-
     const dataTime={
         typeSession:idTimerOrStopwatch,
         timeSpent:timmeSpentForSession,
@@ -149,17 +136,11 @@ function resetClock(typeClock) {
         description:descriptionArea.value,
         season:1
     }
-    if(typeClock){
-        timeGone =0;
-    }else{
-        timeGone=startTimeTI;
-    }
+    if(typeClock){timeGone =0;
+    }else{timeGone=startTimeTI;}
     timmeSpentForSession = 0;
     updateTimer(typeClock);
     timeSpentForMoney=0;
-
-
-    //console.log("json: ",dataTime);
     databaseDelivery(dataTime);
 
 }
@@ -181,7 +162,6 @@ function stopClock(typeClock) {
         toggleButton('TimerStart');
     }
 }
-
 function databaseDelivery(json_data) {
     console.log('json_data in delivery: ', json_data);
 

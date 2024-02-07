@@ -131,12 +131,10 @@
         season: null
     }
 
-    //gestione timer
+    // variabili utili
     let interval;
     var isTimerStarted  = false; // false: timer is at max, true:timer is running
     var isStopawatchStarted = false // false : stopwatch is at max , true : stopwatch is running
-    var buttonT = document.getElementById("TimerStart");
-    var buttonS = document.getElementById("startStopwatch");
     var startTimeTI = 1500 ; // default
     var startTimeST =0;
     let timeGone =0 ;
@@ -145,17 +143,17 @@
     var timeSpentForMoney =0;
     var timmeSpentForSession = 0;
 
-
+    //gestione timer
     const subjectName=null;
     const startTimerElement= document.getElementById("TimerStart");
     const resetTimerElement= document.getElementById("resetTimer");
     const timeTimerElement= document.getElementById("timeTimer");
+    var buttonT = document.getElementById("TimerStart");
     const rangeStart =document.getElementById("TimerRange ");
              rangeStart.value = 5;
              rangeStart.min = 0;
              rangeStart.max = 24;
     var time;
-
 
     //popup
     const closeButtonPopUp = document.getElementById("closePopUp");
@@ -170,7 +168,7 @@
     var moneyMoneyObtained= document.getElementById("moneyGotten")
     const descriptionArea=document.getElementById("area_descrizione");
     const wordCounter = document.getElementById("word counter");
-    const  limitWords =20;
+    const  limitWords =300;
 
 
     //gestione switch tra timer e stopwatch
@@ -185,30 +183,32 @@
     const startStopwatchElement= document.getElementById("startStopwatch");
     const resetStopwatchElement= document.getElementById("resetStopwatch");
     const timeStopwatchElement= document.getElementById("timeStopwatch");
+    var buttonS = document.getElementById("startStopwatch");
 
-
-
+    //gestione tendina delle materie
+    var subChoosen = document.getElementById("scelta");
+    const newSubject = document.getElementById("newsub");
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //-----------------SCRIPT PER SWITCH TRA TIMER E STOPWATCH  ------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////
     displayStopwatch.classList.add("hide");
     swipeLeft.addEventListener("click", ()=>{
-        if(!isTimerStarted) {
+        if(!isTimerStarted && !isStopawatchStarted)  {
             swipeCount++;
             toggleButtonTS();
         }
 
     })
     swipeRight.addEventListener("click", ()=>{
-        if(!isTimerStarted) {
+        if(!isTimerStarted && !isStopawatchStarted) {
             swipeCount++;
             toggleButtonTS();
         }
     })
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //-----------------SCRIPT PER IL TIMER  --------------------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////
-
     //-------------------------EVENTO LA GESTIONE DEL RANGE PER IL TIMER   -------------------------//
     rangeStart.addEventListener("input",()=> {
 
@@ -227,12 +227,10 @@
         timeTimerElement.innerText = formattedTime;
         startTimeTI = timeOnClock;
     })
-
-
     //-------------------------EVENTO PER DIRE SE SONO IN STOP OPPURE IN START -------------------------//
     startTimerElement.addEventListener('click', function() {
-        subEventuallyStudied=document.getElementById("scelta");
-        if(subEventuallyStudied.value !=='') {
+        subChoosen=document.getElementById("scelta");
+        if(subChoosen.value !=='') {
             isTimerStarted = true;
             // Verifica lo stato del bottone
             if (buttonT.innerHTML === "Start") {
@@ -275,7 +273,58 @@
             alert('Cannot reset without a start')
         }
     })
-    //-------------------------EVENTO PER DIRE CHIUDERE IL POPUP RESETTANDO -------------------------//
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //-----------------SCRIPT PER IL STOPWATCH -----------------------------------------------------
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    startStopwatchElement.addEventListener('click', function() {
+        subEventuallyStudied=document.getElementById("scelta");
+        if(subEventuallyStudied.value !=='') {
+            isStopawatchStarted = true;
+            // Verifica lo stato del bottone
+            if (buttonS.innerHTML === "Start") {
+                blockSelection();
+                // Prima volta che è stato cliccato
+                console.log('Primo clic');
+                time = new Date().getTime();
+                startClock(idTimerOrStopwatch);
+                // Aggiorna lo stato
+                buttonS.innerHTML = "Stop";
+                buttonS.setAttribute("aria-label", "Stop");
+            } else {
+
+                // Seconda volta che è stato cliccato
+                console.log('Secondo clic');
+                console.log(isStopawatchStarted);
+                stopClock(idTimerOrStopwatch);
+                // Aggiorna lo stato
+                buttonS.innerHTML = "Start";
+                buttonS.removeAttribute("aria-label");
+            }
+        } else{
+            alert("choose a subject to study first :)")
+        }
+    })
+    //-------------------------EVENTO PER RESETTARE -------------------------//
+    resetStopwatchElement.addEventListener("click",()=> {
+        console.log("counting:",isStopawatchStarted)
+        if(isStopawatchStarted)  {
+            {
+                showStudySession();
+                stopClock();
+                popUp.classList.add("open");//aggiungo il css
+            }
+        }else
+        {
+            alert('Cannot reset without a start')
+        }
+        console.log("bottone dello stopwatch " , buttonS.innerHTML)
+
+    })
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //-----------------SCRIPT PER IL POPUP  --------------------------------------------------------
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     closeButtonPopUp.addEventListener("click",()=>{
         popUp.classList.remove("open");//aggiungo il css
         if(buttonT.innerHTML==="Stop"){
@@ -335,62 +384,9 @@
         wordCounter.textContent = text.length + "/" + limitWords; // Aggiorna il conteggio dei caratteri
     });
 
-
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    //-----------------SCRIPT PER IL STOPWATCH -----------------------------------------------------
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    startStopwatchElement.addEventListener('click', function() {
-        subEventuallyStudied=document.getElementById("scelta");
-        if(subEventuallyStudied.value !=='') {
-            isStopawatchStarted = true;
-            // Verifica lo stato del bottone
-            if (buttonS.innerHTML === "Start") {
-                blockSelection();
-                // Prima volta che è stato cliccato
-                console.log('Primo clic');
-                time = new Date().getTime();
-                startClock(idTimerOrStopwatch);
-                // Aggiorna lo stato
-                buttonS.innerHTML = "Stop";
-                buttonS.setAttribute("aria-label", "Stop");
-            } else {
-
-                // Seconda volta che è stato cliccato
-                console.log('Secondo clic');
-                console.log(isStopawatchStarted);
-                stopClock(idTimerOrStopwatch);
-                // Aggiorna lo stato
-                buttonS.innerHTML = "Start";
-                buttonS.removeAttribute("aria-label");
-            }
-        } else{
-            alert("choose a subject to study first :)")
-        }
-    })
-    //-------------------------EVENTO PER RESETTARE -------------------------//
-    resetStopwatchElement.addEventListener("click",()=> {
-        console.log("counting:",isStopawatchStarted)
-        if(isStopawatchStarted)  {
-            {
-                showStudySession();
-                stopClock();
-                popUp.classList.add("open");//aggiungo il css
-            }
-        }else
-        {
-            alert('Cannot reset without a start')
-        }
-        console.log("bottone dello stopwatch " , buttonS.innerHTML)
-
-    })
-
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //-----------------SCRIPT PER LA SCELTA DELLA MATERIA ------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    const subChoosen = document.getElementById("scelta");
     var displaySubjects  =["italiano", "inglese", "matematica"];
     //subjectsRequests();
     //-------------------------EVENTO PER FARE IL DISPLAY DELLE MATERIE -------------------------//
@@ -399,7 +395,6 @@
     });
     //-------------------------EVENTO PER FAGGIUNGERE UNA MATERIA  -------------------------//
     var addSubject;
-    const newSubject = document.getElementById("newsub");
     newSubject.addEventListener("click", ()=>{
         addSubject = document.getElementById("add_materie").value;
         console.log(addSubject);
