@@ -67,6 +67,9 @@ include('header.php');
         </div>
         <div id="pagination"></div>
 
+        <div id="rankRedirect">
+            <a href="personalRanking.php">Show my personal rank</a>
+        </div>
         <script src="../js/studySessions.js"></script>
         <script src="../js/editTables.js"></script>
     </div>
