@@ -323,3 +323,7 @@
  #rankRedirect {
      margin-top: 10px;
  }
+
+ #edituserTable td:nth-child(7) {
+    cursor: pointer;
+}
