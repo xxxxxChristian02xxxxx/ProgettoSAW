@@ -133,25 +133,28 @@
 
     //gestione timer
     let interval;
-
-
-
-
     var isTimerStarted  = false; // false: timer is at max, true:timer is running
     var isStopawatchStarted = false // false : stopwatch is at max , true : stopwatch is running
     var buttonT = document.getElementById("TimerStart");
     var buttonS = document.getElementById("startStopwatch");
-    const startTime ="25 : 00" ;
-    let timeLeft = 1500; /*tempo rimasto : 1500 indica 25 secondi*/
+    var startTimeTI = 1500 ; // default
+    var startTimeST =0;
+    let timeGone =0 ;
+    var formattedTime;
+    var isTimerDone = false;
     var timeSpentForMoney =0;
     var timmeSpentForSession = 0;
-    var formattedTime;
+
 
     const subjectName=null;
     const startTimerElement= document.getElementById("TimerStart");
     const resetTimerElement= document.getElementById("resetTimer");
     const timeTimerElement= document.getElementById("timeTimer");
     const rangeStart =document.getElementById("TimerRange ");
+             rangeStart.value = 5;
+             rangeStart.min = 0;
+             rangeStart.max = 24;
+    var time;
 
 
     //popup
@@ -207,9 +210,6 @@
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     //-------------------------EVENTO LA GESTIONE DEL RANGE PER IL TIMER   -------------------------//
-    rangeStart.value = 5;
-    rangeStart.min = 0;
-    rangeStart.max = 24;
     rangeStart.addEventListener("input",()=> {
 
         let timeOnClock = (7200/rangeStart.max) * rangeStart.value;
@@ -225,6 +225,7 @@
             formattedTime = `${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
         }
         timeTimerElement.innerText = formattedTime;
+        startTimeTI = timeOnClock;
     })
 
 
@@ -240,7 +241,8 @@
                 console.log('Primo clic');
 
                 console.log(isTimerStarted);
-                startTimer(idTimerOrStopwatch);
+                time = new Date().getTime();
+                startClock(idTimerOrStopwatch);
                 // Aggiorna lo stato
                 buttonT.innerHTML = "Stop";
                 buttonT.setAttribute("aria-label", "Stop");
@@ -249,7 +251,7 @@
                 // Seconda volta che è stato cliccato
                 console.log('Secondo clic');
                 console.log(isTimerStarted);
-                stopTimer(idTimerOrStopwatch);
+                stopClock(idTimerOrStopwatch);
                 // Aggiorna lo stato
                 buttonT.innerHTML = "Start";
                 buttonT.removeAttribute("aria-label");
@@ -265,9 +267,8 @@
             {
                 //resetTimer(idTimerOrStopwatch);
                 showStudySession();
-                stopTimer();
+                stopClock();
                 popUp.classList.add("open");//aggiungo il css
-
             }
         }else
         {
@@ -285,8 +286,8 @@
             buttonS.innerHTML = "Start";
             buttonS.removeAttribute("aria-label");
         }
-
-        resetTimer(idTimerOrStopwatch);
+        isTimerDone =false;
+        resetClock(idTimerOrStopwatch);
         textPopUp.value ="";
         textPopUp.placeholder ="scrivi qui ...";
         unlockSelection();
@@ -296,11 +297,17 @@
     })
     //-------------------------EVENTO PER DIRE CHIUDERE IL POPUP CONTINUANDO -------------------------//
     cancelButtonPopUp.addEventListener("click",()=>{
-        if(buttonT.innerHTML==="Stop"){
-            buttonT.innerHTML = "Start";
-            buttonT.removeAttribute("aria-label");
+        if(!isTimerDone) {
+            if (buttonT.innerHTML === "Stop") {
+                buttonT.innerHTML = "Start";
+                buttonT.removeAttribute("aria-label");
+            }
+            if (buttonS.innerHTML === "Stop") {
+                buttonS.innerHTML = "Start";
+                buttonS.removeAttribute("aria-label");
+            }
+            popUp.classList.remove("open");//aggiungo il css
         }
-        popUp.classList.remove("open");//aggiungo il css
     })
     //-------------------------EVENTO CONTARE NUMERO CARATTERI NELLA SEZIONE DESCRIZIONE  -------------------------//
     descriptionArea.addEventListener("keydown", function (e) {
@@ -335,20 +342,6 @@
     //-----------------SCRIPT PER IL STOPWATCH -----------------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    if (isStopawatchStarted) {
-        rangeStart.addEventListener("input", function() {
-            // Ottieni il valore corrente del range
-            const rangeValue = this.value;
-            const hours = Math.floor(rangeValue / 3600);
-            const minutes = Math.floor((rangeValue % 3600) / 60);
-            const seconds = rangeValue % 60;
-
-            // Formatta l'ora come stringa e visualizzala nell'elemento timeStopwatch
-            timeStopwatchElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        });
-    }
-
-
     startStopwatchElement.addEventListener('click', function() {
         subEventuallyStudied=document.getElementById("scelta");
         if(subEventuallyStudied.value !=='') {
@@ -358,9 +351,8 @@
                 blockSelection();
                 // Prima volta che è stato cliccato
                 console.log('Primo clic');
-
-                console.log(isStopawatchStarted, idTimerOrStopwatch);
-                startTimer(idTimerOrStopwatch);
+                time = new Date().getTime();
+                startClock(idTimerOrStopwatch);
                 // Aggiorna lo stato
                 buttonS.innerHTML = "Stop";
                 buttonS.setAttribute("aria-label", "Stop");
@@ -369,7 +361,7 @@
                 // Seconda volta che è stato cliccato
                 console.log('Secondo clic');
                 console.log(isStopawatchStarted);
-                stopTimer(idTimerOrStopwatch);
+                stopClock(idTimerOrStopwatch);
                 // Aggiorna lo stato
                 buttonS.innerHTML = "Start";
                 buttonS.removeAttribute("aria-label");
@@ -384,7 +376,7 @@
         if(isStopawatchStarted)  {
             {
                 showStudySession();
-                stopTimer();
+                stopClock();
                 popUp.classList.add("open");//aggiungo il css
             }
         }else
@@ -393,16 +385,6 @@
         }
         console.log("bottone dello stopwatch " , buttonS.innerHTML)
 
-    })
-
-    //-------------------------EVENTO PER DIRE CHIUDERE IL POPUP CONTINUANDO -------------------------//
-
-    cancelButtonPopUp.addEventListener("click",()=>{
-        if(buttonS.innerHTML==="Stop"){
-            buttonS.innerHTML = "Start";
-            buttonS.removeAttribute("aria-label");
-        }
-        popUp.classList.remove("open");//aggiungo il css
     })
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
