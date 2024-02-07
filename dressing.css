@@ -224,7 +224,7 @@
     text-align: center;
 }
 
-.studySessions, .editUser {
+.studySessions, .editUser, .personalRank {
     font-family: 'Roboto', sans-serif;;
     display: flex;
     flex-direction: column;
@@ -257,6 +257,10 @@
 
 #studySessionTableContainer {
     width: 100%;
+}
+
+#personalRankTableContainer {
+    width: 75%;
 }
 
 .dataTable {
@@ -314,4 +318,8 @@
 
  #UserUpdate input[type='submit'] {
      width: 25%;
+ }
+
+ #rankRedirect {
+     margin-top: 10px;
  }
