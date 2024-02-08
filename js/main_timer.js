@@ -179,17 +179,22 @@ function databaseDelivery(json_data) {
     });
 
 }
-function subjectsRequests() {
+function subjectsRequests(json_data) {
 
     fetch('../backend/main_backend.php', { // dico il percorso del file di back end
+        method: 'POST', //metodo get o post
+        headers: {
+            'Content-Type': 'application/json' // specifico la uso
+        },
+        body: JSON.stringify(json_data) // encode
     })
 
-        .then(response => console.log(response))
-        .then(data => {
-            displaySubjects = data['subjects'];
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+    .then(response => console.log(response))
+    .then(data => {
+        displaySubjects = data;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 
 }
