@@ -73,6 +73,7 @@ if (!function_exists('DisplayTend_Sql')) {
         require('connection.php');
         $con = connect();
 
+
     }
 }
 

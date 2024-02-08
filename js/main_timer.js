@@ -1,13 +1,18 @@
 //-------------------------FUNZIONE PER POPOLARE IL MENU A TENDINA   -------------------------//
 function populateSelect(options) {
+    console.log(options);
     subChoosen.innerHTML = "";
-    subChoosen.innerHTML = "<div><option value=''> </option> <span> <button> - </button ></span></div>";
+    subChoosen.innerHTML = "<div><select><option value=''> </option></select> <span> <button> - </button ></span></div>";
     options.forEach(option => {
         var optionElement = document.createElement("option");
         optionElement.value = option;
         optionElement.textContent = option;
         subChoosen.appendChild(optionElement);
     });
+    subEventuallyStudied.addEventListener('click', function() {
+        subEventuallyStudied = document.getElementById("scelta").value;
+    });
+
 }
 //-------------------------FUNZIONE VEDERE SE LA MATERIA AGGIUNTA è VALIDA    -------------------------//
 function isSubPresent(addSubject){
@@ -129,11 +134,12 @@ function resetClock(typeClock) {
     clearInterval(interval);
     showStudySession(typeClock);
     const dataTime={
-        typeSession:idTimerOrStopwatch,
+        typeSession: idTimerOrStopwatch,
         timeSpent:timmeSpentForSession,
-        money:timeSpentForMoney,
+        money: timeSpentForMoney,
         subjectName: subEventuallyStudied.value,
-        description:descriptionArea.value,
+        description: descriptionArea.value,
+        operationType: 1,
         season:1
     }
     if(typeClock){timeGone =0;
@@ -180,7 +186,6 @@ function databaseDelivery(json_data) {
 
 }
 function subjectsRequests(json_data) {
-
     fetch('../backend/main_backend.php', { // dico il percorso del file di back end
         method: 'POST', //metodo get o post
         headers: {
@@ -188,10 +193,10 @@ function subjectsRequests(json_data) {
         },
         body: JSON.stringify(json_data) // encode
     })
-
-    .then(response => console.log(response))
+    .then(response => response.json())
     .then(data => {
         displaySubjects = data;
+        populateSelect(displaySubjects);
     })
     .catch(error => {
         console.error('Error:', error);

@@ -103,14 +103,14 @@
 
 <script>
     const dataTime={
-        typeSession:null,
-        timeSpent :null,
+        typeSession: null,
+        timeSpent: null,
         money : null,
-        subjactName: null,
-        description:null,
-        season: null
-        operationType :null;
-    }
+        subjectName: null,
+        description: null,
+        season: null,
+        operationType: null,
+    };
 
     // variabili utili
     let interval;
@@ -145,7 +145,7 @@
 
     var timeDuratioSession =document.getElementById("timeDuration");
     var subSubStudied = document.getElementById("subStudied"); //materia nel popup
-    var subEventuallyStudied = document.getElementById("scelta").value; // materia presa dalla select-option
+    var subEventuallyStudied = document.getElementById("scelta"); // materia presa dalla select-option
     var moneyMoneyObtained= document.getElementById("moneyGotten")
     const descriptionArea=document.getElementById("area_descrizione");
     const wordCounter = document.getElementById("word counter");
@@ -248,7 +248,7 @@
             {
                 //resetTimer(idTimerOrStopwatch);
                 showStudySession();
-                stopClock();
+                stopClock(0);
                 popUp.classList.add("open");//aggiungo il css
             }
         }else
@@ -377,22 +377,24 @@
     window.addEventListener("DOMContentLoaded", () => {
         dataTime['operationType'] = 3;
         subjectsRequests(dataTime);
-        populateSelect(displaySubjects);
     });
     //-------------------------EVENTO PER FAGGIUNGERE UNA MATERIA  -------------------------//
 
     var addSubject;
     newSubject.addEventListener("click", ()=> {
         addSubject = document.getElementById("add_materie").value;
+
         if (!isSubPresent(addSubject)) {
             alert("mteria gia inserita");
         } else {
             textMateria.value = "";
             dataTime['operationType'] = 2;
+            dataTime['subjectName'] = addSubject;
             databaseDelivery(dataTime);
-            dataTime['operationType'] = 3;
-            subjectsRequests(dataTime);
-            populateSelect(displaySubjects);
+            var optionElement = document.createElement("option");
+            optionElement.value = addSubject;
+            optionElement.textContent = addSubject;
+            subChoosen.appendChild(optionElement);
         }
     })
     src ="../backend/fuction_files/query.php";
