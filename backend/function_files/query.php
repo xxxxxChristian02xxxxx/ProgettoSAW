@@ -28,6 +28,7 @@ if (!function_exists('getrole')) {
         $con = connect();
         $sql = "SELECT ROLES FROM USERS WHERE ID = ? ";
         $role_stmt = $con->prepare($sql);
+        $role_stmt->bind_param('i',$id);
         if ($id == 'self') {
             $role_stmt->bind_param('i', $_SESSION['id']);
         }else{
@@ -71,19 +72,7 @@ if (!function_exists('DisplayTend_Sql')) {
     function DisplayTend_Sql($statement) {
         require('connection.php');
         $con = connect();
-        //---------------QUERY PER OTTENERE TUTTE LE MATERIE DI UNA PERSONA PER IL MENU A TENDINA ---------------//
-        $query = "SELECT DISTINCT NAME FROM SUBJECTS WHERE ID =?";
-        $stmt = $con->prepare($query);
-        $stmt->bind_param('i',$userId);
-        $stmt->execute();
-        $stmt->bind_result($subjectStudied);
 
-        $subjects = array();
-        while($stmt->fetch()) {
-            $subjects['subjects'] = $subjectStudied;
-        }
-
-        json_encode($subjects);
     }
 }
 

@@ -23,6 +23,8 @@ function getData(currentPage, rowsPerPage) {
                 }
             });
 
+            src="../js/prova.js";
+
         })
         .catch(error => console.error('Error in reaching data:', error));
 }

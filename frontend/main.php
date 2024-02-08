@@ -19,24 +19,21 @@
 
 <body>
 <div>
-        <span>
-            <label for="Testo_materie">Scegli la materia:</label>
-            <select id="scelta" name="scelta"></select>
-        </span>
     <span>
-            <label for="add_materie">Aggiungi una materia:</label>
-            <input type="text" id="add_materie" name="Testo_materie">
-        </span>
+        <label for="Testo_materie">Scegli la materia:</label>
+        <select id="scelta" name="scelta"></select>
+    </span>
     <span>
-            <button id="newsub"> + </button>
-        </span>
+        <label for="add_materie">Aggiungi una materia:</label>
+        <input type="text" id="add_materie" name="Testo_materie">
+    </span>
+    <span><button id="newsub"> + </button></span>
 </div>
 
 <div class ="split_container">
     <div class = "split-left">
         <button id = "buttom-Swipe-left "> << </button>
     </div>
-
     <div class = "split-center">
         <div class="containerTimer" id ="conainertimer">
             <div class="title">
@@ -63,7 +60,7 @@
     </div>
 
     <div class = "split-right">
-        <button id = "buttom-Swipe-right ">  > </button>
+        <button id = "buttom-Swipe-right ">  >> </button>
     </div>
 </div>
 <!-- pop up timer-->
@@ -73,48 +70,31 @@
             <h2> Are you sure to leave? </h2>
             <div id ="statistiche_sessioone_studio ">
                 <p>
-                <div>
                     <div>
-                        <p id="durata_session">durata sessione:</p>
-                        <span>
-                                        <p id="timeDuration">tempo</p>
-                                    </span>
+                        <div>
+                            <p id="durata_session">durata sessione:</p>
+                            <span><p id="timeDuration">tempo</p></span>
+                        </div>
+                        <div>
+                            <p id="materia_studiata">materia studiata:</p>
+                            <span><p id="subStudied"></p></span>
+                        </div>
+                        <div>
+                            <p id="soldi_ottenuti">soldi ottenuti:</p>
+                            <span><p id="moneyGotten">soldi</p></span>
+                        </div>
                     </div>
-                    <div>
-                        <p id="materia_studiata">materia studiata:</p>
-                        <span>
-                                        <p id="subStudied"></p>
-                                    </span>
-                    </div>
-                    <div>
-                        <p id="soldi_ottenuti">soldi ottenuti:</p>
-                        <span>
-                                        <p id="moneyGotten">soldi</p>
-                                    </span>
-                    </div>
-                    <p></p>
-                </div>
                 </p>
             </div>
             <div id="descrizione">
                 <div>
                     <textarea id ="area_descrizione" rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
-                    <div>
-                        <span> <p id ="word counter" > 0/300</p>
-
-                    </div>
+                    <div> <p id ="word counter" > 0/300</p></div>
                 </div>
-
-
             </div>
-
             <div >
-                    <span class="popup_button">
-                    <button id="closePopUp" > yes </button>
-                    </span>
-                <span class="popup_button">
-                        <button id="cancelPopup">  Cancel </button>
-                    </span>
+                <span class="popup_button"> <button id="closePopUp" > yes </button> </span>
+                <span class="popup_button"> <button id="cancelPopup">  Cancel </button> </span>
             </div>
         </div>
     </div>
@@ -129,6 +109,7 @@
         subjactName: null,
         description:null,
         season: null
+        operationType :null;
     }
 
     // variabili utili
@@ -186,6 +167,7 @@
     var buttonS = document.getElementById("startStopwatch");
 
     //gestione tendina delle materie
+    var displaySubjects;
     var subChoosen = document.getElementById("scelta");
     const newSubject = document.getElementById("newsub");
     const textMateria = document.getElementById("add_materie");
@@ -388,37 +370,34 @@
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //-----------------SCRIPT PER LA SCELTA DELLA MATERIA ------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    var displaySubjects  =["italiano", "inglese", "matematica", "informatica"];
-    //subjectsRequests();
+
+
+
     //-------------------------EVENTO PER FARE IL DISPLAY DELLE MATERIE -------------------------//
     window.addEventListener("DOMContentLoaded", () => {
+        dataTime['operationType'] = 3;
+        subjectsRequests(dataTime);
         populateSelect(displaySubjects);
     });
     //-------------------------EVENTO PER FAGGIUNGERE UNA MATERIA  -------------------------//
+
     var addSubject;
-    newSubject.addEventListener("click", ()=>{
+    newSubject.addEventListener("click", ()=> {
         addSubject = document.getElementById("add_materie").value;
-        if(!isSubPresent(addSubject)){
+        if (!isSubPresent(addSubject)) {
             alert("mteria gia inserita");
-        }else {
-            //databaseDelivery(dataTime);
+        } else {
+            textMateria.value = "";
+            dataTime['operationType'] = 2;
+            databaseDelivery(dataTime);
+            dataTime['operationType'] = 3;
+            subjectsRequests(dataTime);
+            populateSelect(displaySubjects);
         }
-        textMateria.value ="";
-        //subjectsRequests();
-        populateSelect(displaySubjects);
     })
-
+    src ="../backend/fuction_files/query.php";
 </script>
-
-
-
-
-
 <script src="../js/main_timer.js"></script>
-
-
-
-
 <footer>
     <p>Copyright © 2023. All rights reserved   .</p>
 </footer>
