@@ -13,8 +13,16 @@ if(!function_exists('banUnban')){
         $stmt->bind_param("s", $email);
         $stmt->execute();
 
+        $query = "SELECT BANNED FROM USERS WHERE EMAIL = ?";
+        $stmt = $con->prepare($query);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $data = $result->fetch_assoc();
+
         header('Content-Type: application/json');
-        echo json_encode('sono qua');
+        echo json_encode($data['BANNED']);
     }
 }
 

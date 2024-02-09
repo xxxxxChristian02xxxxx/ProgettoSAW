@@ -3,7 +3,7 @@ body{
 
 }
 .field{
-    background-image: url("../images/mygardenbackground.jpg");
+    background-image: url("images/mygardenbackground.jpg");
 
     display: flex;
     width: 100%;
@@ -12,8 +12,6 @@ body{
     align-items: center;
     min-height: 100vh;
     height: calc(100vh - 100px); /* subtract the height of the header and footer from the height of the viewport */
-
-
 }
 header, footer {
     height: 50px; /* or any height that fits your header and footer */
