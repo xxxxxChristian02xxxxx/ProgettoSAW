@@ -52,10 +52,11 @@ function banUnban() {
                     body: JSON.stringify({action: 'banUnban', email: email.innerText})
                 })
                     .then(response => {
-                        console.log('okkk');
+                        return response.json();
                     })
                     .then(data => {
                         console.log(data);
+                        cell.innerText = data;
                     })
                     .catch(error => {
                         console.error("qualcosa è andato storto");
