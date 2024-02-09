@@ -7,13 +7,21 @@ $session = getSession(true);
 
 include("function_files/connection.php");
 $con = connect();
+$userid =$session['id'];
 
 
-
-$query = "SELECT NAME, IMG_DIR, SUM(PRICE) AS PRICE, COUNT(NAME) AS COUNTERTIMESNAME FROM plants GROUP BY NAME;"; // query
+$query = "SELECT plants.PLANTS_ID, plants.NAME, plants.IMG_DIR, plants.PRICE AS PLANT_AMOUNT, COUNT(transactions.PLANT_ID) AS COUNTERTIMES, SUM(plants.PRICE) AS TOTAL_AMOUNT 
+            FROM (plants JOIN transactions ON transactions.PLANT_ID = plants.PLANTS_ID) JOIN users ON users.ID=transactions.USER_ID 
+            WHERE  users.ID= ?
+            GROUP BY transactions.USER_ID, plants.PLANTS_ID;";
 $stmt = $con->prepare($query); // execute query
-$stmt->execute();
-$result = $stmt->get_result();
+if (!$stmt) {
+    die(json_encode(array('error' => 'Query preparation error')));
+}
+$stmt->bind_param('i', $userid);
+if (!$stmt->execute()) {
+    die(json_encode(array('error' => 'Query execution error')));
+}$result = $stmt->get_result();
 
 $data = array();
 

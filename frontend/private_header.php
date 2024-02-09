@@ -7,6 +7,7 @@
       echo "<a href='editusers.php' class='header_button admin_only'>Edit Users</a>";
     }
   ?>
-  <a href='studysessions.php' class='header_button'>Study Sessions</a>
+    <a href='mygarden.php ' class='header_button'>My Garden</a>
+    <a href='studysessions.php' class='header_button'>Study Sessions</a>
   <a href='logout.php' class='header_button'>Logout</a>
 </header>

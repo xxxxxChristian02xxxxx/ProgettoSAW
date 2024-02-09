@@ -56,6 +56,8 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
 */
     fetch("../backend/be_mygarden.php")
         .then(response => {
+            //  console.log("Response: ", response); // log the response
+            // return response.text();
             return response.json();
         })
         .then(data => {
