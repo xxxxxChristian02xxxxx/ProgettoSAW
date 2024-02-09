@@ -24,6 +24,8 @@ function getData(currentPage, rowsPerPage) {
             });
 
             banUnban();
+            resetMoney();
+            modifyMoney();
         })
         .catch(error => console.error('Error in reaching data:', error));
 }
@@ -63,5 +65,11 @@ function banUnban() {
             })
         }
     });
+
+}
+function resetMoney(){
+
+}
+function modifyMoney(){
 
 }

@@ -32,28 +32,8 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
 <script>
 
     let plants = [];
-        /*{
-            id: 1,
-            name: "Monstera Deliciosa",
-            price: 50.00,
-            urlimage: "../images/Fiori_1.jpg"
-        },
-        {
-            id: 2,
-            name: "Fiddle Leaf Fig",
-            price: 75.00,
-            urlimage: "../images/Fiori_2.png"
-        },
-        {
-            id: 3,
-            name: "Fiddle Leaf Fig",
-            price: 75.00,
-            urlimage: "../images/Fiori_2.png"
-        },
-    ];
-    const plantsContainer = document.getElementById('plants-container');
-    appendPlantsToContainer(plants, plantsContainer);
-*/
+
+
     fetch("../backend/be_mygarden.php")
         .then(response => {
             //  console.log("Response: ", response); // log the response
