@@ -1,22 +1,36 @@
+body{
+    min-height: 100vh;
+
+}
 .field{
     background-image: url("../images/mygardenbackground.jpg");
+
     display: flex;
     width: 100%;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-}
+    min-height: 100vh;
+    height: calc(100vh - 100px); /* subtract the height of the header and footer from the height of the viewport */
 
- .card {
-     display: flex;
-     flex-direction: column;
-     width: 200px;
-     height: 300px;
-     border: 1px solid #ccc;
-     border-radius: 5px;
-     margin: 10px;
-     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
- }
+
+}
+header, footer {
+    height: 50px; /* or any height that fits your header and footer */
+    background-color: white; /* to ensure that the header and footer have a solid background color */
+}
+.card {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.8); /* set the background color with an alpha channel value */
+    opacity: 85%;
+    width: 200px;
+    height: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
 .card-image {
     width: 100%;
@@ -28,17 +42,29 @@
 
 .card-content {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
     padding: 10px;
-    flex: 1;
 }
 
 .card-title {
     font-size: 1.2em;
-    margin-bottom: 5px;
+    margin-bottom: 0;
+}
+
+.card-counter {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.card-image {
+    max-width: 100%;
+    max-height: 200px;
+    object-fit: cover;
 }
 
 .card-price {
     font-size: 1.1em;
     font-weight: bold;
+    text-align: center;
 }

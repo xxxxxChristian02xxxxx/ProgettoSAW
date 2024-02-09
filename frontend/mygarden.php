@@ -17,17 +17,22 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
     <link href="../dressing_garden.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<header>
+    <!-- Header content here -->
+</header>
 <div class="field" id="plants-container"></div>
 <script src ="../js/mygarden.js"></script>
-
+<footer>
+    <!-- Footer content here -->
+</footer>
 
 
 
 </body>
 <script>
 
-    let plants = [
-        {
+    let plants = [];
+        /*{
             id: 1,
             name: "Monstera Deliciosa",
             price: 50.00,
@@ -48,20 +53,22 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
     ];
     const plantsContainer = document.getElementById('plants-container');
     appendPlantsToContainer(plants, plantsContainer);
-/*
+*/
     fetch("../backend/be_mygarden.php")
         .then(response => {
             return response.json();
         })
         .then(data => {
             plants = data; // store the data in the `plants` variable
+            console.log("ok");
+            console.log(plants);
             const plantsContainer = document.getElementById('plants-container');
             appendPlantsToContainer(plants, plantsContainer);
         })
         .catch(error => {
             console.error("Si è verificato un errore: ", error);
         });
-*/
+
 
 </script>
 </html>

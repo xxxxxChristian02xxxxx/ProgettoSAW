@@ -8,8 +8,9 @@ $session = getSession(true);
 include("function_files/connection.php");
 $con = connect();
 
-//creazione prepared statemet per prelevare tutta la tabella
-$query = "SELECT * FROM PLANTS"; // query
+
+
+$query = "SELECT NAME, IMG_DIR, SUM(PRICE) AS PRICE, COUNT(NAME) AS COUNTERTIMESNAME FROM plants GROUP BY NAME;"; // query
 $stmt = $con->prepare($query); // execute query
 $stmt->execute();
 $result = $stmt->get_result();
