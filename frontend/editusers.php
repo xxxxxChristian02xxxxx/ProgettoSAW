@@ -72,9 +72,6 @@ include('header.php');
         <script src="../js/editusers.js"></script>
         <script src="../js/editTables.js"></script>
     </div>
-    <div id="seasonRedirect">
-        <a href="seasonRedirect.php">Show season statistics</a>
-    </div>
 </body>
 </html>
 

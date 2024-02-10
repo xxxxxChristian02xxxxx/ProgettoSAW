@@ -9,5 +9,6 @@
   ?>
     <a href='mygarden.php ' class='header_button'>My Garden</a>
     <a href='studysessions.php' class='header_button'>Study Sessions</a>
+    <a href='globalRanking.php' class='header_button'>Global Ranking</a>
   <a href='logout.php' class='header_button'>Logout</a>
 </header>

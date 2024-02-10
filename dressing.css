@@ -224,7 +224,7 @@
     text-align: center;
 }
 
-.studySessions, .editUser, .personalRank {
+.studySessions, .editUser, .personalRank, .globalRank {
     font-family: 'Roboto', sans-serif;;
     display: flex;
     flex-direction: column;
@@ -259,7 +259,7 @@
     width: 100%;
 }
 
-#personalRankTableContainer {
+#personalRankTableContainer, #globalRankTableContainer {
     width: 75%;
 }
 
