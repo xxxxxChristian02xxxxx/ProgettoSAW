@@ -11,21 +11,18 @@
     include('../backend/function_files/connection.php');
     $con = connect();
 
-    if (isset($_COOKIE['ReMe']) && $_COOKIE['ReMe'] !== null) {
-
+    if (isset($_COOKIE['ReMe'])) {
         //fa qualcosa: query per verificare se esiste
         $cookie_val = $_COOKIE['ReMe'];
         $decodedata = json_decode($cookie_val, true);
-        $token_val = $decodedata['token_value'];
-        $cookie_data = $decodedata['data'];
 
-        $firstname = $cookie_data['firstname'];
-        $lastname = $cookie_data['lastname'];
+        $token_val = $decodedata['token_value'];
+        $userId = $decodedata['id'];
 
         //todo: a very large problem  firstname + lastname are not unique keys
-        $query = "SELECT TOKEN FROM USERS WHERE FIRSTNAME=? AND LASTNAME=?";
+        $query = "SELECT TOKEN FROM USERS WHERE ID=?";
         $stmt = $con->prepare($query);
-        $stmt->bind_param('ss', $firstname, $lastname);
+        $stmt->bind_param('i', $userId);
         $stmt->execute();
 
         $stmt->bind_result($token_val);
@@ -45,6 +42,7 @@
         setcookie('ReMe','', time()-3600, "/");
 
         unset($_COOKIE);
+        $con->close();
     }
     header("Location: index.php");
     exit();
