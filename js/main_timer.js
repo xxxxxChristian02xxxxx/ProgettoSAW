@@ -16,9 +16,7 @@ function populateSelect(options) {
 }
 //-------------------------FUNZIONE VEDERE SE LA MATERIA AGGIUNTA è VALIDA    -------------------------//
 function isSubPresent(addSubject){
-    console.log(displaySubjects);
     // esempio :
-    // sub.replace(/\s/g, '').toLowerCase() =>tolgo gli spazi e metto no case sensitive
     for (let i = 0; i < displaySubjects.length; i++) {
         var subpr = displaySubjects[i].replace(/\s/g, '').toLowerCase();
         var subnew = addSubject.toString().replace(/\s/g, '').toLowerCase();
@@ -133,21 +131,21 @@ function startClock(typeClock) {
 function resetClock(typeClock) {
     clearInterval(interval);
     showStudySession(typeClock);
-    const dataTime={
-        typeSession: idTimerOrStopwatch,
-        timeSpent:timmeSpentForSession,
-        money: timeSpentForMoney,
-        subjectName: subEventuallyStudied.value,
-        description: descriptionArea.value,
-        operationType: 1,
-        season:1
-    }
+
+    operationType=1;
+    dataTime['typeSession'] =idTimerOrStopwatch;
+    dataTime['timeSpent'] = timmeSpentForSession;
+    dataTime['money'] =timeSpentForMoney;
+    dataTime['subjectName'] = subEventuallyStudied.value;
+    dataTime['description'] = descriptionArea.value;
+    dataTime['season'] = numberSeason;
+
     if(typeClock){timeGone =0;
     }else{timeGone=startTimeTI;}
     timmeSpentForSession = 0;
     updateTimer(typeClock);
     timeSpentForMoney=0;
-    databaseDelivery(dataTime);
+    databaseDelivery(dataTime,operationType);
 
 }
 function jsonClear(json){
@@ -168,15 +166,24 @@ function stopClock(typeClock) {
         toggleButton('TimerStart');
     }
 }
-function databaseDelivery(json_data) {
+function databaseDelivery(json_data,operationType) {
     console.log('json_data in delivery: ', json_data);
+    let Action;
+    switch (operationType){
+        case 1:
+            Action='addSessionStudied';
+            break;
+        case 2:
+            Action='updateSubject';
+            break;
 
-    fetch('../backend/main_backend.php', { // dico il percorso del file di back end
+    }
+    fetch('../backend/be_main.php', { // dico il percorso del file di back end
         method: 'POST', //metodo get o post
         headers: {
             'Content-Type': 'application/json' // specifico la uso
         },
-        body: JSON.stringify(json_data) // encode
+        body: JSON.stringify({json_data, action:Action}  ) // encode
     })
 
         .then(response => console.log(response))
@@ -185,13 +192,13 @@ function databaseDelivery(json_data) {
     });
 
 }
-function subjectsRequests(json_data) {
-    fetch('../backend/main_backend.php', { // dico il percorso del file di back end
+function subjectsRequests() {
+    fetch('../backend/be_main.php', { // dico il percorso del file di back end
         method: 'POST', //metodo get o post
         headers: {
             'Content-Type': 'application/json' // specifico la uso
         },
-        body: JSON.stringify(json_data) // encode
+        body: JSON.stringify({action: 'subjectTend' }) // encode
     })
     .then(response => response.json())
     .then(data => {

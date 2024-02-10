@@ -22,7 +22,6 @@ function getData(currentPage, rowsPerPage) {
                     searchTable(data, input, currentPage, rowsPerPage, table);
                 }
             });
-
             banUnban();
             modifyMoney();
         })
@@ -119,8 +118,6 @@ function popup(cell,row,dataTarget) {
                     popUp.classList.add('hidden');
                     document.body.style.overflow = 'auto';
                 });
-
-
                 break;
             case row.cells[10]:
                 const modifyAmount = document.getElementById("modifymount");
@@ -176,7 +173,6 @@ function popup(cell,row,dataTarget) {
                 });
                 break;
         }
-
 
         closePopUpButton.addEventListener('click', () => {
             popUp.classList.add('hidden');

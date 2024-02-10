@@ -111,10 +111,11 @@
         subjectName: null,
         description: null,
         season: null,
-        operationType: null,
     };
 
     // variabili utili
+    var operationType=null;
+    var numberSeason=null;
     let interval;
     var isTimerStarted  = false; // false: timer is at max, true:timer is running
     var isStopawatchStarted = false // false : stopwatch is at max , true : stopwatch is running
@@ -372,27 +373,27 @@
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //-----------------SCRIPT PER LA SCELTA DELLA MATERIA ------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
     //-------------------------EVENTO PER FARE IL DISPLAY DELLE MATERIE -------------------------//
     window.addEventListener("DOMContentLoaded", () => {
-        dataTime['operationType'] = 3;
-        subjectsRequests(dataTime);
+        operationType= 3;
+        subjectsRequests()
+
+
+
+
     });
     //-------------------------EVENTO PER FAGGIUNGERE UNA MATERIA  -------------------------//
 
     var addSubject;
     newSubject.addEventListener("click", ()=> {
         addSubject = document.getElementById("add_materie").value;
-
         if (!isSubPresent(addSubject)) {
             alert("mteria gia inserita");
         } else {
             textMateria.value = "";
-            dataTime['operationType'] = 2;
+            operationType = 2;
             dataTime['subjectName'] = addSubject;
-            databaseDelivery(dataTime);
+            (dataTime,operationType);
             var optionElement = document.createElement("option");
             optionElement.value = addSubject;
             optionElement.textContent = addSubject;
