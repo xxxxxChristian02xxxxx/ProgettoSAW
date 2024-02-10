@@ -1,7 +1,9 @@
 <?php
     session_start();
-    //Verifica che la sessione sia attiva
-    include('../backend/function_files/session.php');
+    //Verifica se è impostato un cookie
+    include("../backend/function_files/verifyCookie.php");
+    verifyCookie();
+
     //Aggiunta dell'header
     include('header.php');
 

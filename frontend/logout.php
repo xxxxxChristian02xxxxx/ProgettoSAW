@@ -34,7 +34,7 @@
         $stmt->close();
 
         // Preparazione della query con prepared statement
-        $query = "UPDATE USERS SET TOKEN = '', EXPIRE = '0000-00-00' WHERE TOKEN=?";
+        $query = "UPDATE USERS SET REMEMBER = 0, TOKEN = '', EXPIRE = '0000-00-00' WHERE TOKEN=?";
         $stmt = $con->prepare($query);
         $stmt->bind_param('s',$token_val);
 

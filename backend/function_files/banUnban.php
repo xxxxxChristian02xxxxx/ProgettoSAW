@@ -8,7 +8,7 @@ if(!function_exists('banUnban')){
         require('connection.php');
         $con = connect();
 
-        $query = "UPDATE USERS SET BANNED = !BANNED WHERE EMAIL = ?";
+        $query = "UPDATE USERS SET BANNED = !BANNED WHERE EMAIL = ? AND ROLES = 0";
         $stmt = $con->prepare($query);
         $stmt->bind_param("s", $email);
         $stmt->execute();
