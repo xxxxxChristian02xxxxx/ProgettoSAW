@@ -327,3 +327,6 @@
  #edituserTable td:nth-child(7) {
     cursor: pointer;
 }
+#edituserTable td:nth-child(11) {
+    cursor: pointer;
+}

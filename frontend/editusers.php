@@ -12,6 +12,7 @@ include('header.php');
 <html lang="en">
 <head>
     <title>Edit users</title>
+    <link href="../editusers.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <div class="editUser">
@@ -67,8 +68,14 @@ include('header.php');
             </thead>
             <tbody></tbody>
         </table>
-        <div id="pagination"></div>
 
+        <div id="popUp" class="hidden">
+            <div id="popUpContent">
+            </div>
+        </div>
+
+
+        <div id="pagination"></div>
         <script src="../js/editusers.js"></script>
         <script src="../js/editTables.js"></script>
     </div>
