@@ -62,7 +62,8 @@ function toggleButton(buttonId){
         button.removeAttribute("aria-label");
     }
 }
-//-------------------------FUNZIONE PER IL TOGGLE -------------------------//
+//-------------------------FUNZIONE POPUP -------------------------//
+
 function showStudySession(typeClock){
         console.log(timmeSpentForSession);
         timeDuratioSession.innerHTML = timmeSpentForSession + " secondi" ;

@@ -16,6 +16,7 @@
     <title>Login</title>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
+    <link href="../main_dressing.css" rel="stylesheet" type="text/css">
 </head>
 
 
@@ -32,24 +33,24 @@
     <span><button id="newsub"> + </button></span>
 </div>
 
-<div class ="split_container">
-    <div class = "split-left">
-        <button id = "buttom-Swipe-left "> << </button>
+<div class="vertical-grid">
+    <div class="column left-button">
+        <button id="buttom-Swipe-left "> << </button>
     </div>
-    <div class = "split-center">
-        <div class="containerTimer" id ="conainertimer">
+    <div class="column center">
+        <div class="container" id="containertimer">
             <div class="title">
-                <h1> Timer</h1>
+                <h1>Timer</h1>
             </div>
-            <p id="timeTimer" class ="timer">25:00</p>
-            <p id="prova" ></p>
-            <div> <input type="range" id="TimerRange "></div>
-            <div id ="timerBottons">
-                <button id = "TimerStart">Start</button>
-                <button id = "resetTimer">Reset</button>
+            <p id="timeTimer" class="timer">25:00</p>
+            <div > <input type="range" id="TimerRange"></div>
+            <div>
+                <button id="TimerStart">Start</button>
+                <button id="resetTimer">Reset</button>
             </div>
         </div>
-        <div class="containerStopwatch" id ="constainerstopwatch">
+
+        <div class="container" id ="constainerstopwatch">
             <div class="title">
                 <h1> Stopwatch</h1>
             </div>
@@ -59,10 +60,10 @@
                 <button id = "resetStopwatch">Reset</button>
             </div>
         </div>
-    </div>
 
-    <div class = "split-right">
-        <button id = "buttom-Swipe-right ">  >> </button>
+    </div>
+    <div class="column right-button">
+        <button id="buttom-Swipe-right "> >> </button>
     </div>
 </div>
 <!-- pop up timer-->
@@ -114,18 +115,19 @@
     };
 
     // variabili utili
-    var operationType=null;
-    var numberSeason=null;
+
     let interval;
     var isTimerStarted  = false; // false: timer is at max, true:timer is running
+    var isTimerDone = false;
     var isStopawatchStarted = false // false : stopwatch is at max , true : stopwatch is running
     var startTimeTI = 1500 ; // default
     var startTimeST =0;
     let timeGone =0 ;
     var formattedTime;
-    var isTimerDone = false;
     var timeSpentForMoney =0;
     var timmeSpentForSession = 0;
+    var operationType=null;
+    var numberSeason=null;
 
     //gestione timer
     const subjectName=null;
@@ -133,7 +135,7 @@
     const resetTimerElement= document.getElementById("resetTimer");
     const timeTimerElement= document.getElementById("timeTimer");
     var buttonT = document.getElementById("TimerStart");
-    const rangeStart =document.getElementById("TimerRange ");
+    const rangeStart =document.getElementById("TimerRange");
              rangeStart.value = 5;
              rangeStart.min = 0;
              rangeStart.max = 24;
@@ -158,7 +160,7 @@
     //gestione switch tra timer e stopwatch
     const swipeLeft = document.getElementById("buttom-Swipe-left ");
     const swipeRight = document.getElementById("buttom-Swipe-right ");
-    var displayTimer = document.getElementById("conainertimer");
+    var displayTimer = document.getElementById("containertimer");
     var displayStopwatch = document.getElementById("constainerstopwatch");
     var swipeCount =0; // for < > button
     var idTimerOrStopwatch = false ; //0  stopwatch , 1 timer
@@ -194,24 +196,28 @@
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //-----------------SCRIPT PER IL TIMER  --------------------------------------------------------
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////S//////////////////////////////////
     //-------------------------EVENTO LA GESTIONE DEL RANGE PER IL TIMER   -------------------------//
     rangeStart.addEventListener("input",()=> {
+       if(!isTimerStarted) {
+           rangeStart.classList.add("rangePrevent");
+       }
+           let timeOnClock = (7200 / rangeStart.max) * rangeStart.value;
+           let hours = Math.floor(timeOnClock / 3600);
+           var remainingSeconds = timeOnClock % 3600;
+           let minutes = Math.floor(remainingSeconds / 60);
+           let seconds = remainingSeconds % 60;
+           console.log(timeOnClock);
 
-        let timeOnClock = (7200/rangeStart.max) * rangeStart.value;
-        let hours = Math.floor(timeOnClock / 3600);
-        var remainingSeconds = timeOnClock % 3600;
-        let minutes = Math.floor(remainingSeconds / 60);
-        let seconds = remainingSeconds % 60;
-        console.log(timeOnClock);
+           if (hours) {
+               formattedTime = `${hours.toString().padStart(2, "0")} : ${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
+           } else {
+               formattedTime = `${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
+           }
+           timeTimerElement.innerText = formattedTime;
+           startTimeTI = timeOnClock;
 
-        if (hours) {
-            formattedTime = `${hours.toString().padStart(2, "0")} : ${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
-        } else {
-            formattedTime = `${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
-        }
-        timeTimerElement.innerText = formattedTime;
-        startTimeTI = timeOnClock;
+
     })
     //-------------------------EVENTO PER DIRE SE SONO IN STOP OPPURE IN START -------------------------//
     startTimerElement.addEventListener('click', function() {
@@ -296,6 +302,7 @@
         console.log("counting:",isStopawatchStarted)
         if(isStopawatchStarted)  {
             {
+                
                 showStudySession();
                 stopClock();
                 popUp.classList.add("open");//aggiungo il css

@@ -1,0 +1,153 @@
+
+/*css per il main -timer  */
+.vertical-grid {
+    margin-top: 10px;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-gap: 10px;
+    height: 100%;
+    width: 100%;
+}
+
+.column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container{
+    display: flex; /* add this line */
+    flex-direction: column; /* add this line */
+    align-items: center; /* add this line */
+    justify-content: center; /* add this line */
+    margin: 0 auto;
+    max-width: 540px;
+    text-align: center;
+    padding: 20px;
+    font-family: "Roboto", sans-serif;
+    border-radius: 50%;
+    border: 2px solid black;
+    height: 500px;
+    width: 500px;
+}
+.container button {
+    font-size: 18px;
+    padding: 10px 20px ;
+    margin: 10px;
+    color: white;
+    border:none;
+    border-radius: 4px;
+    cursor:pointer; /*il cursore diventa una manina quando passo sopra */
+    text-transform: uppercase;
+    transition: opacity .3s ease-in-out; /*quando passo sul bottone questo diventa piu opaco */
+}
+.container button:hover {
+    opacity: .7;
+}
+.timer {
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    font-size: 72px;
+    color: black;
+
+}
+.title {
+    margin-right: auto;
+    margin-left: auto;
+    font-size: 36px;
+    height: 80px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+#TimerStart{
+    background-color: green;
+}
+#TimerStart[aria-label="Stop"]{
+    background-color: red;
+}
+#resetTimer{
+    margin-top: 20px;
+    background-color:grey;
+}
+.rangePrevent {
+    pointer-events: none; /* reset pointer-events to default value */
+}
+
+
+/*css per il stopwatch*/
+
+#startStopwatch{
+    background-color: green;
+}
+#startStopwatch[aria-label="Stop"]{
+    background-color: red;
+}
+#resetStopwatch{
+    background-color:grey;
+}
+
+.hide{
+    display: none;
+}
+
+/*CSS per il popup */
+.container_popup{
+    box-sizing: border-box;
+}
+
+
+.popup_button{
+    border-radius: 20px;
+    border:0;
+    box-shadow: 0 1px 4px;
+    color:black;
+    cursor: pointer;
+    padding: 10px 25px;
+}
+.popup_button:active{
+    opacity :0.8;
+}
+
+.popup{
+    border : 2px solid black;
+    background-color: white;
+    opacity: 0;
+    position: fixed;
+    top:0;
+    right:0; left:0;
+
+    bottom:0;
+
+    transition: all 0.3s ease-in-out;
+    z-index: -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup.open{
+    opacity: 1;
+    z-index: 999;
+}
+
+
+
+.popup-inner{
+    border : 2px solid black;
+    background-color: white;
+    border-radius: 5px;
+    padding :15px 25px;
+    width :380px;
+    text-align: center;
+
+}
+.popup-inner h2{
+    margin: 0;
+}
+.popup-inner p {
+    line-height: 24px;
+    margin:10px 0;
+    text-align: center;
+}
