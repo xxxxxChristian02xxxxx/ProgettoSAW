@@ -34,7 +34,7 @@ function banUnban() {
     // Come prima cosa accedo alle righe della tabelle
     // querySelectorAll restituisce una lista, in questo caso la lista di quelle che sono le righe della tabella
     var rows = document.querySelectorAll('#edituserTable tbody tr');
-    const dataTarget = {
+    const dataTargetta = {
         email: null,
         firstname: null,
         lastname: null,
@@ -45,12 +45,11 @@ function banUnban() {
         var cell = row.cells[6];
         if (cell) {
             // Memorizzo l'email relativa alla cella che è stata cliccata (anche in questo caso conoscendo la struttura so dove è memorizzata l'email)
-            dataTarget['email'] = row.cells[3];
-            dataTarget['firstname'] = row.cells[1];
-            dataTarget['lastname'] = row.cells[2];
             cell.addEventListener('click', function () {
-                console.log("o", dataTarget);
-                popup(cell, row, dataTarget);
+                dataTargetta['email'] = row.cells[3];
+                dataTargetta['firstname'] = row.cells[1];
+                dataTargetta['lastname'] = row.cells[2];
+                popup(cell, row, dataTargetta);
             });
             // Aggiungo un listener relativo al click sulla cella della tabella
             // Quando clicco -> chiamata fetch a file che faccia lo sban o il ban nel db
@@ -77,11 +76,8 @@ function modifyMoney() {
         var cell = row.cells[10];
         if (cell) {
             // Memorizzo l'email relativa alla cella che è stata cliccata (anche in questo caso conoscendo la struttura so dove è memorizzata l'email)
-            dataTarget['email'] = row.cells[3];
-
-
             cell.addEventListener('click', function () {
-                console.log("o", dataTarget);
+                dataTarget['email'] = row.cells[3];
                 popup(cell, row, dataTarget);
             });
         }
@@ -99,9 +95,8 @@ function deleteUser() {
         var cell = row.cells[11];
         if (cell) {
             // Memorizzo l'email relativa alla cella che è stata cliccata (anche in questo caso conoscendo la struttura so dove è memorizzata l'email)
-            dataTarget['email'] = row.cells[3];
             cell.addEventListener('click', function () {
-                console.log("d", dataTarget);
+                dataTarget['email'] = row.cells[3];
                 popup(cell, row, dataTarget);
             });
 
@@ -252,11 +247,11 @@ function modifyFetch(dataTarget, cell) {
         },
         body: JSON.stringify({action: Action, email: dataTarget['email'].innerText, money: dataTarget['money']})
     })
-        .then(response => {
+        .then(response =>
             //console.log("Response: ", response); // log the response
             //return response.text();
-            return response.json();
-        })
+             response.json()
+        )
         .then(data => {
             console.log(data);
             cell.innerText = data;
@@ -319,7 +314,6 @@ function generateModify(cell) {
 }
 
 function generateDelete(dataTarget) {
-    console.log("delete ", dataTarget['email']);
     return `
         <h2> Delete User </h2>
                 <span id="closePopUpButton" class="close">&times;</span>

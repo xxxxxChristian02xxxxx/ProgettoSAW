@@ -29,18 +29,6 @@ if(!function_exists('deleteUser')){
     function deleteUser($email){
 
 
-        $filePath = 'example.txt';
-        $bho="qui";
-// The data to write to the .txt file
-
-// Open the .txt file in write mode
-        $file = fopen($filePath, 'w');
-
-// Write the data to the .txt file
-        fwrite($file, $bho);
-
-// Close the .txt file
-        fclose($file);
         require('session.php');
         $session_variables = getSession(true);
 
@@ -79,7 +67,6 @@ if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
                 banUnban($data['email']);
                 break;
             case 'deleteUsers':
-
                 deleteUser($data['email']);
                 break;
         }
