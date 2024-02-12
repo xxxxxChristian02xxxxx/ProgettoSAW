@@ -1,16 +1,33 @@
+//-------------------------FUNZIONE PER POPOLARE IL MENU A TENDINA   -------------------------//
+/*
+function populateSelect(options) {
+    console.log(options);
+    subChoosen.innerHTML = "";
+    subChoosen.innerHTML = "<div><select><option value=''> </option></select> <span> <button> - </button ></span></div>";
+    options.forEach(option => {
+        var optionElement = document.createElement("option");
+        optionElement.value = option;
+        optionElement.textContent = option;
+        subChoosen.appendChild(optionElement);
+    });
+    subEventuallyStudied.addEventListener('click', function() {
+        subEventuallyStudied = document.getElementById("scelta").value;
+    });
 
+}*/
 //-------------------------FUNZIONE VEDERE SE LA MATERIA AGGIUNTA è VALIDA    -------------------------//
-function isSubPresent(addSubject) {
-    console.log(displaySubjects);
-    for (i = 0; i < displaySubjects.length; i++){
-        console.log("qua");
-        if(addSubject ===displaySubjects[i]){
-            return true;
-
+function isSubPresent(addSubject){
+    // esempio :
+    for (let i = 0; i < displaySubjects.length; i++) {
+        var subpr = displaySubjects[i].replace(/\s/g, '').toLowerCase();
+        var subnew = addSubject.toString().replace(/\s/g, '').toLowerCase();
+        console.log(subnew, ",", subpr);
+        if (subnew === subpr) {
+            console.log("sono qui");
+            return false;
         }
     }
-    return false;
-
+    return true;
 }
 function blockSelection(){
     subChoosen.disabled =true;
@@ -19,16 +36,16 @@ function unlockSelection(){
     subChoosen.disabled =false;
 }
 //-------------------------FUNZIONE PER IL PER TIMER E STOPWATCH -------------------------//
-function toggleButtonTS() {
+function toggleButtonTS(typeClock) {
     console.log(swipeCount);
     if ((swipeCount % 2 )=== 0) {
         displayTimer.classList.remove("hide");
         displayStopwatch.classList.add("hide");
-        clocks['idTimerOrStopwatch'] = false;
+        typeClock['idTimerOrStopwatch'] = false;
     } else {
         displayStopwatch.classList.remove("hide");
         displayTimer.classList.add("hide");
-        clocks['idTimerOrStopwatch'] =true;
+        typeClock['idTimerOrStopwatch']=true;
     }
 }
 //-------------------------FUNZIONE PER IL TOGGLE TASTO START -------------------------//
@@ -46,6 +63,7 @@ function toggleButton(buttonId){
         button.removeAttribute("aria-label");
     }
 }
+
 //-------------------------FUNZIONE POPUP -------------------------//
 function showStudySession(){
     var timeDuratioSession =document.getElementById("timeDuration");
@@ -73,7 +91,7 @@ function generateOptions(options){
                 </select> 
            </div> `
 }
-function generatePopUp(popType,typeClock) {
+function generatePopUp(popType,typeClock,timeBreak) {
     const popUp = document.getElementById('popUp');
     const popUpContent = document.getElementById('popUpContent');
     if (popUp && popUpContent) {
@@ -83,7 +101,7 @@ function generatePopUp(popType,typeClock) {
                 console.log("case 1");
                 sessionPopUpAssembling(popUpContent,1);
                 popUpContent.classList.add("open");//aggiungo il css
-                sessionPopUpManager(popUpContent,typeClock);
+                sessionPopUpManager(popUpContent,typeClock,timeBreak);
                 break;
             case 2:
                 console.log("10")
@@ -93,6 +111,8 @@ function generatePopUp(popType,typeClock) {
                 breakPopUpManager(popUpContent,typeClock);
                 break;
         }
+    }else{
+        console.log("nope");
     }
 }
 function sessionPopUpAssembling(popUpContent,typePopUp) {
@@ -142,7 +162,8 @@ function generatePopUpSession() {
 `;
 
 }
-function sessionPopUpManager(popUpContent,typeClock) {
+function sessionPopUpManager(popUpContent,typeClock,timeBreakStart) {
+    unlockSelection();
 
     const descriptionArea=document.getElementById("area_descrizione");
     const wordCounter = document.getElementById("word counter");
@@ -163,24 +184,17 @@ function sessionPopUpManager(popUpContent,typeClock) {
             buttonS.innerHTML = "Start";
             buttonS.removeAttribute("aria-label");
         }
-        isTimerDone =false;
-        if(typeClock['idTimerEndOrStop']){
-            resetClock(typeClock,descriptionArea);
-        }
+        resetClock(typeClock,descriptionArea);
         textPopUp.value ="";
         textPopUp.placeholder ="scrivi qui ...";
         isTimerStarted=false;
         isStopawatchStarted=false;
-       // rangeStart.classList.remove("rangePrevent");
-        if(!typeClock['idTimerEndOrStop']){
-            typeClock['startTimeTI'] =3;
-            console.log("chiamo timer break ",typeClock['startTimeTI']);
-            updateTimer(typeClock,typeClock['startTimeTI'])
-            startClock(typeClock);
-            if(startClock(typeClock)) {
-                console.log("bloccato quq");
-
-            }
+        console.log("yuu", isTimerDone)
+        // rangeStart.classList.remove("rangePrevent");
+        if(typeClock['idTimerEndOrStop'] ){
+            console.log("hrei");
+            let timeBreak = new Date().getTime();
+            startClock(typeClock,timeBreak,timeBreakStart);
         }
 
     })
@@ -230,7 +244,7 @@ function sessionPopUpManager(popUpContent,typeClock) {
 
 }
 function generatePopUpBreak(){
-        return` <div id="breakTime">
+    return` <div id="breakTime">
             <h2>Break Time</h2>
             <p>You have accomplished your goal, take some rest.</p>
             <p>Choose how long is your break:</p>
@@ -247,269 +261,206 @@ function breakPopUpManager(popUpContent,typeClock){
 
     break5minsButton.addEventListener('click', () => {
         // handle 5 mins break
-        popUpContent.classList.remove("open");
-        console.log(typeClock);
-        typeClock['idTimerEndOrStop'] =false;
+        let timeBreakStart=3;
         typeClock['idTimerOrStopwatch'] =false;
-
-        generatePopUp(1,typeClock) ;
+        popUpContent.classList.remove("open");
+        generatePopUp(1,typeClock,timeBreakStart) ;
         unlockSelection();
-        rangeStart.classList.remove("rangePrevent");
-        console.log("bloccato qui");
-
+        //rangeStart.classList.remove("rangePrevent");
     });
 
     break15minsButton.addEventListener('click', () => {
+        let timeBreakStart=5;
+        typeClock['idTimerOrStopwatch'] =false;
         popUpContent.classList.remove("open");
-        clocks['startTimeTI'] =900;
-
-        generatePopUp(1) ;
+        generatePopUp(1,typeClock,timeBreakStart) ;
+        unlockSelection();
+        //rangeStart.classList.remove("rangePrevent");
     });
 
     break30minsButton.addEventListener('click', () => {
+        let timeBreakStart=10;
+        typeClock['idTimerOrStopwatch'] =false;
         popUpContent.classList.remove("open");
-        clocks['startTimeTI'] =1800;
-
-        generatePopUp(1) ;
+        generatePopUp(1,typeClock,timeBreakStart) ;
+        unlockSelection();
+        //rangeStart.classList.remove("rangePrevent");
     });
 }
-
 //-------------------------FUNZIONE PER FARE L'UPDATE DEL TIMER -------------------------//
-    function updateTimer(typeClock,timegone) {
-            console.log(timegone);
-            let hours = Math.floor(timegone / 3600);
-            let remainingSeconds = timegone % 3600;
-            let minutes = Math.floor(remainingSeconds / 60);
-            let seconds = remainingSeconds % 60;
-            if (hours) {
-                formattedTime = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
-            } else {
-                formattedTime = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-            }
-            if (typeClock['idTimerOrStopwatch']) {
-                timeStopwatchElement.innerHTML = formattedTime;
-            } else {
-                timeTimerElement.innerHTML = formattedTime;
-            }
-        }
+function updateTimer(typeClock,timeGone) {
+    console.log("ere",timeGone)
+    let hours = Math.floor(timeGone / 3600);
+    let remainingSeconds = timeGone % 3600;
+    let minutes = Math.floor(remainingSeconds / 60);
+    let seconds = remainingSeconds % 60;
+    console.log("time", hours,minutes,seconds);
 
+    if(hours){
+        formattedTime = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
+    } else {
+        formattedTime = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    }
+    if(typeClock['idTimerOrStopwatch']){
+        timeStopwatchElement.innerHTML = formattedTime;
+    }else{
+        timeTimerElement.innerHTML = formattedTime;
+    }
+}
 //-------------------------FUNZIONE PER IL INZIARE E STOPPARE IL TIMER IL TIMER -------------------------//
-    function startClock(typeClock) {
-        if(typeClock['idTimerOrStopwatch']) {    /*intervallo che deve essere aggiornato ogni 1000 ms*/
-            console.log("dentro stopwatch secton");
-            toggleButton('startStopwatch');
+function startClock(typeClock,time,timeBreakStart) {
+    console.log(typeClock['idTimerOrStopwatch'], "false timer, true stopwatch")
+    var timeGone =0 ;
+
+    if(typeClock['idTimerOrStopwatch']) {    /*intervallo che deve essere aggiornato ogni 1000 ms*/
+        console.log("dentro stopwatch secton", time );
+        toggleButton('startStopwatch');
+
+        interval = setInterval(() => {
+            const currentTime = new Date();
+            const diff = currentTime-time;
+            const secondsPassed = Math.floor(diff / 1000);
+            timeGone =startTimeST+secondsPassed;
+            console.log(timeGone, secondsPassed, startTimeST, diff, time );
+            timmeSpentForSession++ ;
+            timeSpentForMoney++
+            updateTimer(typeClock,timeGone);
+
+        }, 1000)
+    }else{
+        if(!typeClock['idTimerEndOrStop']){
+            toggleButton('TimerStart');
+            console.log("inizio setinterval");
+
             interval = setInterval(() => {
                 const currentTime = new Date();
                 const diff = currentTime-time;
                 const secondsPassed = Math.floor(diff / 1000);
-                timeGone =typeClock['startTimeST']+secondsPassed;
-                timmeSpentForSession++ ;
+                timeGone = startTimeTI-secondsPassed;
+                timmeSpentForSession++;
                 timeSpentForMoney++
+                console.log("timeGone",timeGone,startTimeTI,secondsPassed);
                 updateTimer(typeClock,timeGone);
 
+                if (timeGone === 0) {
+                    /*una vlta finito il timer pulisco l'intervallo*/
+                    clearInterval(interval);
+                    stopClock(typeClock);
+                    typeClock['idTimerEndOrStop']=true;
+                    //updateTimer(typeClock);
+                    generatePopUp(2,typeClock);
+                    // timeGone = startTimeTI;
+
+                }
             }, 1000)
-        }else{
-            if(typeClock['idTimerEndOrStop']) {
-                toggleButton('TimerStart');
-                let timeGone=0;
-                interval = setInterval(() => {
-                    const currentTime = new Date();
-                    const diff = currentTime - time;
-                    const secondsPassed = Math.floor(diff / 1000);
-                    timeGone = typeClock['startTimeTI'] - secondsPassed;
-                    timmeSpentForSession++;
-                    timeSpentForMoney++
-                    updateTimer(typeClock);
+        }else  {
 
-                    if (timeGone=== 0) {
-                        /*una vlta finito il timer pulisco l'intervallo*/
-                        clearInterval(interval);
-                        stopClock(typeClock);
-                        generatePopUp(2,typeClock);
-                        isTimerDone = true;
-                        timeGone = typeClock['startTimeTI'];
-                        updateTimer(typeClock,timeGone);
-                    }
-                }, 1000)
-            }else{
-                toggleButton('TimerStart');
-                let timee = new Date().getTime();
-                console.log("bho",typeClock['startTimeTI']);
-                let timeGone = typeClock['startTimeTI'];
-                if(timeGone>0){
-                    interval = setInterval(() => {
-
-                        const currentTime = new Date();
-                        const diff = currentTime - timee;
-                        const secondsPassed = Math.floor(diff / 1000);
-                        timeGone = typeClock['startTimeTI'] - secondsPassed;
-                        updateTimer(typeClock,timeGone);
-                        if (timeGone === 0) {
-                            /*una vlta finito il timer pulisco l'intervallo*/
-                            clearInterval(interval);
-                            // stopClock(typeClock);
-                            typeClock['idTimerEndOrStop'] = true;
-                            //updateTimer(typeClock,timeGone);
-                            console.log("ultimo log");
-                            return;
-                        }
-                    }, 1000)
-                }
-
-
-            }
-        }
-    }
-//-------------------------FUNZIONE PER IL RESETTARE IL TIMER -------------------------//
-    function resetClock(typeClock,descriptionArea) {
-        clearInterval(interval);
-        showStudySession(typeClock);
-
-        operationType=1;
-        dataTime['typeSession'] =typeClock['idTimerOrStopwatch'];
-        dataTime['timeSpent'] = timmeSpentForSession;
-        dataTime['money'] =timeSpentForMoney;
-        dataTime['subjectName'] = subEventuallyStudied.value;
-        dataTime['description'] = descriptionArea.value;
-        dataTime['season'] = numberSeason;
-
-        if(typeClock['idTimerOrStopwatch']){typeClock['timePassed'] =0;
-        }else{typeClock['timePassed']=typeClock['startTimeTI'];}
-
-        timmeSpentForSession = 0;
-        updateTimer(typeClock);
-        timeSpentForMoney=0;
-        databaseDelivery(dataTime,operationType);
-
-    }
-    function jsonClear(json){
-        for (let key in json) {
-            // Set the value of the current key to null
-            json[key] = null;
-        }
-
-    }
-//-------------------------FUNZIONE PER FERMARE IL TIMER  -------------------------//
-    function stopClock(typeClock) {
-        clearInterval(interval);
-        console.log("stopClock",typeClock);
-        if(typeClock['idTimerOrStopwatch']){
-            toggleButton('startStopwatch');
-
-        }else{
+            typeClock['idTimerEndOrStop']=false;
             toggleButton('TimerStart');
-        }
-    }
-    function databaseDelivery(json_data,operationType) {
-        console.log('json_data in delivery: ', json_data);
-        let Action;
-        switch (operationType){
-            case 1:
-                Action='addSessionStudied';
-                break;
-            case 2:
-                Action='updateSubject';
-                break;
-
-        }
-        fetch('../backend/be_main.php', { // dico il percorso del file di back end
-            method: 'POST', //metodo get o post
-            headers: {
-                'Content-Type': 'application/json' // specifico la uso
-            },
-            body: JSON.stringify({json_data, action:Action}  ) // encode
-        })
-            .then(response =>
-                response.json())
-            .then(data => {
-
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-
-    }
-    function subjectsRequests() {
-        fetch('../backend/be_main.php', { // dico il percorso del file di back end
-            method: 'POST', //metodo get o post
-            headers: {
-                'Content-Type': 'application/json' // specifico la uso
-            },
-            body: JSON.stringify({action: 'subjectTend' }) // encode
-        })
-            .then(response =>
-                 response.json()
-                //console.log("Response: ", response); // log the response
-               //return response.text();
-            )
-            .then(data => {
-                displaySubjects = data;
-                populateSelect(displaySubjects);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-
-    }
-
-    function newSession(typeClock){
-        console.log("newSession",typeClock);
-
-
-        rangeStart.addEventListener("input",()=> {
-            let timeOnClock = (7200 / rangeStart.max) * rangeStart.value;
-            let hours = Math.floor(timeOnClock / 3600);
-            var remainingSeconds = timeOnClock % 3600;
-            let minutes = Math.floor(remainingSeconds / 60);
-            let seconds = remainingSeconds % 60;
-            if (hours) {
-                formattedTime = `${hours.toString().padStart(2, "0")} : ${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
-            } else {
-                formattedTime = `${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
-            }
-            timeTimerElement.innerText = formattedTime;
-            typeClock['startTimeTI'] = timeOnClock;
-        })
-
-
-        startTimerElement.addEventListener('click', function() {
-            console.log("startTimerElement");
-            subChoosen=document.getElementById("scelta");
-            if(subChoosen.value !=='') {
-                isTimerStarted = true;
-                rangeStart.classList.add("rangePrevent");
-                // Verifica lo stato del bottone
-                if (buttonT.innerHTML === "Start") {
-                    blockSelection();
-                    // Prima volta che è stato cliccato
-                    time = new Date().getTime();
-                    startClock(typeClock);
-                    // Aggiorna lo stato
-                    buttonT.innerHTML = "Stop";
-                    buttonT.setAttribute("aria-label", "Stop");
-                } else {
-
-                    // Seconda volta che è stato cliccato
-                    stopClock(typeClock);
-                    // Aggiorna lo stato
-                    buttonT.innerHTML = "Start";
-                    buttonT.removeAttribute("aria-label");
+            console.log("inizio TimerBreakStart", time );
+            let timeGone=0;
+            updateTimer(typeClock,timeBreakStart);
+            interval = setInterval(() => {
+                const currentTime = new Date();
+                const diff = currentTime-time;
+                const secondsPassed = Math.floor(diff / 1000);
+                timeGone = timeBreakStart-secondsPassed;
+                updateTimer(typeClock,timeGone);
+                console.log("till now",timeGone,timeBreakStart,secondsPassed)
+                if (timeGone === 0) {
+                    console.log("fine break ");
+                    /*una vlta finito il timer pulisco l'intervallo*/
+                    clearInterval(interval);
                 }
-            }else{
-                alert("choose a subject to study first :)")
-            }
-        })
-        resetTimerElement.addEventListener("click",()=> {
-            console.log("resetTimer 2")
-            if(isTimerStarted)  {
-                {
-                    stopClock(typeClock);
-                    generatePopUp(1,typeClock);
-                }
-            }else
-            {
-                alert('Cannot reset without a start')
-            }
-        })
+            }, 1000)
+        }
+
+
 
     }
+}
+//-------------------------FUNZIONE PER IL RESETTARE IL TIMER -------------------------//
+function resetClock(typeClock,descriptionArea) {
+    clearInterval(interval);
+
+    showStudySession(typeClock);
+
+    operationType=1;
+    dataTime['typeSession'] =typeClock['idTimerOrStopwatch'];
+    dataTime['timeSpent'] = timmeSpentForSession;
+    dataTime['money'] =timeSpentForMoney;
+    dataTime['subjectName'] = subEventuallyStudied.value;
+    dataTime['description'] = descriptionArea.value;
+    dataTime['season'] = numberSeason;
+
+    let timeGone;
+    if(typeClock['idTimerOrStopwatch']){timeGone =0;
+    }else{timeGone=startTimeTI;}
+    timmeSpentForSession = 0;
+    updateTimer(typeClock,timeGone);
+    timeSpentForMoney=0;
+    databaseDelivery(dataTime,operationType);
+
+}
+function jsonClear(json){
+    for (let key in json) {
+        // Set the value of the current key to null
+        json[key] = null;
+    }
+
+}
+//-------------------------FUNZIONE PER FERMARE IL TIMER  -------------------------//
+function stopClock(typeClock) {
+    clearInterval(interval);
+    console.log("stopTimer", typeClock);
+    if(typeClock){
+        toggleButton('startStopwatch');
+
+    }else{
+        toggleButton('TimerStart');
+    }
+}
+function databaseDelivery(json_data,operationType) {
+    console.log('json_data in delivery: ', json_data);
+    let Action;
+    switch (operationType){
+        case 1:
+            Action='addSessionStudied';
+            break;
+        case 2:
+            Action='updateSubject';
+            break;
+
+    }
+    fetch('../backend/be_main.php', { // dico il percorso del file di back end
+        method: 'POST', //metodo get o post
+        headers: {
+            'Content-Type': 'application/json' // specifico la uso
+        },
+        body: JSON.stringify({json_data, action:Action}  ) // encode
+    })
+
+        .then(response => console.log(response))
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+}
+function subjectsRequests() {
+    fetch('../backend/be_main.php', { // dico il percorso del file di back end
+        method: 'POST', //metodo get o post
+        headers: {
+            'Content-Type': 'application/json' // specifico la uso
+        },
+        body: JSON.stringify({action: 'subjectTend' }) // encode
+    })
+        .then(response => response.json())
+        .then(data => {
+            displaySubjects = data;
+            populateSelect(displaySubjects);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+}

@@ -1,14 +1,14 @@
 <?php
-    session_start();
-    //Verifica se è impostato un cookie
-    include("../backend/function_files/verifyCookie.php");
-    verifyCookie();
+session_start();
+//Verifica se è impostato un cookie
+include("../backend/function_files/verifyCookie.php");
+verifyCookie();
 
-    //Aggiunta dell'header
-    include('header.php');
+//Aggiunta dell'header
+include('header.php');
 
-    $session = getSession(true);
-    echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </h2>" ;
+$session = getSession(true);
+echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </h2>" ;
 ?>
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
@@ -24,9 +24,7 @@
 <div>
     <span>
         <label for="Testo_materie">Scegli la materia:</label>
-        <select id="scelta" name="scelta">
-        </select>
-
+        <select id="scelta" name="scelta"></select>
     </span>
     <span>
         <label for="add_materie">Aggiungi una materia:</label>
@@ -69,7 +67,7 @@
     </div>
 </div>
 <!-- pop up timer-->
-<div id="popUp" class="container_popup">
+<div class="container_popup" id="popUp">
     <div class="popup" id="popUpContent">
 
     </div>
@@ -85,14 +83,17 @@
         description: null,
         season: null,
     };
+
     // variabili utili
 
-    let interval;
+
     var isTimerStarted  = false; // false: timer is at max, true:timer is running
     var isTimerDone = false;
     var isStopawatchStarted = false // false : stopwatch is at max , true : stopwatch is running
-    let timeGone =0 ;
+    var startTimeTI = 1500 ; // default
+    var startTimeST =0;
     var formattedTime;
+    var  interval;
     var timeSpentForMoney =0;
     var timmeSpentForSession = 0;
     var operationType=null;
@@ -105,9 +106,12 @@
     const timeTimerElement= document.getElementById("timeTimer");
     var buttonT = document.getElementById("TimerStart");
     const rangeStart =document.getElementById("TimerRange");
-             rangeStart.value = 5;
-             rangeStart.min = 0;
-             rangeStart.max = 24;
+    rangeStart.value = 5;
+    rangeStart.min = 0;
+    rangeStart.max = 24;
+
+
+
 
 
     //gestione switch tra timer e stopwatch
@@ -118,14 +122,12 @@
     var swipeCount =0; // for < > button
     const clocks={
         idTimerOrStopwatch : false,   //0  stopwatch , 1 timer
-        idTimerEndOrStop:true ,       //0  end , 1 stop
+        idTimerEndOrStop:false ,       //0  end , 1 stop
         timePassed:0,
-        startTimeTI : 1 , // default
+        startTimeTI : 1500 , // default
         startTimeST :0
 
     }
-
-
     //gestione stopwatch
     const startStopwatchElement= document.getElementById("startStopwatch");
     const resetStopwatchElement= document.getElementById("resetStopwatch");
@@ -133,7 +135,7 @@
     var buttonS = document.getElementById("startStopwatch");
 
     //gestione tendina delle materie
-    var displaySubjects =["a"];
+    var displaySubjects;
     var subChoosen = document.getElementById("scelta");
     const newSubject = document.getElementById("newsub");
     const textMateria = document.getElementById("add_materie");
@@ -146,13 +148,14 @@
     swipeLeft.addEventListener("click", ()=>{
         if(!isTimerStarted && !isStopawatchStarted)  {
             swipeCount++;
-            toggleButtonTS();
+            toggleButtonTS(clocks);
         }
+
     })
     swipeRight.addEventListener("click", ()=>{
         if(!isTimerStarted && !isStopawatchStarted) {
             swipeCount++;
-            toggleButtonTS();
+            toggleButtonTS(clocks);
         }
     })
 
@@ -160,6 +163,72 @@
     //-----------------SCRIPT PER IL TIMER  --------------------------------------------------------
     //////////////////////////////////////////////////////////////S//////////////////////////////////
     //-------------------------EVENTO LA GESTIONE DEL RANGE PER IL TIMER   -------------------------//
+    rangeStart.addEventListener("input",()=> {
+        if(!isTimerStarted) {
+            rangeStart.classList.add("rangePrevent");
+        }
+        let timeOnClock = (7200 / rangeStart.max) * rangeStart.value;
+        let hours = Math.floor(timeOnClock / 3600);
+        var remainingSeconds = timeOnClock % 3600;
+        let minutes = Math.floor(remainingSeconds / 60);
+        let seconds = remainingSeconds % 60;
+        console.log(timeOnClock);
+
+        if (hours) {
+            formattedTime = `${hours.toString().padStart(2, "0")} : ${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
+        } else {
+            formattedTime = `${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
+        }
+        timeTimerElement.innerText = formattedTime;
+        startTimeTI = timeOnClock;
+
+
+    })
+    //-------------------------EVENTO PER DIRE SE SONO IN STOP OPPURE IN START -------------------------//
+    startTimerElement.addEventListener('click', function() {
+        subChoosen=document.getElementById("scelta");
+        if(subChoosen.value !=='') {
+            isTimerStarted = true;
+            // Verifica lo stato del bottone
+            if (buttonT.innerHTML === "Start") {
+                blockSelection();
+                // Prima volta che è stato cliccato
+                console.log('Primo clic');
+
+                console.log(clocks);
+                var time = new Date().getTime();
+                startClock(clocks,time,null);
+                // Aggiorna lo stato
+                buttonT.innerHTML = "Stop";
+                buttonT.setAttribute("aria-label", "Stop");
+            } else {
+
+                // Seconda volta che è stato cliccato
+                console.log('Secondo clic');
+                console.log(clocks);
+                stopClock(clocks);
+                // Aggiorna lo stato
+                buttonT.innerHTML = "Start";
+                buttonT.removeAttribute("aria-label");
+            }
+        }else{
+            alert("choose a subject to study first :)")
+        }
+    })
+    //-------------------------EVENTO PER RESETTARE -------------------------//
+    resetTimerElement.addEventListener("click",()=> {
+        console.log("resetTimer 2")
+        if(isTimerStarted)  {
+            {
+                //resetTimer(idTimerOrStopwatch);
+                stopClock(clocks);
+                generatePopUp(1,clocks);
+            }
+        }else
+        {
+            alert('Cannot reset without a start')
+        }
+    })
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //-----------------SCRIPT PER IL STOPWATCH -----------------------------------------------------
@@ -173,8 +242,9 @@
                 blockSelection();
                 // Prima volta che è stato cliccato
                 console.log('Primo clic');
-                time = new Date().getTime();
-                startClock(clocks);
+                var time = new Date().getTime();
+                console.log(clocks,time,null);
+                startClock(clocks,time);
                 // Aggiorna lo stato
                 buttonS.innerHTML = "Stop";
                 buttonS.setAttribute("aria-label", "Stop");
@@ -182,7 +252,6 @@
 
                 // Seconda volta che è stato cliccato
                 console.log('Secondo clic');
-                console.log(isStopawatchStarted);
                 stopClock(clocks);
                 // Aggiorna lo stato
                 buttonS.innerHTML = "Start";
@@ -192,6 +261,7 @@
             alert("choose a subject to study first :)")
         }
     })
+    //-------------------------EVENTO PER RESETTARE -------------------------//
     resetStopwatchElement.addEventListener("click",()=> {
         console.log("counting:",isStopawatchStarted)
         if(isStopawatchStarted)  {
@@ -211,36 +281,27 @@
     //-----------------SCRIPT PER LA SCELTA DELLA MATERIA ------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //-------------------------EVENTO PER FARE IL DISPLAY DELLE MATERIE -------------------------//
-    var addSubject;
     window.addEventListener("DOMContentLoaded", () => {
-        //populateSelect(displaySubjects);
+        operationType= 3;
         subjectsRequests();
-        newSession(clocks);
-        console.log("finito tutto");
-
 
     });
     //-------------------------EVENTO PER FAGGIUNGERE UNA MATERIA  -------------------------//
 
-
+    var addSubject;
     newSubject.addEventListener("click", ()=> {
-
         addSubject = document.getElementById("add_materie").value;
-        console.log(addSubject);
-        if (textMateria.value.trim() === '') {
-            alert('Please enter a subject');
-        } else if (isSubPresent(addSubject) || addSubject === '') {
-            alert('Subject already exists');
+        if (!isSubPresent(addSubject)) {
+            alert("mteria gia inserita");
         } else {
             textMateria.value = "";
             operationType = 2;
             dataTime['subjectName'] = addSubject;
+           // (dataTime,operationType);
             var optionElement = document.createElement("option");
             optionElement.value = addSubject;
             optionElement.textContent = addSubject;
             subChoosen.appendChild(optionElement);
-            databaseDelivery(dataTime,operationType);
-
         }
     })
     src ="../backend/fuction_files/query.php";
