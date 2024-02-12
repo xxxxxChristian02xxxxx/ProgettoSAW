@@ -111,7 +111,7 @@
         money : null,
         subjectName: null,
         description: null,
-        season: null,
+        //season: null,
     };
 
     // variabili utili
@@ -394,13 +394,13 @@
     var addSubject;
     newSubject.addEventListener("click", ()=> {
         addSubject = document.getElementById("add_materie").value;
-        if (!isSubPresent(addSubject)) {
-            alert("mteria gia inserita");
+        if (isSubPresent(addSubject)) {
+            alert("materia gia inserita");
         } else {
             textMateria.value = "";
             operationType = 2;
             dataTime['subjectName'] = addSubject;
-            (dataTime,operationType);
+            databaseDelivery(dataTime,operationType);
             var optionElement = document.createElement("option");
             optionElement.value = addSubject;
             optionElement.textContent = addSubject;

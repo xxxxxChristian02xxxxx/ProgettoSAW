@@ -23,10 +23,10 @@ function isSubPresent(addSubject){
         console.log(subnew, ",", subpr);
         if (subnew === subpr) {
             console.log("sono qui");
-            return false;
+            return true;
         }
     }
-    return true;
+    return false;
 }
 function blockSelection(){
      subChoosen.disabled =true;
@@ -139,10 +139,17 @@ function resetClock(typeClock) {
     dataTime['money'] =timeSpentForMoney;
     dataTime['subjectName'] = subEventuallyStudied.value;
     dataTime['description'] = descriptionArea.value;
+    // Ho dovuto cambiare il db mettendo che può accettare valori nulli
     dataTime['season'] = numberSeason;
 
-    if(typeClock){timeGone =0;
-    }else{timeGone=startTimeTI;}
+
+    if(typeClock)
+    {
+        timeGone =0;
+    }
+    else{
+        timeGone=startTimeTI;
+    }
     timmeSpentForSession = 0;
     updateTimer(typeClock);
     timeSpentForMoney=0;
@@ -169,6 +176,9 @@ function stopClock(typeClock) {
 }
 function databaseDelivery(json_data,operationType) {
     console.log('json_data in delivery: ', json_data);
+    console.log(operationType);
+    json_data['typeSession'] = operationType;
+    console.log(json_data);
     let Action;
     switch (operationType){
         case 1:

@@ -65,6 +65,7 @@ include('header.php');
                 <th>TOKEN</th>
                 <th>EXPIRE</th>
                 <th>MONEY</th>
+                <th>DELETE USER</th>
             </thead>
             <tbody></tbody>
         </table>
