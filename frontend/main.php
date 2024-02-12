@@ -7,18 +7,18 @@
     //Aggiunta dell'header
     include('header.php');
 
+    include("../backend/function_files/session.php");
     $session = getSession(true);
     echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </h2>" ;
 ?>
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<html lang="en">
 <head>
     <title>Home</title>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
     <link href="../main_dressing.css" rel="stylesheet" type="text/css">
 </head>
-
 
 <body>
 <div>
@@ -105,6 +105,7 @@
 
 
 <script>
+
     const dataTime={
         typeSession: null,
         timeSpent: null,
@@ -409,6 +410,7 @@
         }
     })
     src ="../backend/fuction_files/query.php";
+
 </script>
 <script src="../js/main_timer.js"></script>
 <footer>

@@ -21,6 +21,8 @@ if(!function_exists('banUnban')){
 
         $data = $result->fetch_assoc();
 
+        $con->close();
+
         header('Content-Type: application/json');
         echo json_encode($data['BANNED']);
     }
