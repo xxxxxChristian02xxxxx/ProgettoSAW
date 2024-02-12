@@ -13,24 +13,19 @@ if(!function_exists('modifyMoney')){
         $stmt->bind_param("is", $money,$email);
         $stmt->execute();
 
-        //creazione prepared statemet per prelevare tutta la tabella
-        $query = "SELECT * FROM USERS"; // query
-        $stmt = $con->prepare($query); // execute query
+        // ottengo il valore updatato dal db
+        $query = "SELECT MONEY FROM USERS WHERE EMAIL = ?";
+        $stmt = $con->prepare($query);
+        $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        $data = array();
+
+        $data = $result->fetch_assoc();
+        $updatedMoney = $data['MONEY'];
 
         header('Content-Type: application/json');
-        if($result->num_rows>0){
-            while($row = $result->fetch_assoc()){
-                $data[] = $row;
-            }
-        }
-
-        $con->close();
-
-        echo json_encode($data);
+        echo json_encode($updatedMoney);
     }
 }
 if(!function_exists('resetMoney')){
