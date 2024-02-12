@@ -36,7 +36,8 @@ function unlockSelection(){
     subChoosen.disabled =false;
 }
 //-------------------------FUNZIONE PER IL PER TIMER E STOPWATCH -------------------------//
-function toggleButtonTS(typeClock) {
+function toggleButtonTS(typeClock,displayTimer,displayStopwatch,swipeCount){
+
     console.log(swipeCount);
     if ((swipeCount % 2 )=== 0) {
         displayTimer.classList.remove("hide");
@@ -77,7 +78,7 @@ function showStudySession(){
 }
 function populateSelect(options){
     let gridHtml = '';
-
+    let subEventuallyStudied=document.getElementById("scelta");
     options.forEach(op =>{
         gridHtml += generateOptions(op);
     })
@@ -171,6 +172,9 @@ function sessionPopUpManager(popUpContent,typeClock,timeBreakStart) {
     const closeButtonPopUp = document.getElementById("closePopUp");
     const cancelButtonPopUp = document.getElementById("cancelPopup")
     const textPopUp = document.getElementById("area_descrizione");
+    var buttonT = document.getElementById("TimerStart");
+    var buttonS = document.getElementById("startStopwatch");
+
     console.log("sessionPopUpManager",typeClock);
 
     showStudySession()
@@ -200,7 +204,7 @@ function sessionPopUpManager(popUpContent,typeClock,timeBreakStart) {
     })
     //-------------------------EVENTO PER DIRE CHIUDERE IL POPUP CONTINUANDO -------------------------//
     cancelButtonPopUp.addEventListener("click",()=>{
-        if(!isTimerDone) {
+        if(!typeClock['idTimerEndOrStop']) {
             if (buttonT.innerHTML === "Stop") {
                 buttonT.innerHTML = "Start";
                 buttonT.removeAttribute("aria-label");
@@ -210,11 +214,7 @@ function sessionPopUpManager(popUpContent,typeClock,timeBreakStart) {
                 buttonS.removeAttribute("aria-label");
             }
             popUpContent.classList.remove("open");//aggiungo il css
-
-
         }
-
-
     })
     //-------------------------EVENTO CONTARE NUMERO CARATTERI NELLA SEZIONE DESCRIZIONE  -------------------------//
     descriptionArea.addEventListener("keydown", function (e) {
@@ -289,12 +289,13 @@ function breakPopUpManager(popUpContent,typeClock){
 }
 //-------------------------FUNZIONE PER FARE L'UPDATE DEL TIMER -------------------------//
 function updateTimer(typeClock,timeGone) {
-    console.log("ere",timeGone)
+    let timeTimerElement = document.getElementById("timeTimer");
+    let timeStopwatchElement = document.getElementById("timeStopwatch");
+    let formattedTime;
     let hours = Math.floor(timeGone / 3600);
     let remainingSeconds = timeGone % 3600;
     let minutes = Math.floor(remainingSeconds / 60);
     let seconds = remainingSeconds % 60;
-    console.log("time", hours,minutes,seconds);
 
     if(hours){
         formattedTime = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
@@ -320,8 +321,8 @@ function startClock(typeClock,time,timeBreakStart) {
             const currentTime = new Date();
             const diff = currentTime-time;
             const secondsPassed = Math.floor(diff / 1000);
-            timeGone =startTimeST+secondsPassed;
-            console.log(timeGone, secondsPassed, startTimeST, diff, time );
+            timeGone =typeClock['startTimeST'] +secondsPassed;
+            console.log(timeGone, secondsPassed, typeClock['startTimeST'], diff, time );
             timmeSpentForSession++ ;
             timeSpentForMoney++
             updateTimer(typeClock,timeGone);
@@ -336,10 +337,10 @@ function startClock(typeClock,time,timeBreakStart) {
                 const currentTime = new Date();
                 const diff = currentTime-time;
                 const secondsPassed = Math.floor(diff / 1000);
-                timeGone = startTimeTI-secondsPassed;
+                timeGone =typeClock['startTimeTI'] -secondsPassed;
                 timmeSpentForSession++;
                 timeSpentForMoney++
-                console.log("timeGone",timeGone,startTimeTI,secondsPassed);
+                console.log("timeGone",timeGone,typeClock['startTimeTI'] ,secondsPassed);
                 updateTimer(typeClock,timeGone);
 
                 if (timeGone === 0) {
@@ -347,9 +348,8 @@ function startClock(typeClock,time,timeBreakStart) {
                     clearInterval(interval);
                     stopClock(typeClock);
                     typeClock['idTimerEndOrStop']=true;
-                    //updateTimer(typeClock);
                     generatePopUp(2,typeClock);
-                    // timeGone = startTimeTI;
+
 
                 }
             }, 1000)
@@ -374,9 +374,6 @@ function startClock(typeClock,time,timeBreakStart) {
                 }
             }, 1000)
         }
-
-
-
     }
 }
 //-------------------------FUNZIONE PER IL RESETTARE IL TIMER -------------------------//
@@ -391,11 +388,11 @@ function resetClock(typeClock,descriptionArea) {
     dataTime['money'] =timeSpentForMoney;
     dataTime['subjectName'] = subEventuallyStudied.value;
     dataTime['description'] = descriptionArea.value;
-    dataTime['season'] = numberSeason;
+  //  dataTime['season'] = numberSeason;
 
     let timeGone;
     if(typeClock['idTimerOrStopwatch']){timeGone =0;
-    }else{timeGone=startTimeTI;}
+    }else{timeGone=typeClock['startTimeTI'];}
     timmeSpentForSession = 0;
     updateTimer(typeClock,timeGone);
     timeSpentForMoney=0;
