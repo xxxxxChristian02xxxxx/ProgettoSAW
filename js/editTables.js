@@ -26,7 +26,7 @@ function populateTable(data, currentPage, rowsPerPage, table) {
                 deleteButton.innerHTML = 'X';
                 deleteButton.className = "deleteButton";
                 deleteCell.appendChild(deleteButton);
-                deleteButton.addEventListener("click", function(){
+               /* deleteButton.addEventListener("click", function(){
                     console.log("Delete button pressed");
                     // ricavo la riga in cui si trova il bottone che è stato premuto
                     var rowIndex = this.parentNode.parentNode;
@@ -34,7 +34,7 @@ function populateTable(data, currentPage, rowsPerPage, table) {
                     if(rowIndex.cells[6].innerText){
                         window.alert("You can't delete an admin user!");
                     }
-                });
+                });*/
             }
             table.appendChild(newRow);
         }

@@ -199,9 +199,7 @@
     //////////////////////////////////////////////////////////////S//////////////////////////////////
     //-------------------------EVENTO LA GESTIONE DEL RANGE PER IL TIMER   -------------------------//
     rangeStart.addEventListener("input",()=> {
-       if(!isTimerStarted) {
-           rangeStart.classList.add("rangePrevent");
-       }
+
            let timeOnClock = (7200 / rangeStart.max) * rangeStart.value;
            let hours = Math.floor(timeOnClock / 3600);
            var remainingSeconds = timeOnClock % 3600;
@@ -221,6 +219,7 @@
     })
     //-------------------------EVENTO PER DIRE SE SONO IN STOP OPPURE IN START -------------------------//
     startTimerElement.addEventListener('click', function() {
+        rangeStart.classList.add("rangePrevent");
         subChoosen=document.getElementById("scelta");
         if(subChoosen.value !=='') {
             isTimerStarted = true;
@@ -257,7 +256,9 @@
             {
                 //resetTimer(idTimerOrStopwatch);
                 showStudySession();
-                stopClock(0);
+                stopClock(idTimerOrStopwatch);
+                rangeStart.classList.add("rangePrevent");
+
                 popUp.classList.add("open");//aggiungo il css
             }
         }else
@@ -304,7 +305,7 @@
             {
                 
                 showStudySession();
-                stopClock();
+                stopClock(idTimerOrStopwatch);
                 popUp.classList.add("open");//aggiungo il css
             }
         }else

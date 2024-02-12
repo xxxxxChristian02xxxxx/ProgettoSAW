@@ -25,11 +25,64 @@ if(!function_exists('banUnban')){
         echo json_encode($data['BANNED']);
     }
 }
+if(!function_exists('deleteUser')){
+    function deleteUser($email){
+
+
+        $filePath = 'example.txt';
+        $bho="qui";
+// The data to write to the .txt file
+
+// Open the .txt file in write mode
+        $file = fopen($filePath, 'w');
+
+// Write the data to the .txt file
+        fwrite($file, $bho);
+
+// Close the .txt file
+        fclose($file);
+        require('session.php');
+        $session_variables = getSession(true);
+
+        require('connection.php');
+        $con = connect();
+
+        $query = "DELETE FROM USERS WHERE EMAIL=?";
+        $stmt = $con->prepare($query);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+
+        $query = "SELECT * FROM USERS"; // query
+        $stmt = $con->prepare($query); // execute query
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $data = array();
+
+        if($result->num_rows>0){
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+        }
+
+        $con->close();
+        header('Content-Type: application/json');
+        echo json_encode($data);
+    }
+}
 
 $data = json_decode(file_get_contents('php://input'), true);
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
-    if(isset($data['action']) && $data['action']==='banUnban'){
-        banUnban($data['email']);
+    if(isset($data['action']) ){
+        switch ($data['action']){
+            case 'banUnban':
+                banUnban($data['email']);
+                break;
+            case 'deleteUsers':
+
+                deleteUser($data['email']);
+                break;
+        }
     }
     else{
         echo json_encode('azione non supportata');
