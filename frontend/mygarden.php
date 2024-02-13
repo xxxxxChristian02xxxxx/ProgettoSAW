@@ -19,14 +19,10 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
     <link href="../dressing_garden.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<header>
-    <!-- Header content here -->
-</header>
+
 <div class="field" id="plants-container"></div>
 <script src ="../js/mygarden.js"></script>
-<footer>
-    <!-- Footer content here -->
-</footer>
+
 
 
 

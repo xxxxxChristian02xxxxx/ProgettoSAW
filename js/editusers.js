@@ -153,7 +153,6 @@ function popup(cell, row, dataTarget) {
             case row.cells[11]:
                 console.log("11", dataTarget);
                 appendDeleteToContainer(popUpContent, dataTarget);
-                break;
         }
         const closePopUpButton = document.getElementById('closePopUpButton');
         switch (cell) {
@@ -229,7 +228,6 @@ function popup(cell, row, dataTarget) {
                 const votedNo = document.getElementById("noDelete");
 
                 votedYes.addEventListener('click', () => {
-                    console.log("here I am");
                     deleteUserFetch(dataTarget, cell);
                     popUp.classList.add('hidden');
                     document.body.style.overflow = 'auto';
@@ -388,7 +386,8 @@ function generateDelete(dataTarget) {
                    <p>Are you sure to delete from the system?</p>
                 <div>
                      <button id ="yesDelete">Yes</button>
-                     <button id ="noDelete">No</button>
+                     <button id ="noDelete">No </button>
+
                 </div>
                 </div>
   `;
@@ -429,23 +428,22 @@ function generateBanUnban(dataTarget) {
 }
 
 function deleteUserFetch(dataTarget, cell) {
-    fetch("../backend/function_files/banUnban.php", {
+    fetch("../backend/function_files/deleteUser.php", {
         method: "POST",
         headers: {
             'Content-type': 'application/json'
         },
-        body: JSON.stringify({action: 'deleteUser', email: dataTarget['email'].innerText})
+        body: JSON.stringify({action:'deleteUser', email: dataTarget['email'].innerText})
     })
         .then(response => {
             return response.json();
         })
         .then(data => {
-            if(data){
-                console.log(cell.parentNode.tagName);
-                cell.parentNode.remove();
-            }
+           getData(1,5)
         })
         .catch(error => {
             console.error("qualcosa è andato storto", error);
         })
+
+
 }

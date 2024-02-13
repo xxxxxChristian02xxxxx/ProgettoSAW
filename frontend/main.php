@@ -67,11 +67,12 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
     </div>
 </div>
 <!-- pop up timer-->
-<div class="container_popup" id="popUp">
-    <div class="popup" id="popUpContent">
+<div class="container_popup" id="popUpMain">
 
-    </div>
+    <div class="popup" id="popUpContentMain"></div>
 </div>
+
+
 <script>
     const dataTime={    //per db
         typeSession: null,
@@ -79,7 +80,9 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
         money : null,
         subjectName: null,
         description: null,
-        //season: null,
+
+       // season: null,
+
     };
 
     function swipe(clocks){
@@ -136,8 +139,9 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
         })
         //-------------------------EVENTO PER DIRE SE SONO IN STOP OPPURE IN START -------------------------//
         startTimerElement.addEventListener('click', function() {
-            var subChoosen=document.getElementById("scelta");
-            console.log(subChoosen.value);
+
+           var subChoosen=document.getElementById("scelta");
+
             rangeStart.classList.add("rangePrevent");
             if(subChoosen.value !=='') {
                 clocks['isTimerStarted'] = true;
@@ -256,20 +260,25 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
     }
 
     window.addEventListener("DOMContentLoaded", () => {
+
         const clocks={      //di gestione
             idTimerOrStopwatch : false,   //0  stopwatch , 1 timer
             idTimerEndOrStop:false ,      //0  end , 1 stop
             startTimeTI : 4, // default
+
             startTimeST :0,     //default
             isTimerStarted  : false,// false: timer is at max, true:timer is running
             isStopawatchStarted : false, // false : stopwatch is at max , true : stopwatch is running
             interval:0,
-            break5MIn : 300,
-            break15MIn :900,
-            break30MIn: 1800
+
+            shortBreak: 20,
+            middleBreak:900,
+            longBreak :1800
+
+
         }
         var displaySubjects=[];
-        subjectsRequests(displaySubjects);
+        //subjectsRequests(displaySubjects);
         swipe(clocks);
         sessionTimer(clocks);
         sessionStopwatch(clocks);
