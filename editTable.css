@@ -1,0 +1,99 @@
+.studySessions, .editUser, .personalRank, .globalRank {
+    font-family: 'Roboto', sans-serif;;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.search-options {
+    font-family: 'Roboto', sans-serif;
+    width: 85%;
+    margin: 10px 20px;
+    display: flex;
+}
+
+.filters {
+    font-family: 'Roboto', sans-serif;
+    width: 85%;
+    margin: 10px 20px;
+    display: flex;
+}
+
+.valueFilter {
+    margin-left: 10px;
+    display: none;
+}
+
+.search {
+    margin-left: auto;
+}
+
+#studySessionTableContainer {
+    width: 100%;
+}
+
+#personalRankTableContainer, #globalRankTableContainer {
+    width: 75%;
+}
+
+.dataTable {
+    font-family: 'Roboto', sans-serif;
+    border-collapse: collapse;
+    border: 1px solid black;
+    width: 85%;
+    margin: auto;
+    font-size: 12px;
+}
+
+.dataTable th {
+    height: 50px;
+    border: 0.5px solid black;
+    text-align: center;
+    background-color: lightgreen;
+}
+
+.dataTable tbody tr td{
+    height: 40px;
+    border: 0.5px solid black;
+    text-align: center;
+}
+
+#pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25px;
+}
+
+.UpdateForm {
+    font-family: 'Roboto', sans-serif;;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
+}
+
+#UserUpdate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    margin: auto;
+}
+#UserUpdate label{
+    text-align: left;
+    width: 50%;
+}
+
+#UserUpdate input{
+    width: 50%;
+}
+
+#UserUpdate input[type='submit'] {
+    width: 25%;
+}
+
+#rankRedirect {
+    margin-top: 10px;
+}

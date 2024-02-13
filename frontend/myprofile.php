@@ -19,13 +19,13 @@ include('header.php');
     <h1>My profile</h1>
     <form id="UserUpdate" action="myprofile.php" method="POST">
         <label for="firstname">Firstname:</label>
-        <input type="text" id="firstname" name="firstname" value="<?php echo $session['firstname']?>"><br>
+        <input type="text" id="firstname" name="firstname"><br>
 
         <label for="lastname">Lastname:</label>
-        <input type="text" id="lastname" name="lastname" value="<?php echo $session['lastname']?>"><br>
+        <input type="text" id="lastname" name="lastname"><br>
 
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" value="<?php echo $session['email']?>"><br>
+        <input type="email" id="email" name="email"><br>
         <span id="emailError" class="error"></span>
 
         <label for="pass">New password:</label>
@@ -36,6 +36,7 @@ include('header.php');
 
         <input type="submit" value="Update">
     </form>
+    <script src="../js/myProfile.js"></script>
 </div>
 <div id="errorMessages" class="error"></div>
     <?php

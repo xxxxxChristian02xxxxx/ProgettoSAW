@@ -24,6 +24,7 @@ function getData(currentPage, rowsPerPage) {
             });
             banUnban();
             modifyMoney();
+            promoteDemoteUser();
             deleteUser();
         })
         .catch(error => console.error('Error in reaching data:', error));
@@ -34,22 +35,23 @@ function banUnban() {
     // Come prima cosa accedo alle righe della tabelle
     // querySelectorAll restituisce una lista, in questo caso la lista di quelle che sono le righe della tabella
     var rows = document.querySelectorAll('#edituserTable tbody tr');
-    const dataTargetta = {
-        email: null,
-        firstname: null,
-        lastname: null,
+    const dataTarget= {
+        email:null,
+        firstname:null,
+        lastname:null,
     }
     // Per ogni riga
-    rows.forEach(function (row) {
+    rows.forEach(function(row){
         // Accedo alla cella relativa al campo ban (sapendo qual è la struttura della tabella ho fatto l'accesso tramite indice)
-        var cell = row.cells[6];
-        if (cell) {
+        var cellBan = row.cells[6];
+        if(cellBan){
             // Memorizzo l'email relativa alla cella che è stata cliccata (anche in questo caso conoscendo la struttura so dove è memorizzata l'email)
-            cell.addEventListener('click', function () {
-                dataTargetta['email'] = row.cells[3];
-                dataTargetta['firstname'] = row.cells[1];
-                dataTargetta['lastname'] = row.cells[2];
-                popup(cell, row, dataTargetta);
+            cellBan.addEventListener('click', function () {
+                dataTarget['email'] = row.cells[3];
+                dataTarget['firstname']=row.cells[1];
+                dataTarget['lastname']=row.cells[2];
+                console.log("o",dataTarget);
+                popup(cellBan,row,dataTarget);
             });
             // Aggiungo un listener relativo al click sulla cella della tabella
             // Quando clicco -> chiamata fetch a file che faccia lo sban o il ban nel db
@@ -59,6 +61,35 @@ function banUnban() {
 
 }
 
+function promoteDemoteUser() {
+    // Come prima cosa accedo alle righe della tabelle
+    // querySelectorAll restituisce una lista, in questo caso la lista di quelle che sono le righe della tabella
+    var rows = document.querySelectorAll('#edituserTable tbody tr');
+    const dataTarget= {
+        email:null,
+        firstname:null,
+        lastname:null,
+    }
+    // Per ogni riga
+    rows.forEach(function(row){
+        // Accedo alla cella relativa al campo roles (sapendo qual è la struttura della tabella ho fatto l'accesso tramite indice)
+        var cellAdmin = row.cells[5];
+        if(cellAdmin){
+            // Memorizzo l'email relativa alla cella che è stata cliccata (anche in questo caso conoscendo la struttura so dove è memorizzata l'email)
+            cellAdmin.addEventListener('click', function () {
+                dataTarget['email'] = row.cells[3];
+                dataTarget['firstname']=row.cells[1];
+                dataTarget['lastname']=row.cells[2];
+
+                promoteDemoteFetch(dataTarget, cellAdmin);
+            });
+            // Aggiungo un listener relativo al click sulla cella della tabella
+            // Quando clicco -> chiamata fetch a file che faccia lo sban o il ban nel db
+
+        }
+    });
+
+}
 function modifyMoney() {
     // Come prima cosa accedo alle righe della tabelle
     // querySelectorAll restituisce una lista, in questo caso la lista di quelle che sono le righe della tabella
@@ -284,7 +315,37 @@ function banUnbanFetch(dataTarget, cell) {
         })
 }
 
-function appendModifyToContainer(popUpContent, cell) {
+function promoteDemoteFetch(dataTarget,cell){
+    fetch("../backend/function_files/promoteDemoteUser.php", {
+        method: "POST",
+        headers: {
+            'Content-type':'application/json'
+        },
+        body: JSON.stringify({action: 'promoteDemote', email: dataTarget['email'].innerText})
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            var promoteButton = cell.querySelector('.promoteButton');
+            if(data === 1){
+                promoteButton.innerHTML = 'Demote';
+                promoteButton.setAttribute('data-content', 'Demote');
+                promoteButton.classList.add('.promoteButton[data-content="Demote"');
+            }
+            else{
+                promoteButton.innerHTML = 'Promote';
+                promoteButton.setAttribute('data-content', 'Promote');
+                promoteButton.classList.add('.promoteButton[data-content="Promote"');
+            }
+        })
+        .catch(error => {
+            console.error("qualcosa è andato storto");
+        })
+}
+
+function appendModifyToContainer(popUpContent,cell) {
     let gridHtml = '';
     gridHtml += generateModify(cell);
     popUpContent.innerHTML = gridHtml;
@@ -310,7 +371,7 @@ function generateModify(cell) {
                     <button id ="resetAmount">Reset Money</button>
                     </p>
                 </div>
-  `;
+  `
 }
 
 function generateDelete(dataTarget) {

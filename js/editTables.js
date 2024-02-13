@@ -16,7 +16,23 @@ function populateTable(data, currentPage, rowsPerPage, table) {
             // e applicazione di una funzione a ciascuna di esse
             Object.keys(data[i]).forEach(function (key) {
                 var newCell = document.createElement('td');
-                newCell.textContent = data[i][key];
+                if(key === 'ROLES'){
+                    var promoteButton = document.createElement('button');
+                    if(data[i][key] === 1){
+                        promoteButton.innerHTML = 'Demote';
+                        promoteButton.setAttribute('data-content', 'Demote');
+                    }
+                    else{
+                        promoteButton.innerHTML = 'Promote';
+                        promoteButton.setAttribute('data-content', 'Promote');
+                    }
+                    promoteButton.className = "promoteButton";
+                    newCell.appendChild(promoteButton);
+                }
+                else
+                {
+                    newCell.textContent = data[i][key];
+                }
                 newRow.appendChild(newCell)
             });
             if(table === document.querySelector('#edituserTable tbody')){

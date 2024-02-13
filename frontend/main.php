@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 //Verifica se è impostato un cookie
@@ -80,7 +79,7 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
         money : null,
         subjectName: null,
         description: null,
-        // season: null,
+        //season: null,
     };
 
     function swipe(clocks){
