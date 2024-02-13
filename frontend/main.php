@@ -40,7 +40,7 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
     <div class="column center">
         <div class="container" id="containertimer">
             <div class="title">
-                <h1>Timer</h1>
+                <h1 id ="timerTitle">Timer</h1>
             </div>
             <p id="timeTimer" class="timer"></p>
             <div > <input type="range" id="TimerRange"></div>
