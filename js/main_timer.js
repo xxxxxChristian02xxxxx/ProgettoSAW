@@ -294,7 +294,6 @@ function updateTimer(typeClock,timeGone) {
 function startClock(typeClock,time,timeBreakStart) {
     console.log(typeClock['idTimerOrStopwatch'], "false timer, true stopwatch")
     var timeGone =0 ;
-
     if(typeClock['idTimerOrStopwatch']) {    /*intervallo che deve essere aggiornato ogni 1000 ms*/
         console.log("dentro stopwatch secton", time );
         toggleButton('startStopwatch');
@@ -330,6 +329,7 @@ function startClock(typeClock,time,timeBreakStart) {
                     stopClock(typeClock);
                     typeClock['idTimerEndOrStop']=true;
                     generatePopUp(2,typeClock);
+
                 }
             }, 1000)
         }else  {
@@ -435,3 +435,4 @@ function subjectsRequests(displaySubjects) {
         });
 
 }
+
