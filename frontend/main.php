@@ -68,10 +68,9 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
 </div>
 <!-- pop up timer-->
 <div class="container_popup" id="popUp">
-    <div class="popup" id="popUpContent">
-
-    </div>
+    <div class="popup" id="popUpContent"></div>
 </div>
+
 <script>
     const dataTime={    //per db
         typeSession: null,
@@ -255,14 +254,17 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-        const clocks={      //di gestione
-            idTimerOrStopwatch : false,   //0  stopwatch , 1 timer
-            idTimerEndOrStop:false ,      //0  end , 1 stop
-            startTimeTI : 4, // default
+        const clocks={                      //di gestione
+            idTimerOrStopwatch : false,     //0  stopwatch , 1 timer
+            idTimerEndOrStop:false ,        // 0  end , 1 stop
+            startTimeTI : 4,                // default
             startTimeST :0,     //default
             isTimerStarted  : false,// false: timer is at max, true:timer is running
             isStopawatchStarted : false, // false : stopwatch is at max , true : stopwatch is running
-            interval:0
+            interval:0,
+            shortBreak: 300,
+            middleBreak:900,
+            longBreak :1800
         }
         var displaySubjects=[];
         subjectsRequests(displaySubjects);
