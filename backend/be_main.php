@@ -10,7 +10,7 @@ if(!function_exists('addSessionStudied')){
         $con = connect();
 
         //---------------QUERY PER MODIFICARE I DATI DELL' UTENTE ---------------//
-        $query = "UPDATE USERS SET MONEY = MONEY + ? WHERE ID =?";
+        $query = "UPDATE users SET MONEY = MONEY + ? WHERE ID =?";
         $stmt = $con->prepare($query);
         $stmt->bind_param('ii', $moneyObtainedFromSession, $userId);
         $stmt->execute();
@@ -20,6 +20,7 @@ if(!function_exists('addSessionStudied')){
 
         // DEVO CAMBIARE TOTAL REWARD, MA è PER VEDERE SE FUNZIONA
         $query = "INSERT INTO STUDY_SESSIONS (SESSION_ID, TYPE, DATE, TOTAL_TIME, TOTAL_REWARD, USER, SEASON, DESCRIPTION) VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?)";
+
         $stmt = $con->prepare($query);
         $stmt->bind_param('iiiiis', $typesession, $total_time_spent, $moneyObtainedFromSession, $userId, $seasonId, $descriptionSession);
         $stmt->execute();
@@ -28,7 +29,7 @@ if(!function_exists('addSessionStudied')){
         $sessionId = mysqli_insert_id($con);
 
         // Query per ricavare id della materia studiata
-        $query = "SELECT ID FROM SUBJECTS WHERE NAME = ?";
+        $query = "SELECT ID FROM subjects WHERE NAME = ?";
         $stmt = $con->prepare($query);
         $stmt->bind_param("s", $subjectStudied);
         $stmt->execute();
@@ -37,7 +38,7 @@ if(!function_exists('addSessionStudied')){
         error_log(print_r($row, true));
         $subjectId = $row['ID'];
 
-        $query = "INSERT INTO SUBJECT_SESSIONS (SUBJECT_ID, SESSION_ID) VALUES (?, ?)";
+        $query = "INSERT INTO subject_sessions (SUBJECT_ID, SESSION_ID) VALUES (?, ?)";
         $stmt = $con->prepare($query);
         $stmt->bind_param("ii", $subjectId, $sessionId);
         $stmt->execute();
@@ -53,17 +54,30 @@ if(!function_exists('updateSubject')){
         $con = connect();
 
         //---------------QUERY PER AGGIORNARE LA MATERIA STUDIATA SE NUOVA  ---------------//
-        $query = "INSERT INTO SUBJECTS (NAME) VALUES (?) ON DUPLICATE KEY UPDATE NAME=NAME";
+        $query = "INSERT INTO subjects (NAME) VALUES (?) ON DUPLICATE KEY UPDATE NAME=NAME";
         $stmt=$con->prepare($query);
         $stmt->bind_param('s',$subjectStudied);
         //Esecuzione della query
-        $stmt->execute();
+        if(!$stmt->execute()){
+            header('Content-Type: application/json');
+
+            echo json_encode("errore") ;
+
+
+        }
         if ($stmt->affected_rows == 1) {
-            $mat = "materia studiata aggiunta o già esistente";
+            header('Content-Type: application/json');
+
+            echo json_encode("materia studiata aggiunta o già esistente") ;
         } else {
-            $mat = "error per aggiungere la materia studiata";
+            header('Content-Type: application/json');
+
+            echo json_encode("error per aggiungere la materia studiata")  ;
         }
         $con->close();
+
+        header('Content-Type: application/json');
+        echo json_encode("finito la queri");
     }
 }
 if(!function_exists('subjectTend')){
@@ -75,10 +89,10 @@ if(!function_exists('subjectTend')){
         $con = connect();
 
         //---------------QUERY PER OTTENERE TUTTE LE MATERIE DI UNA PERSONA PER IL MENU A TENDINA ---------------//
-        $query = "SELECT DISTINCT NAME FROM SUBJECTS 
-                  INNER JOIN SUBJECT_SESSIONS ON SUBJECTS.ID = SUBJECT_SESSIONS.SUBJECT_ID 
-                  INNER JOIN STUDY_SESSIONS ON SUBJECT_SESSIONS.SESSION_ID = STUDY_SESSIONS.SESSION_ID
-                  WHERE STUDY_SESSIONS.USER =?";
+        $query = "SELECT DISTINCT NAME FROM subjects 
+                  INNER JOIN subject_sessions ON SUBJECTS.ID = subject_sessions.SUBJECT_ID 
+                  INNER JOIN study_sessions ON subject_sessions.SESSION_ID = study_sessions.SESSION_ID
+                  WHERE study_sessions.USER =?";
         $stmt = $con->prepare($query);
         $stmt->bind_param('i',$userId);
         $stmt->execute();
