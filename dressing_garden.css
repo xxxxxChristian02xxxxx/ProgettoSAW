@@ -1,15 +1,15 @@
 body{
     min-height: 100vh;
-
 }
 .field{
     background-image: url("images/mygardenbackground.jpg");
 
+    border: 5px solid brown;
     display: flex;
     width: 100%;
     flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
+    justify-content: center  ;
+    align-items: start;
     min-height: 100vh;
     height: calc(100vh - 100px); /* subtract the height of the header and footer from the height of the viewport */
 }
@@ -23,7 +23,7 @@ header, footer {
     background-color: rgba(255, 255, 255, 0.8); /* set the background color with an alpha channel value */
     opacity: 85%;
     width: 200px;
-    height: 300px;
+    height: 350px;
     border: 1px solid #ccc;
     border-radius: 5px;
     margin: 10px;
@@ -31,6 +31,8 @@ header, footer {
 }
 
 .card-image {
+    border: 1px solid black;
+
     width: 100%;
     height: 150px;
     object-fit: cover;
@@ -40,13 +42,14 @@ header, footer {
 
 .card-content {
     display: flex;
+    border: 1px solid lightgray;
     flex-direction: row;
     justify-content: space-between;
     padding: 10px;
 }
 
 .card-title {
-    font-size: 1.2em;
+    font-size: 1.5em;
     margin-bottom: 0;
 }
 
@@ -62,7 +65,8 @@ header, footer {
 }
 
 .card-price {
-    font-size: 1.1em;
+    font-size:1.1em;
     font-weight: bold;
     text-align: center;
+
 }

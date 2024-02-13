@@ -428,19 +428,18 @@ function generateBanUnban(dataTarget) {
 }
 
 function deleteUserFetch(dataTarget, cell) {
-    fetch("../backend/function_files/banUnban.php", {
+    fetch("../backend/function_files/deleteUser.php", {
         method: "POST",
         headers: {
             'Content-type': 'application/json'
         },
-        body: JSON.stringify({action: 'deleteUser', email: dataTarget['email'].innerText})
+        body: JSON.stringify({action:'deleteUser', email: dataTarget['email'].innerText})
     })
         .then(response => {
             return response.json();
         })
         .then(data => {
-            console.log(data);
-            cell.innerText = data;
+           getData(1,5)
         })
         .catch(error => {
             console.error("qualcosa è andato storto", error);
