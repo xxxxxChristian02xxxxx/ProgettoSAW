@@ -42,7 +42,7 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
             <div class="title">
                 <h1>Timer</h1>
             </div>
-            <p id="timeTimer" class="timer">25:00</p>
+            <p id="timeTimer" class="timer"></p>
             <div > <input type="range" id="TimerRange"></div>
             <div>
                 <button id="TimerStart">Start</button>
@@ -72,8 +72,6 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
 
     </div>
 </div>
-
-
 <script>
     const dataTime={    //per db
         typeSession: null,
@@ -81,28 +79,10 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
         money : null,
         subjectName: null,
         description: null,
-        season: null,
+       // season: null,
     };
-    // variabili utili
-    var isTimerStarted  = false; // false: timer is at max, true:timer is running
-    var isStopawatchStarted = false // false : stopwatch is at max , true : stopwatch is running
-    var  interval;
-    var timeSpentForMoney =0;
-    var timmeSpentForSession = 0;
-    var operationType=null;
 
-    //gestione switch tra timer e stopwatch
-    const clocks={      //di gestione
-        idTimerOrStopwatch : false,   //0  stopwatch , 1 timer
-        idTimerEndOrStop:false ,       //0  end , 1 stop
-        startTimeTI : 1500 , // default
-        startTimeST :0
-    }
-
-    //gestione tendina delle materie
-
-
-    function swipe(){
+    function swipe(clocks){
         const swipeLeft = document.getElementById("buttom-Swipe-left ");
         const swipeRight = document.getElementById("buttom-Swipe-right ");
         var displayTimer = document.getElementById("containertimer");
@@ -110,22 +90,21 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
         var swipeCount =0; // for < > button
         displayStopwatch.classList.add("hide");
         swipeLeft.addEventListener("click", ()=>{
-            if(!isTimerStarted && !isStopawatchStarted)  {
+            if(!clocks['isTimerStarted'] && !clocks['isStopawatchStarted'])  {
                 swipeCount++;
                 toggleButtonTS(clocks,displayTimer,displayStopwatch,swipeCount);
             }
 
         })
         swipeRight.addEventListener("click", ()=>{
-            if(!isTimerStarted && !isStopawatchStarted) {
+            if(!clocks['isTimerStarted'] && !clocks['isStopawatchStarted']) {
                 swipeCount++;
                 toggleButtonTS(clocks,displayTimer,displayStopwatch,swipeCount);
             }
         })
     }
-    function sessionTimer(){
+    function sessionTimer(clocks){
         //gestione timer
-        const subjectName=null;
         const startTimerElement= document.getElementById("TimerStart");
         const resetTimerElement= document.getElementById("resetTimer");
         const timeTimerElement= document.getElementById("timeTimer");
@@ -134,11 +113,10 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
         rangeStart.value = 5;
         rangeStart.min = 0;
         rangeStart.max = 24;
-
+        updateTimer(clocks,clocks['startTimeTI'])
+        rangeStart.value = (clocks['startTimeTI'] * rangeStart.max)/ 7200 ;
         rangeStart.addEventListener("input",()=> {
-            if(!isTimerStarted) {
-                rangeStart.classList.add("rangePrevent");
-            }
+
             let formattedTime
             let timeOnClock = (7200 / rangeStart.max) * rangeStart.value;
             let hours = Math.floor(timeOnClock / 3600);
@@ -159,8 +137,9 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
         //-------------------------EVENTO PER DIRE SE SONO IN STOP OPPURE IN START -------------------------//
         startTimerElement.addEventListener('click', function() {
            var subChoosen=document.getElementById("scelta");
+            rangeStart.classList.add("rangePrevent");
             if(subChoosen.value !=='') {
-                isTimerStarted = true;
+                clocks['isTimerStarted'] = true;
                 // Verifica lo stato del bottone
                 if (buttonT.innerHTML === "Start") {
                     blockSelection();
@@ -190,11 +169,12 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
         //-------------------------EVENTO PER RESETTARE -------------------------//
         resetTimerElement.addEventListener("click",()=> {
             console.log("resetTimer 2")
-            if(isTimerStarted)  {
+            if(clocks['isTimerStarted'])  {
                 {
-                    //resetTimer(idTimerOrStopwatch);
                     stopClock(clocks);
                     generatePopUp(1,clocks);
+                    //resetClock(clocks);
+
                 }
             }else
             {
@@ -203,7 +183,7 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
         })
 
     }
-    function sessionStopwatch(){
+    function sessionStopwatch(clocks){
         const startStopwatchElement= document.getElementById("startStopwatch");
         const resetStopwatchElement= document.getElementById("resetStopwatch");
         var  subEventuallyStudied=document.getElementById("scelta");
@@ -211,7 +191,7 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
 
         startStopwatchElement.addEventListener('click', function() {
             if(subEventuallyStudied.value !=='') {
-                isStopawatchStarted = true;
+                clocks['isStopawatchStarted'] = true;
                 // Verifica lo stato del bottone
                 if (buttonS.innerHTML === "Start") {
                     blockSelection();
@@ -238,8 +218,7 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
         })
         //-------------------------EVENTO PER RESETTARE -------------------------//
         resetStopwatchElement.addEventListener("click",()=> {
-            console.log("counting:",isStopawatchStarted)
-            if(isStopawatchStarted)  {
+            if(clocks['isStopawatchStarted'])  {
                 {
                     stopClock(clocks);
                     generatePopUp(1,clocks);
@@ -252,23 +231,21 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
 
         })
     }
-    function subjectAdd(){
-
-
+    function subjectAdd(displaySubjects){
         var subChoosen = document.getElementById("scelta");
         const newSubject = document.getElementById("newsub");
         const textMateria = document.getElementById("add_materie");
-        var subEventuallyStudied = document.getElementById("scelta"); // materia presa dalla select-option
+        //var subEventuallyStudied = document.getElementById("scelta"); // materia presa dalla select-option
         var addSubject;
         newSubject.addEventListener("click", ()=> {
             addSubject = document.getElementById("add_materie").value;
-            if (!isSubPresent(addSubject)) {
+            if (!isSubPresent(addSubject,displaySubjects)) {
                 alert("mteria gia inserita");
             } else {
                 textMateria.value = "";
-                operationType = 2;
+
                 dataTime['subjectName'] = addSubject;
-                // (dataTime,operationType);
+                // dataDelivery(dataTime,2);
                 var optionElement = document.createElement("option");
                 optionElement.value = addSubject;
                 optionElement.textContent = addSubject;
@@ -277,21 +254,23 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
         })
     }
 
-
-    //-------------------------EVENTO PER FARE IL DISPLAY DELLE MATERIE -------------------------//
     window.addEventListener("DOMContentLoaded", () => {
-        operationType= 3;
+        const clocks={      //di gestione
+            idTimerOrStopwatch : false,   //0  stopwatch , 1 timer
+            idTimerEndOrStop:false ,      //0  end , 1 stop
+            startTimeTI : 3600, // default
+            startTimeST :0,     //default
+            isTimerStarted  : false,// false: timer is at max, true:timer is running
+            isStopawatchStarted : false, // false : stopwatch is at max , true : stopwatch is running
+            interval:0
+        }
         var displaySubjects=[];
         subjectsRequests(displaySubjects);
-        swipe();
-        sessionTimer();
-        sessionStopwatch();
-        subjectAdd();
+        swipe(clocks);
+        sessionTimer(clocks);
+        sessionStopwatch(clocks);
+        subjectAdd(displaySubjects);
     });
-    //-------------------------EVENTO PER FAGGIUNGERE UNA MATERIA  -------------------------//
-
-
-    src ="../backend/fuction_files/query.php";
 </script>
 <script src="../js/main_timer.js"></script>
 <footer>

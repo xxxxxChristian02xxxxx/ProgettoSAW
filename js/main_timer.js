@@ -1,22 +1,6 @@
-//-------------------------FUNZIONE PER POPOLARE IL MENU A TENDINA   -------------------------//
-/*
-function populateSelect(options) {
-    console.log(options);
-    subChoosen.innerHTML = "";
-    subChoosen.innerHTML = "<div><select><option value=''> </option></select> <span> <button> - </button ></span></div>";
-    options.forEach(option => {
-        var optionElement = document.createElement("option");
-        optionElement.value = option;
-        optionElement.textContent = option;
-        subChoosen.appendChild(optionElement);
-    });
-    subEventuallyStudied.addEventListener('click', function() {
-        subEventuallyStudied = document.getElementById("scelta").value;
-    });
 
-}*/
 //-------------------------FUNZIONE VEDERE SE LA MATERIA AGGIUNTA è VALIDA    -------------------------//
-function isSubPresent(addSubject){
+function isSubPresent(addSubject,displaySubjects){
     // esempio :
     for (let i = 0; i < displaySubjects.length; i++) {
         var subpr = displaySubjects[i].replace(/\s/g, '').toLowerCase();
@@ -30,9 +14,11 @@ function isSubPresent(addSubject){
     return true;
 }
 function blockSelection(){
+    var subChoosen = document.getElementById("scelta");
     subChoosen.disabled =true;
 }
 function unlockSelection(){
+    var subChoosen = document.getElementById("scelta");
     subChoosen.disabled =false;
 }
 //-------------------------FUNZIONE PER IL PER TIMER E STOPWATCH -------------------------//
@@ -64,17 +50,14 @@ function toggleButton(buttonId){
         button.removeAttribute("aria-label");
     }
 }
-
-//-------------------------FUNZIONE POPUP -------------------------//
 function showStudySession(){
     var timeDuratioSession =document.getElementById("timeDuration");
     var subSubStudied = document.getElementById("subStudied"); //materia nel popup
     var moneyMoneyObtained= document.getElementById("moneyGotten")
-
-    console.log(timmeSpentForSession);
-    timeDuratioSession.innerHTML = timmeSpentForSession + " secondi" ;
-    moneyMoneyObtained.innerHTML = timeSpentForMoney;
-    subSubStudied.innerHTML = subEventuallyStudied.value ;
+    var subChoosen = document.getElementById("scelta");
+    timeDuratioSession.innerHTML = dataTime['timeSpent'] + " secondi" ;
+    moneyMoneyObtained.innerHTML = dataTime['money']++;
+    subSubStudied.innerHTML = subChoosen.value ;
 }
 function populateSelect(options){
     let gridHtml = '';
@@ -191,9 +174,8 @@ function sessionPopUpManager(popUpContent,typeClock,timeBreakStart) {
         resetClock(typeClock,descriptionArea);
         textPopUp.value ="";
         textPopUp.placeholder ="scrivi qui ...";
-        isTimerStarted=false;
-        isStopawatchStarted=false;
-        console.log("yuu", isTimerDone)
+        typeClock['isTimerStarted'] =false;
+        typeClock['isStopawatchStarted']=false;
         // rangeStart.classList.remove("rangePrevent");
         if(typeClock['idTimerEndOrStop'] ){
             console.log("hrei");
@@ -317,14 +299,14 @@ function startClock(typeClock,time,timeBreakStart) {
         console.log("dentro stopwatch secton", time );
         toggleButton('startStopwatch');
 
-        interval = setInterval(() => {
+        typeClock['interval'] = setInterval(() => {
             const currentTime = new Date();
             const diff = currentTime-time;
             const secondsPassed = Math.floor(diff / 1000);
             timeGone =typeClock['startTimeST'] +secondsPassed;
             console.log(timeGone, secondsPassed, typeClock['startTimeST'], diff, time );
-            timmeSpentForSession++ ;
-            timeSpentForMoney++
+            dataTime['timeSpent']++ ;
+            dataTime['money']++;
             updateTimer(typeClock,timeGone);
 
         }, 1000)
@@ -333,24 +315,21 @@ function startClock(typeClock,time,timeBreakStart) {
             toggleButton('TimerStart');
             console.log("inizio setinterval");
 
-            interval = setInterval(() => {
+                typeClock['interval'] = setInterval(() => {
                 const currentTime = new Date();
                 const diff = currentTime-time;
                 const secondsPassed = Math.floor(diff / 1000);
                 timeGone =typeClock['startTimeTI'] -secondsPassed;
-                timmeSpentForSession++;
-                timeSpentForMoney++
-                console.log("timeGone",timeGone,typeClock['startTimeTI'] ,secondsPassed);
+                dataTime['timeSpent']++;
+                dataTime['money']++;
                 updateTimer(typeClock,timeGone);
 
                 if (timeGone === 0) {
                     /*una vlta finito il timer pulisco l'intervallo*/
-                    clearInterval(interval);
+                    clearInterval( typeClock['interval']);
                     stopClock(typeClock);
                     typeClock['idTimerEndOrStop']=true;
                     generatePopUp(2,typeClock);
-
-
                 }
             }, 1000)
         }else  {
@@ -360,17 +339,16 @@ function startClock(typeClock,time,timeBreakStart) {
             console.log("inizio TimerBreakStart", time );
             let timeGone=0;
             updateTimer(typeClock,timeBreakStart);
-            interval = setInterval(() => {
+            typeClock['interval'] = setInterval(() => {
                 const currentTime = new Date();
                 const diff = currentTime-time;
                 const secondsPassed = Math.floor(diff / 1000);
                 timeGone = timeBreakStart-secondsPassed;
                 updateTimer(typeClock,timeGone);
-                console.log("till now",timeGone,timeBreakStart,secondsPassed)
                 if (timeGone === 0) {
                     console.log("fine break ");
                     /*una vlta finito il timer pulisco l'intervallo*/
-                    clearInterval(interval);
+                    clearInterval( typeClock['interval']);
                 }
             }, 1000)
         }
@@ -378,14 +356,12 @@ function startClock(typeClock,time,timeBreakStart) {
 }
 //-------------------------FUNZIONE PER IL RESETTARE IL TIMER -------------------------//
 function resetClock(typeClock,descriptionArea) {
-    clearInterval(interval);
+    clearInterval( typeClock['interval']);
 
-    showStudySession(typeClock);
+   // showStudySession(typeClock);
+    var subEventuallyStudied=document.getElementById("scelta");
 
-    operationType=1;
-    dataTime['typeSession'] =typeClock['idTimerOrStopwatch'];
-    dataTime['timeSpent'] = timmeSpentForSession;
-    dataTime['money'] =timeSpentForMoney;
+    dataTime['typeSession'] = typeClock['idTimerOrStopwatch'];
     dataTime['subjectName'] = subEventuallyStudied.value;
     dataTime['description'] = descriptionArea.value;
   //  dataTime['season'] = numberSeason;
@@ -393,24 +369,22 @@ function resetClock(typeClock,descriptionArea) {
     let timeGone;
     if(typeClock['idTimerOrStopwatch']){timeGone =0;
     }else{timeGone=typeClock['startTimeTI'];}
-    timmeSpentForSession = 0;
-    updateTimer(typeClock,timeGone);
-    timeSpentForMoney=0;
-    databaseDelivery(dataTime,operationType);
 
-}
-function jsonClear(json){
-    for (let key in json) {
-        // Set the value of the current key to null
-        json[key] = null;
-    }
+    console.log(timeGone);
+    dataTime['timeSpent'] = 0;
+    updateTimer(typeClock,timeGone);
+    dataTime['money']=0;
+    databaseDelivery(dataTime,1);
+
+    var range=document.getElementById("TimerRange");
+    range.classList.remove("rangePrevent");
 
 }
 //-------------------------FUNZIONE PER FERMARE IL TIMER  -------------------------//
 function stopClock(typeClock) {
-    clearInterval(interval);
+    clearInterval( typeClock['interval']);
     console.log("stopTimer", typeClock);
-    if(typeClock){
+    if(typeClock['idTimerOrStopwatch']){
         toggleButton('startStopwatch');
 
     }else{
@@ -443,7 +417,7 @@ function databaseDelivery(json_data,operationType) {
         });
 
 }
-function subjectsRequests() {
+function subjectsRequests(displaySubjects) {
     fetch('../backend/be_main.php', { // dico il percorso del file di back end
         method: 'POST', //metodo get o post
         headers: {
