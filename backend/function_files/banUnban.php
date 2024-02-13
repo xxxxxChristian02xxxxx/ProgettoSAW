@@ -42,6 +42,15 @@ if(!function_exists('deleteUser')){
         $stmt->bind_param("s", $email);
         $stmt->execute();
 
+        if($stmt->affected_rows === 1){
+            $data = true;
+        }
+        else{
+            $data = false;
+        }
+
+        $con->close();
+        /*
         $query = "SELECT * FROM USERS"; // query
         $stmt = $con->prepare($query); // execute query
         $stmt->execute();
@@ -54,21 +63,21 @@ if(!function_exists('deleteUser')){
                 $data[] = $row;
             }
         }
-
-        $con->close();
+        */
         header('Content-Type: application/json');
         echo json_encode($data);
     }
 }
 
 $data = json_decode(file_get_contents('php://input'), true);
+error_log(print_r($data, true));
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
     if(isset($data['action']) ){
         switch ($data['action']){
             case 'banUnban':
                 banUnban($data['email']);
                 break;
-            case 'deleteUsers':
+            case 'deleteUser':
                 deleteUser($data['email']);
                 break;
         }

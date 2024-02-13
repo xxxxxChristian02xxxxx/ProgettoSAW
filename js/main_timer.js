@@ -77,7 +77,6 @@ function populateSelect(options) {
         gridHtml += generateOptions(op);
     })
     subEventuallyStudied.innerHTML = gridHtml;
-
 }
 
 function generateOptions(options) {
@@ -93,7 +92,6 @@ function generatePopUp(popType, typeClock, timeBreak) {
     const popUpContent = document.getElementById('popUpContent');
     if (popUp && popUpContent) {
         switch (popType) {
-
             case 1:
                 console.log("case 1");
                 sessionPopUpAssembling(popUpContent, 1);
@@ -472,6 +470,7 @@ function subjectsRequests(displaySubjects) {
         .then(response => response.json())
         .then(data => {
             displaySubjects = data;
+            console.log(displaySubjects);
             populateSelect(displaySubjects);
         })
         .catch(error => {

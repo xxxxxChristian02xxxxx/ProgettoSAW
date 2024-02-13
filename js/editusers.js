@@ -153,6 +153,7 @@ function popup(cell, row, dataTarget) {
             case row.cells[11]:
                 console.log("11", dataTarget);
                 appendDeleteToContainer(popUpContent, dataTarget);
+                break;
         }
         const closePopUpButton = document.getElementById('closePopUpButton');
         switch (cell) {
@@ -228,6 +229,7 @@ function popup(cell, row, dataTarget) {
                 const votedNo = document.getElementById("noDelete");
 
                 votedYes.addEventListener('click', () => {
+                    console.log("here I am");
                     deleteUserFetch(dataTarget, cell);
                     popUp.classList.add('hidden');
                     document.body.style.overflow = 'auto';
@@ -386,8 +388,7 @@ function generateDelete(dataTarget) {
                    <p>Are you sure to delete from the system?</p>
                 <div>
                      <button id ="yesDelete">Yes</button>
-                     <button id ="noDelete">No </button>
-
+                     <button id ="noDelete">No</button>
                 </div>
                 </div>
   `;
@@ -439,12 +440,12 @@ function deleteUserFetch(dataTarget, cell) {
             return response.json();
         })
         .then(data => {
-            console.log(data);
-            cell.innerText = data;
+            if(data){
+                console.log(cell.parentNode.tagName);
+                cell.parentNode.remove();
+            }
         })
         .catch(error => {
             console.error("qualcosa è andato storto", error);
         })
-
-
 }

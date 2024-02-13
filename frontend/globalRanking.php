@@ -11,6 +11,7 @@ include('header.php');
 <html lang="en">
 <head>
     <title>Personal ranking</title>
+    <link rel="stylesheet" type="text/css" href="../globalRanking.css">
 </head>
 <body>
     <div class="globalRank">
@@ -29,6 +30,14 @@ include('header.php');
                 </tbody>
             </table>
         </div>
+        <div id="podiumPopup" class="popup">
+            <div class="podium">
+                <div id="secondPlace"></div>
+                <div id="firstPlace"></div>
+                <div id="thirdPlace"></div>
+            </div>
+        </div>
+        <div class="overlay"></div>
         <script src="../js/globalRanking.js"></script>
     </div>
 </body>

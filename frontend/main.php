@@ -137,6 +137,7 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
         //-------------------------EVENTO PER DIRE SE SONO IN STOP OPPURE IN START -------------------------//
         startTimerElement.addEventListener('click', function() {
             var subChoosen=document.getElementById("scelta");
+            console.log(subChoosen.value);
             rangeStart.classList.add("rangePrevent");
             if(subChoosen.value !=='') {
                 clocks['isTimerStarted'] = true;

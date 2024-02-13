@@ -106,3 +106,5 @@
 .space{
     color: red;
 }
+
+@import url('globalRanking.css');
