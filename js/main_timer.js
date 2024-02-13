@@ -70,18 +70,7 @@ function showStudySession() {
     subSubStudied.innerHTML = subChoosen.value;
 }
 
-function populateSelect(options) {
-    let gridHtml = '';
-    let subEventuallyStudied = document.getElementById("scelta");
-    options.forEach(op => {
-        gridHtml += generateOptions(op);
-    })
-    subEventuallyStudied.innerHTML = gridHtml;
 
-}
-
-
-}
 
 function populateSelect(options) {
     let gridHtml = '';
@@ -103,8 +92,9 @@ function generateOptions(options) {
 }
 
 function generatePopUp(popType, typeClock, timeBreak) {
-    const popUp = document.getElementById('popUp');
-    const popUpContent = document.getElementById('popUpContent');
+    console.log("generato ")
+    const popUp = document.getElementById('popUpMain');
+    const popUpContent = document.getElementById('popUpContentMain');
     if (popUp && popUpContent) {
         switch (popType) {
 
@@ -112,9 +102,6 @@ function generatePopUp(popType, typeClock, timeBreak) {
                 console.log("case 1");
                 sessionPopUpAssembling(popUpContent, 1);
                 popUpContent.classList.add("open");//aggiungo il css
-
-
-
                 sessionPopUpManager(popUpContent, typeClock, timeBreak);
                 break;
             case 2:
@@ -346,53 +333,6 @@ function updateTimer(typeClock, timeGone) {
 }
 
 
-function breakPopUpManager(popUpContent, typeClock) {
-
-    const break5minsButton = document.getElementById('break5mins');
-    const break15minsButton = document.getElementById('break15mins');
-    const break30minsButton = document.getElementById('break30mins');
-
-    if ((typeClock['timeSpent'] >= 1800) && (typeClock['timeSpent'] < 3600)) {
-        break15minsButton.classList.remove("hide");
-    } else if (typeClock['timeSpent'] >= 3600) {
-        break30minsButton.classList.remove("hide");
-        break15minsButton.classList.remove("hide");
-    }
-    break5minsButton.addEventListener('click', () => {
-        // handle 5 mins break
-        let timeBreakStart = typeClock['break5MIn'];
-        typeClock['idTimerOrStopwatch'] = false;
-        popUpContent.classList.remove("open");
-        generatePopUp(1, typeClock, timeBreakStart);
-        unlockSelection();
-        break15minsButton.classList.add("hide");
-        break30minsButton.classList.add("hide");
-
-    });
-
-    break15minsButton.addEventListener('click', () => {
-        let timeBreakStart = typeClock['break15MIn'];;
-        typeClock['idTimerOrStopwatch'] = false;
-        popUpContent.classList.remove("open");
-        generatePopUp(1, typeClock, timeBreakStart);
-        unlockSelection();
-        break15minsButton.classList.add("hide");
-        break30minsButton.classList.add("hide");
-    });
-
-    break30minsButton.addEventListener('click', () => {
-        let timeBreakStart = typeClock['break30MIn'];;
-        typeClock['idTimerOrStopwatch'] = false;
-        popUpContent.classList.remove("open");
-        generatePopUp(1, typeClock, timeBreakStart);
-        unlockSelection();
-        break15minsButton.classList.add("hide");
-        break30minsButton.classList.add("hide");
-    });
-
-}
-
-
 //-------------------------FUNZIONE PER IL INZIARE E STOPPARE IL TIMER IL TIMER -------------------------//
 function startClock(typeClock, time, timeBreakStart) {
     console.log(typeClock['idTimerOrStopwatch'], "false timer, true stopwatch")
@@ -438,11 +378,19 @@ function startClock(typeClock, time, timeBreakStart) {
         } else {
             let title = document.getElementById("timerTitle");
             let range =document.getElementById("TimerRange");
-            let start =document.getElementById("TimerStart")
-            let reset = document.getElementById("resetTimer")
+            let startT =document.getElementById("TimerStart")
+            let resetT = document.getElementById("resetTimer")
+            let startS =document.getElementById("startStopwatch")
+            let resetS = document.getElementById("resetStopwatch")
+            let buttonSx=document.getElementById("buttom-Swipe-left ")
+            let buttonRx=document.getElementById("buttom-Swipe-right ")
             range.classList.add("rangePrevent");
-            start.classList.add("rangePrevent");
-            reset.classList.add("rangePrevent");
+            startT.classList.add("rangePrevent");
+            resetT.classList.add("rangePrevent");
+            startS.classList.add("rangePrevent");
+            resetS.classList.add("rangePrevent");
+            buttonSx.classList.add("rangePrevent");
+            buttonRx.classList.add("rangePrevent");
 
             title.innerText = "Break";
             typeClock['idTimerEndOrStop'] = false;
@@ -464,8 +412,12 @@ function startClock(typeClock, time, timeBreakStart) {
                     resetClock(typeClock,"break");
 
                     range.classList.remove("rangePrevent");
-                    start.classList.remove("rangePrevent");
-                    reset.classList.remove("rangePrevent");
+                    startT.classList.remove("rangePrevent");
+                    resetT.classList.remove("rangePrevent");
+                    startS.classList.remove("rangePrevent");
+                    resetS.classList.remove("rangePrevent");
+                    buttonSx.classList.remove("rangePrevent");
+                    buttonRx.classList.remove("rangePrevent");
 
                 }
             }, 1000)

@@ -67,9 +67,9 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
     </div>
 </div>
 <!-- pop up timer-->
-<div class="container_popup" id="popUp">
+<div class="container_popup" id="popUpMain">
 
-    <div class="popup" id="popUpContent"></div>
+    <div class="popup" id="popUpContentMain"></div>
 </div>
 
 
@@ -271,17 +271,14 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
             isStopawatchStarted : false, // false : stopwatch is at max , true : stopwatch is running
             interval:0,
 
-            shortBreak: 300,
+            shortBreak: 20,
             middleBreak:900,
             longBreak :1800
-=======
-            break5MIn : 300,
-            break15MIn :900,
-            break30MIn: 1800
+
 
         }
         var displaySubjects=[];
-        subjectsRequests(displaySubjects);
+        //subjectsRequests(displaySubjects);
         swipe(clocks);
         sessionTimer(clocks);
         sessionStopwatch(clocks);
