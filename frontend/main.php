@@ -61,6 +61,8 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
             </div>
         </div>
 
+
+
     </div>
     <div class="column right-button">
         <button id="buttom-Swipe-right "> >> </button>
@@ -73,7 +75,7 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
 </div>
 
 
-<script>
+   <script>
     const dataTime={    //per db
         typeSession: null,
         timeSpent: null,
@@ -114,7 +116,7 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
         var buttonT = document.getElementById("TimerStart");
         const rangeStart =document.getElementById("TimerRange");
         rangeStart.value = 5;
-        rangeStart.min = 0;
+        rangeStart.min = 1;
         rangeStart.max = 24;
         updateTimer(clocks,clocks['startTimeTI'])
         rangeStart.value = (clocks['startTimeTI'] * rangeStart.max)/ 7200 ;
@@ -239,46 +241,45 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
     function subjectAdd(displaySubjects){
         var subChoosen = document.getElementById("scelta");
         const newSubject = document.getElementById("newsub");
-        const textMateria = document.getElementById("add_materie");
         //var subEventuallyStudied = document.getElementById("scelta"); // materia presa dalla select-option
         var addSubject;
         newSubject.addEventListener("click", ()=> {
+            const textMateria = document.getElementById("add_materie");
             addSubject = document.getElementById("add_materie").value;
-            if (!isSubPresent(addSubject,displaySubjects)) {
+            console.log(addSubject)
+            if (!isSubPresent(addSubject,subChoosen)||addSubject==="") {
                 alert("mteria gia inserita");
             } else {
                 textMateria.value = "";
 
                 dataTime['subjectName'] = addSubject;
-                // dataDelivery(dataTime,2);
+                databaseDelivery(dataTime,2);
                 var optionElement = document.createElement("option");
                 optionElement.value = addSubject;
                 optionElement.textContent = addSubject;
                 subChoosen.appendChild(optionElement);
+                console.log(addSubject);
             }
         })
     }
+
 
     window.addEventListener("DOMContentLoaded", () => {
 
         const clocks={      //di gestione
             idTimerOrStopwatch : false,   //0  stopwatch , 1 timer
             idTimerEndOrStop:false ,      //0  end , 1 stop
-            startTimeTI : 4, // default
-
+            startTimeTI : 10, // default
             startTimeST :0,     //default
             isTimerStarted  : false,// false: timer is at max, true:timer is running
             isStopawatchStarted : false, // false : stopwatch is at max , true : stopwatch is running
             interval:0,
-
             shortBreak: 20,
             middleBreak:900,
             longBreak :1800
-
-
         }
         var displaySubjects=[];
-        //subjectsRequests(displaySubjects);
+        subjectsRequests(displaySubjects);
         swipe(clocks);
         sessionTimer(clocks);
         sessionStopwatch(clocks);
@@ -286,6 +287,7 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
     });
 </script>
 <script src="../js/main_timer.js"></script>
+
 <footer>
     <p>Copyright © 2023. All rights reserved   .</p>
 </footer>

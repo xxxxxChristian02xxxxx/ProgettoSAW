@@ -1,16 +1,29 @@
 //-------------------------FUNZIONE VEDERE SE LA MATERIA AGGIUNTA è VALIDA    -------------------------//
-function isSubPresent(addSubject, displaySubjects) {
+function isSubPresent(addSubject, subChoosen) {
     // esempio :
-    for (let i = 0; i < displaySubjects.length; i++) {
-        var subpr = displaySubjects[i].replace(/\s/g, '').toLowerCase();
-        var subnew = addSubject.toString().replace(/\s/g, '').toLowerCase();
-        console.log(subnew, ",", subpr);
-        if (subnew === subpr) {
-            console.log("sono qui");
-            return false;
-        }
+    /*  console.log("ooop",displaySubjects);
+      for (let i = 0; i < displaySubjects.length; i++) {
+          var subpr = displaySubjects[i].replace(/\s/g, '').toLowerCase();
+          var subnew = addSubject.toString().replace(/\s/g, '').toLowerCase();
+          console.log(subnew, ",", subpr);
+          if (subnew === subpr) {
+              console.log("sono qui");
+              return false;
+          }
+      }
+      return true;*/
+    const options = subChoosen.options; // Get an array-like object of all the options
+
+    for (let i = 0; i < options.length; i++) {
+        console.log("array", options[i]);
+        if(options[i].innerText===addSubject){
+            return false
+        }  // Get the current option
+         // Log the text of the current option
     }
     return true;
+
+
 }
 
 function blockSelection() {
@@ -354,7 +367,6 @@ function startClock(typeClock, time, timeBreakStart) {
         if (!typeClock['idTimerEndOrStop']) {
             toggleButton('TimerStart');
             console.log("inizio setinterval");
-
             typeClock['interval'] = setInterval(() => {
                 const currentTime = new Date();
                 const diff = currentTime - time;
@@ -479,6 +491,9 @@ function databaseDelivery(json_data, operationType) {
     })
 
         .then(response => console.log(response))
+        .then(data=>{
+
+        })
         .catch(error => {
             console.error('Error:', error);
         });
