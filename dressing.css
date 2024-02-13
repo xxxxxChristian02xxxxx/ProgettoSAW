@@ -1,33 +1,12 @@
+@import url('editusers.css');
+@import url('editTable.css');
+
 .module{
     text-align: center;
 }
 .module form{
     display: inline-block;
     margin:auto;
-}
-
-.header_button {
-    border: 0;
-    margin: 0.3rem;
-    outline: 0;
-    cursor: pointer;
-    background-color: lightblue;
-    box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 8%) 0px 2px 5px 0px;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: 500;
-    padding: 4px 8px;
-    display: inline-flex;
-    min-height: 28px;
-    transition: background-color .24s, box-shadow .24s;
-    text-decoration: none;
-    color: black;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-}
-.header_button:hover {
-    box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 8%) 0px 3px 9px 0px, rgb(60 66 87 / 8%) 0px 2px 5px 0px;
 }
 
 #modify_users_table{
@@ -65,110 +44,65 @@
     display: block;
 }
 
-
-.studySessions, .editUser, .personalRank, .globalRank {
-    font-family: 'Roboto', sans-serif;;
-    display: flex;
-    flex-direction: column;
+.header_button {
+    border: 0;
+    margin: 0.3rem;
+    outline: 0;
+    cursor: pointer;
+    background-color: lightblue;
+    box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 8%) 0px 2px 5px 0px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 4px 8px;
+    display: inline-flex;
+    min-height: 28px;
+    transition: background-color .24s, box-shadow .24s;
+    text-decoration: none;
+    color: black;
+    text-align: center;
     align-items: center;
-    margin-top: 50px;
+    justify-content: center;
+}
+.header_button:hover {
+    box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 8%) 0px 3px 9px 0px, rgb(60 66 87 / 8%) 0px 2px 5px 0px;
 }
 
-.search-options {
-    font-family: 'Roboto', sans-serif;
-    width: 85%;
-    margin: 10px 20px;
-    display: flex;
-}
-
-.filters {
-    font-family: 'Roboto', sans-serif;
-    width: 85%;
-    margin: 10px 20px;
-    display: flex;
-}
-
-.valueFilter {
-    margin-left: 10px;
+.hidden {
     display: none;
 }
 
-.search {
-    margin-left: auto;
-}
-
-#studySessionTableContainer {
+#popUp {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    
 }
 
-#personalRankTableContainer, #globalRankTableContainer {
-    width: 75%;
+#popUpContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.dataTable {
-    font-family: 'Roboto', sans-serif;
-    border-collapse: collapse;
-    border: 1px solid black;
-    width: 85%;
-    margin: auto;
-    font-size: 12px;
-}
-
-.dataTable th {
-    height: 50px;
-    border: 0.5px solid black;
-    text-align: center;
-    background-color: lightgreen;
-}
-
-.dataTable tbody tr td{
-    height: 40px;
-    border: 0.5px solid black;
-    text-align: center;
-}
-
-#pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 25px;
-}
-
-.UpdateForm {
-    font-family: 'Roboto', sans-serif;;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 100px;
-}
-
- #UserUpdate {
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     width: 400px;
-     margin: auto;
- }
- #UserUpdate label{
-     text-align: left;
-     width: 50%;
- }
-
- #UserUpdate input{
-     width: 50%;
- }
-
- #UserUpdate input[type='submit'] {
-     width: 25%;
- }
-
- #rankRedirect {
-     margin-top: 10px;
- }
-
- #edituserTable td:nth-child(7) {
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
     cursor: pointer;
 }
-#edituserTable td:nth-child(11) {
-    cursor: pointer;
+.space{
+    color: red;
 }

@@ -1,11 +1,11 @@
 <?php
 session_start();
 if(!function_exists('addSessionStudied')){
-    function addSessionStudied($moneyObtainedFromSession,$typesession,$total_time_spent, $seasonId, $descriptionSession){
+    function addSessionStudied($moneyObtainedFromSession,$typesession,$total_time_spent, $subjectStudied, $seasonId, $descriptionSession){
         require('function_files/session.php');
         $session_variables = getSession(true);
         $userId =$session_variables['id'];
-
+        error_log("$moneyObtainedFromSession, $typesession, $total_time_spent, $seasonId, $descriptionSession");
         require('function_files/connection.php');
         $con = connect();
 
@@ -18,9 +18,11 @@ if(!function_exists('addSessionStudied')){
             echo "error nella modifica dei soldi dell'utente ";
         }
 
-        $query = "INSERT INTO study_sessions (SESSION_ID, TYPE, DATE, TOTAL_TIME, TOTAL_REWARD, USER, SEASON, DESCRIPTION) VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?)";
+        // DEVO CAMBIARE TOTAL REWARD, MA è PER VEDERE SE FUNZIONA
+        $query = "INSERT INTO STUDY_SESSIONS (SESSION_ID, TYPE, DATE, TOTAL_TIME, TOTAL_REWARD, USER, SEASON, DESCRIPTION) VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?)";
+
         $stmt = $con->prepare($query);
-        $stmt->bind_param('iiiiis', $typesession, $total_time_spent, $total_reward_obtained, $userId, $seasonId, $descriptionSession);
+        $stmt->bind_param('iiiiis', $typesession, $total_time_spent, $moneyObtainedFromSession, $userId, $seasonId, $descriptionSession);
         $stmt->execute();
 
         // Recupero l'id della sessione
@@ -33,6 +35,7 @@ if(!function_exists('addSessionStudied')){
         $stmt->execute();
         $res = $stmt->get_result();
         $row = $res->fetch_assoc();
+        error_log(print_r($row, true));
         $subjectId = $row['ID'];
 
         $query = "INSERT INTO subject_sessions (SUBJECT_ID, SESSION_ID) VALUES (?, ?)";
@@ -110,14 +113,16 @@ if(!function_exists('subjectTend')){
     }
 }
 $data = json_decode(file_get_contents('php://input'), true);
+
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
+
     if(isset($data['action'])) {
         switch ($data['action']) {
             case 'addSessionStudied':
-                addSessionStudied($data['money'],$data['typeSession'],$data['timeSpent'],$data['season'], $data['description']);
+                addSessionStudied($data['json_data']['money'],$data['json_data']['typeSession'],$data['json_data']['timeSpent'], $data['json_data']['subjectName'], $data['json_data']['season'], $data['json_data']['description']);
                 break;
             case 'updateSubject':
-                updateSubject($data['subjectName']);
+                updateSubject($data['json_data']['subjectName']);
                 break;
             case 'subjectTend':
                 subjectTend();

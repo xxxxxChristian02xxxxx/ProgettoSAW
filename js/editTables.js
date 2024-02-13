@@ -9,16 +9,49 @@ function populateTable(data, currentPage, rowsPerPage, table) {
         // Indice ultimo elemento da visualizzare nella tabella per la pagina corrente
         var end = Math.min(start + rowsPerPage, data.length);
 
-        //Popolamento della tabella
+        // Popolamento della tabella
         for(var i=start; i<end; i++){
             var newRow = document.createElement('tr');
-            //Aggiunta delle colonne alla riga
+            // Aggiunta delle colonne alla riga - iterazione attraverso tutte le chiavi dell'oggetto data[i]
+            // e applicazione di una funzione a ciascuna di esse
             Object.keys(data[i]).forEach(function (key) {
                 var newCell = document.createElement('td');
-                newCell.textContent = data[i][key];
+                if(key === 'ROLES'){
+                    var promoteButton = document.createElement('button');
+                    if(data[i][key] === 1){
+                        promoteButton.innerHTML = 'Demote';
+                        promoteButton.setAttribute('data-content', 'Demote');
+                    }
+                    else{
+                        promoteButton.innerHTML = 'Promote';
+                        promoteButton.setAttribute('data-content', 'Promote');
+                    }
+                    promoteButton.className = "promoteButton";
+                    newCell.appendChild(promoteButton);
+                }
+                else
+                {
+                    newCell.textContent = data[i][key];
+                }
                 newRow.appendChild(newCell)
             });
+            if(table === document.querySelector('#edituserTable tbody')){
+                var deleteCell = document.createElement('td');
+                newRow.appendChild(deleteCell);
+                var deleteButton = document.createElement('button');
+                deleteButton.innerHTML = 'X';
+                deleteButton.className = "deleteButton";
+                deleteCell.appendChild(deleteButton);
+               /* deleteButton.addEventListener("click", function(){
+                    console.log("Delete button pressed");
+                    // ricavo la riga in cui si trova il bottone che è stato premuto
+                    var rowIndex = this.parentNode.parentNode;
 
+                    if(rowIndex.cells[6].innerText){
+                        window.alert("You can't delete an admin user!");
+                    }
+                });*/
+            }
             table.appendChild(newRow);
         }
 

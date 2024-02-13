@@ -80,6 +80,20 @@ function populateSelect(options) {
 
 }
 
+
+}
+
+function populateSelect(options) {
+    let gridHtml = '';
+    let subEventuallyStudied = document.getElementById("scelta");
+    options.forEach(op => {
+        gridHtml += generateOptions(op);
+    })
+    subEventuallyStudied.innerHTML = gridHtml;
+
+}
+
+
 function generateOptions(options) {
     return `<div>
                 <select>
@@ -99,6 +113,8 @@ function generatePopUp(popType, typeClock, timeBreak) {
                 sessionPopUpAssembling(popUpContent, 1);
                 popUpContent.classList.add("open");//aggiungo il css
 
+
+
                 sessionPopUpManager(popUpContent, typeClock, timeBreak);
                 break;
             case 2:
@@ -107,7 +123,9 @@ function generatePopUp(popType, typeClock, timeBreak) {
                 sessionPopUpAssembling(popUpContent, 2);
                 popUpContent.classList.add("open");//aggiungo il css
 
+
                 breakPopUpManager(popUpContent, typeClock);
+
 
                 break;
         }
@@ -225,6 +243,7 @@ function sessionPopUpManager(popUpContent, typeClock, timeBreakStart) {
         // Se la lunghezza del testo supera il limite massimo e il tasto non è backspace o delete
         if (text.length >= limitWords && e.key !== 'Backspace' && e.key !== 'Delete') {
             e.preventDefault(); // Impedisce all'utente di digitare oltre il limite
+
         }
     });
     descriptionArea.addEventListener("paste", function (e) {
@@ -241,6 +260,7 @@ function sessionPopUpManager(popUpContent, typeClock, timeBreakStart) {
         if (text.length > limitWords) {
             descriptionArea.value = text.slice(0, limitWords); // Tronca il testo al limite massimo
         }
+
         wordCounter.textContent = text.length + "/" + limitWords; // Aggiorna il conteggio dei caratteri
     });
 
@@ -254,6 +274,7 @@ function generatePopUpBreak() {
             <button id="break15mins" class="hide">15 mins</button>
             <button id="break30mins" class="hide">30 mins</button>
         </div>`
+
 }
 
 function breakPopUpManager(popUpContent, typeClock) {
@@ -324,6 +345,54 @@ function updateTimer(typeClock, timeGone) {
     }
 }
 
+
+function breakPopUpManager(popUpContent, typeClock) {
+
+    const break5minsButton = document.getElementById('break5mins');
+    const break15minsButton = document.getElementById('break15mins');
+    const break30minsButton = document.getElementById('break30mins');
+
+    if ((typeClock['timeSpent'] >= 1800) && (typeClock['timeSpent'] < 3600)) {
+        break15minsButton.classList.remove("hide");
+    } else if (typeClock['timeSpent'] >= 3600) {
+        break30minsButton.classList.remove("hide");
+        break15minsButton.classList.remove("hide");
+    }
+    break5minsButton.addEventListener('click', () => {
+        // handle 5 mins break
+        let timeBreakStart = typeClock['break5MIn'];
+        typeClock['idTimerOrStopwatch'] = false;
+        popUpContent.classList.remove("open");
+        generatePopUp(1, typeClock, timeBreakStart);
+        unlockSelection();
+        break15minsButton.classList.add("hide");
+        break30minsButton.classList.add("hide");
+
+    });
+
+    break15minsButton.addEventListener('click', () => {
+        let timeBreakStart = typeClock['break15MIn'];;
+        typeClock['idTimerOrStopwatch'] = false;
+        popUpContent.classList.remove("open");
+        generatePopUp(1, typeClock, timeBreakStart);
+        unlockSelection();
+        break15minsButton.classList.add("hide");
+        break30minsButton.classList.add("hide");
+    });
+
+    break30minsButton.addEventListener('click', () => {
+        let timeBreakStart = typeClock['break30MIn'];;
+        typeClock['idTimerOrStopwatch'] = false;
+        popUpContent.classList.remove("open");
+        generatePopUp(1, typeClock, timeBreakStart);
+        unlockSelection();
+        break15minsButton.classList.add("hide");
+        break30minsButton.classList.add("hide");
+    });
+
+}
+
+
 //-------------------------FUNZIONE PER IL INZIARE E STOPPARE IL TIMER IL TIMER -------------------------//
 function startClock(typeClock, time, timeBreakStart) {
     console.log(typeClock['idTimerOrStopwatch'], "false timer, true stopwatch")
@@ -374,6 +443,7 @@ function startClock(typeClock, time, timeBreakStart) {
             range.classList.add("rangePrevent");
             start.classList.add("rangePrevent");
             reset.classList.add("rangePrevent");
+
             title.innerText = "Break";
             typeClock['idTimerEndOrStop'] = false;
             toggleButton('TimerStart');
@@ -392,9 +462,11 @@ function startClock(typeClock, time, timeBreakStart) {
                     clearInterval(typeClock['interval']);
                     title.innerText = "Timer";
                     resetClock(typeClock,"break");
+
                     range.classList.remove("rangePrevent");
                     start.classList.remove("rangePrevent");
                     reset.classList.remove("rangePrevent");
+
                 }
             }, 1000)
         }

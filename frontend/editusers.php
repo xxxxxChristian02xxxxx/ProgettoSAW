@@ -12,7 +12,7 @@ include('header.php');
 <html lang="en">
 <head>
     <title>Edit users</title>
-    <link href="../editusers.css" rel="stylesheet" type="text/css">
+    <link href="../dressing.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <div class="editUser">
@@ -65,6 +65,7 @@ include('header.php');
                 <th>TOKEN</th>
                 <th>EXPIRE</th>
                 <th>MONEY</th>
+                <th>DELETE USER</th>
             </thead>
             <tbody></tbody>
         </table>
