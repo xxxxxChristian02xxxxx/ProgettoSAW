@@ -86,21 +86,19 @@ function showStudySession() {
 
 
 function populateSelect(options) {
-    let gridHtml = '';
+    //let gridHtml = '';
     let subEventuallyStudied = document.getElementById("scelta");
     options.forEach(op => {
-        gridHtml += generateOptions(op);
+        subEventuallyStudied.appendChild(generateOptions(op));
     })
-    subEventuallyStudied.innerHTML = gridHtml;
 }
 
 
-function generateOptions(options) {
-    return `<div>
-                <select>
-                    <option value=''> ${options}</option>
-                </select> 
-           </div> `
+function generateOptions(option) {
+    let optionElement = document.createElement("option");
+    optionElement.value = option;
+    optionElement.textContent = option;
+    return optionElement;
 }
 
 function generatePopUp(popType, typeClock, timeBreak) {
@@ -117,14 +115,9 @@ function generatePopUp(popType, typeClock, timeBreak) {
                 break;
             case 2:
                 console.log("10")
-
                 sessionPopUpAssembling(popUpContent, 2);
                 popUpContent.classList.add("open");//aggiungo il css
-
-
                 breakPopUpManager(popUpContent, typeClock);
-
-
                 break;
         }
     } else {
@@ -144,41 +137,39 @@ function sessionPopUpAssembling(popUpContent, typePopUp) {
 }
 
 function generatePopUpSession() {
-
     return `
-<div class="popup-inner">
-        <h2> Your Statistics </h2>
-        <div id ="statistiche_sessioone_studio ">
-            <p>
+    <div class="popup-inner">
+            <h2> Your Statistics </h2>
+            <div id ="statistiche_sessioone_studio ">
+                <p>
+                    <div>
+                        <div>
+                            <p id="durata_session">durata sessione:</p>
+                            <span><p id="timeDuration">tempo</p></span>
+                        </div>
+                        <div>
+                            <p id="materia_studiata">materia studiata:</p>
+                            <span><p id="subStudied"></p></span>
+                        </div>
+                        <div>
+                            <p id="soldi_ottenuti">soldi ottenuti:</p>
+                            <span><p id="moneyGotten">soldi</p></span>
+                        </div>
+                    </div>
+                </p>
+            </div>
+            <div id="descrizione">
                 <div>
-                    <div>
-                        <p id="durata_session">durata sessione:</p>
-                        <span><p id="timeDuration">tempo</p></span>
-                    </div>
-                    <div>
-                        <p id="materia_studiata">materia studiata:</p>
-                        <span><p id="subStudied"></p></span>
-                    </div>
-                    <div>
-                        <p id="soldi_ottenuti">soldi ottenuti:</p>
-                        <span><p id="moneyGotten">soldi</p></span>
-                    </div>
+                    <textarea id ="area_descrizione" rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
+                    <div> <p id ="word counter" > 0/300</p></div>
                 </div>
-            </p>
-        </div>
-        <div id="descrizione">
-            <div>
-                <textarea id ="area_descrizione" rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
-                <div> <p id ="word counter" > 0/300</p></div>
+            </div>
+            <div >
+                <span class="popup_button"> <button id="closePopUp" > yes </button> </span>
+                <span class="popup_button"> <button id="cancelPopup">  Cancel </button> </span>
             </div>
         </div>
-        <div >
-            <span class="popup_button"> <button id="closePopUp" > yes </button> </span>
-            <span class="popup_button"> <button id="cancelPopup">  Cancel </button> </span>
-        </div>
-    </div>
 `;
-
 }
 
 function sessionPopUpManager(popUpContent, typeClock, timeBreakStart) {
@@ -491,9 +482,6 @@ function databaseDelivery(json_data, operationType) {
     })
 
         .then(response => console.log(response))
-        .then(data=>{
-
-        })
         .catch(error => {
             console.error('Error:', error);
         });
@@ -511,7 +499,6 @@ function subjectsRequests(displaySubjects) {
         .then(response => response.json())
         .then(data => {
             displaySubjects = data;
-            console.log(displaySubjects);
             populateSelect(displaySubjects);
         })
         .catch(error => {

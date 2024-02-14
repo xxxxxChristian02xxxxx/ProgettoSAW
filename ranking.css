@@ -1,0 +1,89 @@
+.podium {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.podium div {
+    width: 100px;
+    background-color: darkblue;
+    border-radius: 5px;
+    margin: 0 10px;
+}
+
+.popup {
+    position: fixed;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    z-index: 999;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#firstPlace {
+    background-color: #ffffd7;
+}
+
+#secondPlace {
+    background-color: #c0c0c0;
+}
+
+#thirdPlace {
+    background-color: #b08d57;
+}
+
+#PfirstPlace, #PsecondPlace, #PthirdPlace {
+    transform: rotateX(180deg);
+    transform-origin: center;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+}
+
+#PfirstPlaceName, #PsecondPlaceName, #PthirdPlaceName {
+    transform: rotateX(180deg);
+    transform-origin: center;
+    text-align: center;
+    vertical-align: bottom;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+}
+
+#PfirstPlaceSubject, #PsecondPlaceSubject, #PthirdPlaceSubject {
+    transform: rotateX(180deg);
+    transform-origin: center;
+    text-align: center;
+    vertical-align: bottom;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+}
+
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(255, 255, 255);
+    z-index: 998;
+    display: none;
+}
+
+#closePopup {
+    position: absolute;
+    right: 10px;
+    z-index: 1000;
+}
+
+#closePopupButton {
+    background-color: transparent;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#podiumPopup p {
+    font-size: 15px;
+}

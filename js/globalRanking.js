@@ -1,44 +1,78 @@
+const table = document.querySelector('#globalRankTable tbody');
+const windowHeight = window.innerHeight;
+const podiumPopup = document.getElementById('podiumPopup');
+const podium = document.querySelector('.podium');
+
 document.addEventListener('DOMContentLoaded', function() {
-    const table = document.querySelector('#globalRankTable tbody');
-    const windowHeight = window.innerHeight;
-    const podiumPopup = document.getElementById('podiumPopup');
-    const podium = document.querySelector('.podium');
+    getData(1, 5);
+});
+
+function getData(currentPage, rowsPerPage) {
     fetch("../backend/be_globalRanking.php")
         .then(response => {
             return response.json();
         })
         .then(data => {
-            for(var i=0; i<data.length; i++) {
-                var newRow = document.createElement('tr');
-                var newCell = document.createElement('td');
-                newCell.textContent = i+1;
-                newRow.appendChild(newCell)
-                //Aggiunta delle colonne alla riga
-                Object.keys(data[i]).forEach(function (key) {
-                    var newCell = document.createElement('td');
-                    newCell.textContent = data[i][key];
-                    newRow.appendChild(newCell)
-                });
+            var first = document.getElementById('PfirstPlaceName');
+            var second = document.getElementById('PsecondPlaceName');
+            var third = document.getElementById('PthirdPlaceName');
 
-                table.appendChild(newRow);
+            if (data[0]) {
+                first.textContent = data[0]['USER'];
+                first.textContent = data[0]['USER'];
+            }
+            if (data[1]) {
+                second.textContent = data[1]['USER'];
+            }
+            if (data[3]) {
+                third.textContent = data[2]['USER'];
             }
 
-            if(podium.children[0]){
-                podium.children[0].style.height = windowHeight *0.3;
+            if (podium.children[0].children[0].innerText) {
+                podium.children[0].style.height = windowHeight * 0.35;
+            } else {
+                podium.children[0].style.display = 'none';
             }
-            if(podium.children[1]){
+
+            if (podium.children[1].children[0].innerText) {
                 podium.children[1].style.height = windowHeight * 0.5;
+            } else {
+                podium.children[1].style.display = 'none';
             }
-            if(podium.children[2]){
-                podium.children[2].style.height = windowHeight * 0.1;
+            if (podium.children[2].children[0].innerText) {
+                podium.children[2].style.height = windowHeight * 0.25;
+            } else {
+                podium.children[2].style.display = 'none';
             }
 
             podium.style.transform = 'rotateX(180deg)';
             podiumPopup.style.display = 'block';
             document.querySelector('.overlay').style.display = 'block';
+
+            populateTable(data, currentPage, rowsPerPage, table);
+            updatePagination(data, currentPage, rowsPerPage, table);
+
+            populateColumnSelection(data, table);
+
+            var input = document.getElementById("editUserSearch");
+            input.addEventListener("input", function () {
+                if (this.value === "") {
+                    populateTable(data, currentPage, rowsPerPage, table);
+                } else {
+                    searchTable(data, input, currentPage, rowsPerPage, table);
+                }
+            });
         })
         .catch(error => {
             console.error("Si è verificato un errore: ", error);
         });
-});
+}
+
+const closePopup = document.getElementById('closePopupButton');
+    closePopup.addEventListener('click', function() {
+        podiumPopup.style.display = 'none';
+        document.querySelector('.overlay').style.display = 'none';
+    });
+
+
 

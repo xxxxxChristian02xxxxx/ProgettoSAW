@@ -13,9 +13,11 @@
 .promoteButton[data-content="Promote"]
 {
     background-color: green;
+    border-color: green;
 }
 
 .promoteButton[data-content="Demote"]
 {
     background-color: darkred;
+    border-color: darkred;
 }

@@ -9,14 +9,14 @@
 .search-options {
     font-family: 'Roboto', sans-serif;
     width: 85%;
-    margin: 10px 20px;
+    margin: 10px auto;
     display: flex;
 }
 
 .filters {
     font-family: 'Roboto', sans-serif;
     width: 85%;
-    margin: 10px 20px;
+    margin: 10px auto;
     display: flex;
 }
 
@@ -31,10 +31,12 @@
 
 #studySessionTableContainer {
     width: 100%;
+    align-items: center;
 }
 
 #personalRankTableContainer, #globalRankTableContainer {
     width: 75%;
+    margin: auto;
 }
 
 .dataTable {

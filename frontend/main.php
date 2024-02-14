@@ -11,9 +11,9 @@ $session = getSession(true);
 echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </h2>" ;
 ?>
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
-    <title>Login</title>
+    <title>Home</title>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
     <link href="../main_dressing.css" rel="stylesheet" type="text/css">
@@ -43,7 +43,8 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
                 <h1 id ="timerTitle">Timer</h1>
             </div>
             <p id="timeTimer" class="timer"></p>
-            <div > <input type="range" id="TimerRange"></div>
+            <div >
+                <input type="range" id="TimerRange"></div>
             <div>
                 <button id="TimerStart">Start</button>
                 <button id="resetTimer">Reset</button>
@@ -60,8 +61,6 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
                 <button id = "resetStopwatch">Reset</button>
             </div>
         </div>
-
-
 
     </div>
     <div class="column right-button">
@@ -139,13 +138,14 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
             clocks['startTimeTI']= timeOnClock;
 
         })
+
         //-------------------------EVENTO PER DIRE SE SONO IN STOP OPPURE IN START -------------------------//
         startTimerElement.addEventListener('click', function() {
 
-           var subChoosen=document.getElementById("scelta");
+           var subChoosen=document.getElementById("scelta").value;
 
             rangeStart.classList.add("rangePrevent");
-            if(subChoosen.value !=='') {
+            if(subChoosen !=='') {
                 clocks['isTimerStarted'] = true;
                 // Verifica lo stato del bottone
                 if (buttonT.innerHTML === "Start") {
@@ -241,7 +241,6 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
     function subjectAdd(displaySubjects){
         var subChoosen = document.getElementById("scelta");
         const newSubject = document.getElementById("newsub");
-        //var subEventuallyStudied = document.getElementById("scelta"); // materia presa dalla select-option
         var addSubject;
         newSubject.addEventListener("click", ()=> {
             const textMateria = document.getElementById("add_materie");

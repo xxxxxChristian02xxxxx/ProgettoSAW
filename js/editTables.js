@@ -14,8 +14,14 @@ function populateTable(data, currentPage, rowsPerPage, table) {
             var newRow = document.createElement('tr');
             // Aggiunta delle colonne alla riga - iterazione attraverso tutte le chiavi dell'oggetto data[i]
             // e applicazione di una funzione a ciascuna di esse
+            if(table === document.querySelector('#globalRankTable tbody')){
+                var newCell = document.createElement('td');
+                newCell.innerText = i-start+1;
+                newRow.appendChild(newCell);
+            }
             Object.keys(data[i]).forEach(function (key) {
                 var newCell = document.createElement('td');
+
                 if(key === 'ROLES'){
                     var promoteButton = document.createElement('button');
                     if(data[i][key] === 1){
@@ -42,15 +48,6 @@ function populateTable(data, currentPage, rowsPerPage, table) {
                 deleteButton.innerHTML = 'X';
                 deleteButton.className = "deleteButton";
                 deleteCell.appendChild(deleteButton);
-               /* deleteButton.addEventListener("click", function(){
-                    console.log("Delete button pressed");
-                    // ricavo la riga in cui si trova il bottone che è stato premuto
-                    var rowIndex = this.parentNode.parentNode;
-
-                    if(rowIndex.cells[6].innerText){
-                        window.alert("You can't delete an admin user!");
-                    }
-                });*/
             }
             table.appendChild(newRow);
         }
@@ -134,6 +131,12 @@ function searchTable(data, input, currentPage, rowsPerPage, table) {
         var rowData = data[rowIndex];
 
         var row = table.insertRow(-1);
+
+        if(table === document.querySelector('#globalRankTable tbody')){
+            var newCell = document.createElement('td');
+            newCell.innerText = k-start+1;
+            row.appendChild(newCell);
+        }
 
         //Aggiunta delle colonne alla riga
         Object.keys(rowData).forEach(function (key) {

@@ -15,6 +15,7 @@
     justify-content: center;
     align-items: center;
 }
+
 .container{
     display: flex; /* add this line */
     flex-direction: column; /* add this line */
@@ -30,6 +31,7 @@
     height: 500px;
     width: 500px;
 }
+
 .container button {
     font-size: 18px;
     padding: 10px 20px ;
@@ -95,7 +97,6 @@
 /*CSS per il popup */
 .container_popup{
     box-sizing: border-box;
-    display: none;
 }
 
 .popup_button{
@@ -106,6 +107,7 @@
     cursor: pointer;
     padding: 10px 25px;
 }
+
 .popup_button:active{
     opacity :0.8;
 }
