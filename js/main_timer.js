@@ -186,7 +186,8 @@ function sessionPopUpManager(popUpContent, typeClock, timeBreakStart) {
 
     console.log("sessionPopUpManager", typeClock);
 
-    showStudySession()
+    showStudySession();
+
     closeButtonPopUp.addEventListener("click", () => {
         popUpContent.classList.remove("open");//aggiungo il css
         if (buttonT.innerHTML === "Stop") {
@@ -198,6 +199,7 @@ function sessionPopUpManager(popUpContent, typeClock, timeBreakStart) {
             buttonS.removeAttribute("aria-label");
         }
         dataTime['description']=descriptionArea.value;
+
         resetClock(typeClock,"timerStop");
         textPopUp.value = "";
         textPopUp.placeholder = "scrivi qui ...";
@@ -429,7 +431,7 @@ function startClock(typeClock, time, timeBreakStart) {
 //-------------------------FUNZIONE PER IL RESETTARE IL TIMER -------------------------//
 function resetClock(typeClock,option) {
     clearInterval(typeClock['interval']);
-    if(option==="stopTimer"){
+    if(option==="timerStop"){
         var subEventuallyStudied = document.getElementById("scelta");
         dataTime['typeSession'] = typeClock['idTimerOrStopwatch'];
         dataTime['subjectName'] = subEventuallyStudied.value;

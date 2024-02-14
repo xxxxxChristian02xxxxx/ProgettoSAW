@@ -19,23 +19,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include("function_files/connection.php");
     $con = connect();
 
-    //Sanificazione dell'input
-    $firstname = $con->real_escape_string($firstname);
-    $lastname = $con->real_escape_string($lastname);
-    $email = $con->real_escape_string($email);
-    $password = $con->real_escape_string($password);
-
     //Cifratura della password
     $password = password_hash($password, PASSWORD_DEFAULT);
 
     //Preparazione della query per aggiungere un nuovo utente
     //Vediamo poi i prepared statement
-    $query = "INSERT INTO USERS(FIRSTNAME, LASTNAME, EMAIL, PASSWORD) VALUES ('$firstname', '$lastname', '$email', '$password')";
-
+    $query = "INSERT INTO USERS(FIRSTNAME, LASTNAME, EMAIL, PASSWORD) VALUES (?, ?, ?, ?)";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param('ssss', $firstname, $lastname, $email, $password);
     //Esecuzione della query
-    $con->query($query);
+    $stmt->execute();
 
-    if ($con->affected_rows == 1) {
+    if ($stmt->affected_rows == 1) {
         //Utente registrtato correttamente, posso chiudere la connessione
         $con->close();
 
@@ -43,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: ../frontend/login.php");
     } else {
         //Viene restituito un errore, non è stato possibile aggiungere utente al db
+        echo '<script>window.alert("Something went wrong. Please, retry.")</script>';
     }
 }
-//    }
 

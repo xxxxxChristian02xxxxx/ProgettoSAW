@@ -102,9 +102,8 @@ function modifyMoney() {
     }
     // Per ogni riga
     rows.forEach(function (row) {
-        // Accedo alla cella relativa al campo ban (sapendo qual è la struttura della tabella ho fatto l'accesso tramite indice)
-
-        var cell = row.cells[10];
+        // Accedo alla cella relativa al campo money (sapendo qual è la struttura della tabella ho fatto l'accesso tramite indice)
+        var cell = row.cells[7];
         if (cell) {
             // Memorizzo l'email relativa alla cella che è stata cliccata (anche in questo caso conoscendo la struttura so dove è memorizzata l'email)
             cell.addEventListener('click', function () {
@@ -146,12 +145,12 @@ function popup(cell, row, dataTarget) {
                 console.log("6", dataTarget)
                 appendBanUnabanToContainer(popUpContent, dataTarget)
                 break;
-            case row.cells[10]:
-                console.log("10")
+            case row.cells[7]:
+                console.log("7")
                 appendModifyToContainer(popUpContent, cell)
                 break;
-            case row.cells[11]:
-                console.log("11", dataTarget);
+            case row.cells[8]:
+                console.log("8", dataTarget);
                 appendDeleteToContainer(popUpContent, dataTarget);
         }
         const closePopUpButton = document.getElementById('closePopUpButton');

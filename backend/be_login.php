@@ -25,21 +25,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include('function_files/connection.php');
     $con = connect();
 
-    //Sanificazione input
-    $email = $con->real_escape_string($email);
-    $password = $con->real_escape_string($password);
-
-    //Preparazione della
+    //Preparazione della query
     //todo: transform to prepared stmt
-    $query = "SELECT * FROM USERS WHERE EMAIL='$email'";
-    $res = $con->query($query);
-    $row = $res->fetch_assoc();
+    $query = "SELECT * FROM USERS WHERE EMAIL= ? ";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param('s', $email);
+    $stmt->execute();
+
+    $res = $stmt->get_result();
 
     header('Content-Type: application/json');
     if($res->num_rows !== 1){
         $response = array("success" => false);
     }
     else{
+        $row = $res->fetch_assoc();
         $storedPassword = $row["PASSWORD"];
 
         if (password_verify($password, $storedPassword)) {
@@ -59,5 +59,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $con->close();
     echo json_encode($response);
-
 }

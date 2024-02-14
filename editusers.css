@@ -1,7 +1,4 @@
-#edituserTable td:nth-child(7) {
-    cursor: pointer;
-}
-#edituserTable td:nth-child(11) {
+#edituserTable td:nth-child(7), #edituserTable td:nth-child(8) {
     cursor: pointer;
 }
 
@@ -20,4 +17,13 @@
 {
     background-color: darkred;
     border-color: darkred;
+}
+
+.deleteButton {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    color: darkred;
 }

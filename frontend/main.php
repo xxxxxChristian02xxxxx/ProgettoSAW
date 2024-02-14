@@ -19,9 +19,8 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
     <link href="../main_dressing.css" rel="stylesheet" type="text/css">
 </head>
 
-
 <body>
-<div>
+<div class="subjectChoose">
     <span>
         <label for="Testo_materie">Scegli la materia:</label>
         <select id="scelta" name="scelta"></select>

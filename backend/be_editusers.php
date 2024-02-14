@@ -9,7 +9,7 @@ include("function_files/connection.php");
 $con = connect();
 
 //creazione prepared statemet per prelevare tutta la tabella
-$query = "SELECT * FROM USERS"; // query
+$query = "SELECT ID, FIRSTNAME, LASTNAME, EMAIL, PASSWORD, ROLES, BANNED, MONEY FROM USERS"; // query
 $stmt = $con->prepare($query); // execute query
 $stmt->execute();
 $result = $stmt->get_result();

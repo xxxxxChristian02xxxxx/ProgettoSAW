@@ -12,8 +12,8 @@ include('header.php');
 <html lang="en">
 <head>
     <title>Edit users</title>
-    <link href="../editusers.css" rel="stylesheet" type="text/css">
-    <link href="../editTable.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../editusers.css">
+    <link rel="stylesheet" type="text/css" href="../editTable.css">
 </head>
 <body>
     <div class="editUser">
@@ -62,9 +62,6 @@ include('header.php');
                 <th>PASSWORD</th>
                 <th>ROLES</th>
                 <th>BANNED</th>
-                <th>REMEMBER</th>
-                <th>TOKEN</th>
-                <th>EXPIRE</th>
                 <th>MONEY</th>
                 <th>DELETE USER</th>
             </thead>
