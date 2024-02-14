@@ -32,7 +32,7 @@ if(!function_exists('updatePasswordLogin')){
             $pass = password_hash($pas, PASSWORD_DEFAULT);
             $query = "UPDATE USERS SET PASSWORD = ? WHERE EMAIL = ?";
             $stmt = $con->prepare($query);
-            $stmt->bind_param('si', $pass, $email);
+            $stmt->bind_param('ss', $pass, $email);
             $stmt->execute();
         }
 
