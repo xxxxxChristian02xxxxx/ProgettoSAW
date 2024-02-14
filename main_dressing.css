@@ -1,6 +1,3 @@
-.subjectChoose, footer {
-    font-family: 'Roboto', sans-serif;
-}
 
 /*css per il main -timer  */
 .vertical-grid {
@@ -8,31 +5,67 @@
     display: grid;
     grid-template-rows: 1fr;
     grid-template-columns: 1fr 2fr 1fr;
-    grid-gap: 10px;
+
     height: 100%;
     width: 100%;
+    background-Color:#9FB79E;
+
+
 }
 
 .column {
+
     display: flex;
     justify-content: center;
     align-items: center;
 }
+.swipeButton {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+}
 
+.column #buttom-Swipe-left:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+}
+.column #buttom-Swipe-right:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+}
 .container{
+
     display: flex; /* add this line */
     flex-direction: column; /* add this line */
     align-items: center; /* add this line */
     justify-content: center; /* add this line */
-    margin: 0 auto;
+    margin: 15px ;
     max-width: 540px;
     text-align: center;
     padding: 20px;
     font-family: "Roboto", sans-serif;
     border-radius: 50%;
-    border: 2px solid black;
+    //border: 5px solid darkolivegreen;
     height: 500px;
     width: 500px;
+
+
+    -webkit-box-shadow: inset 10px 10px 75px 14px rgba(0,0,0,0.20);
+    -moz-box-shadow: inset 10px 10px 75px 14px rgba(0,0,0,0.20);
+    box-shadow: inset 10px 10px 75px 14px rgba(0,0,0,0.20);
+
+    background-Color:#8db093;
+
+
 }
 
 .container button {

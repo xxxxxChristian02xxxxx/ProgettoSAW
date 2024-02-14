@@ -34,9 +34,10 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
 
 <div class="vertical-grid">
     <div class="column left-button">
-        <button id="buttom-Swipe-left "> << </button>
+        <button class ="swipeButton" id="buttom-Swipe-left"> << </button>
     </div>
     <div class="column center">
+        <div class="external-container">
         <div class="container" id="containertimer">
             <div class="title">
                 <h1 id ="timerTitle">Timer</h1>
@@ -44,12 +45,12 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
             <p id="timeTimer" class="timer"></p>
             <div >
                 <input type="range" id="TimerRange"></div>
-            <div>
+            <div class="tasto">
                 <button id="TimerStart">Start</button>
                 <button id="resetTimer">Reset</button>
             </div>
         </div>
-
+        </div>
         <div class="container" id ="constainerstopwatch">
             <div class="title">
                 <h1> Stopwatch</h1>
@@ -63,7 +64,7 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
 
     </div>
     <div class="column right-button">
-        <button id="buttom-Swipe-right "> >> </button>
+        <button class="swipeButton" id="buttom-Swipe-right"> >> </button>
     </div>
 </div>
 <!-- pop up timer-->
@@ -86,8 +87,8 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
     };
 
     function swipe(clocks){
-        const swipeLeft = document.getElementById("buttom-Swipe-left ");
-        const swipeRight = document.getElementById("buttom-Swipe-right ");
+        const swipeLeft = document.getElementById("buttom-Swipe-left");
+        const swipeRight = document.getElementById("buttom-Swipe-right");
         var displayTimer = document.getElementById("containertimer");
         var displayStopwatch = document.getElementById("constainerstopwatch");
         var swipeCount =0; // for < > button

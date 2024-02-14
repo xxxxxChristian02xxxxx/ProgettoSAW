@@ -34,6 +34,13 @@
             </div>
             <div class="RememberMe">
                 <tr>
+                    <td>
+                        <a href="rescuePassword.php">I forgot my password</a>
+                    </td>
+                </tr>
+            </div>
+            <div class="RememberMe">
+                <tr>
                     <td><label for="ReMe">Remember Me:</label></td>
                     <td><input type="checkbox" id="ReMe" name="ReMe"></td>
                 </tr>

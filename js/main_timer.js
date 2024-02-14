@@ -385,8 +385,8 @@ function startClock(typeClock, time, timeBreakStart) {
             let resetT = document.getElementById("resetTimer")
             let startS =document.getElementById("startStopwatch")
             let resetS = document.getElementById("resetStopwatch")
-            let buttonSx=document.getElementById("buttom-Swipe-left ")
-            let buttonRx=document.getElementById("buttom-Swipe-right ")
+            let buttonSx=document.getElementById("buttom-Swipe-left")
+            let buttonRx=document.getElementById("buttom-Swipe-right")
             range.classList.add("rangePrevent");
             startT.classList.add("rangePrevent");
             resetT.classList.add("rangePrevent");
