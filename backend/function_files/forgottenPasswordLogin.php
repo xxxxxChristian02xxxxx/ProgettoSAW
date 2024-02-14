@@ -12,13 +12,13 @@ if(!function_exists('checkPresenceEmail')){
         $result = $stmt->get_result();
 
         if ($result->num_rows === 1) {
-            $emailAlreadyUsed['present'] = true;
+            $emailPresent['present'] = true;
         } else {
-            $emailAlreadyUsed['present'] = false;
+            $emailPresent['present'] = false;
         }
 
         header('Content-Type: application/json');
-        echo json_encode($emailAlreadyUsed);
+        echo json_encode($emailPresent);
     }
 }
 if(!function_exists('updatePasswordLogin')){
@@ -37,22 +37,28 @@ if(!function_exists('updatePasswordLogin')){
         }
 
         header('Content-Type: application/json');
+        if($stmt->affected_rows === 1){
+            echo json_encode("true");
+        }
+        else{
+            echo json_encode("true");
+        }
 
     }
 }
-    $data = json_decode(file_get_contents('php://input'), true);
-    if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
-        if(isset($data['action'])) {
-            switch ($data['action']) {
-                case 'checkPresenceEmail':
-                    checkPresenceEmail($data['email']);
-                    break;
-                case 'updatePasswordLogin':
-                    updatePasswordLogin ($data['email'],$data['password']);
-                    break;
-            }
-        }else{
-            echo json_encode('azione non supportata');
 
+$data = json_decode(file_get_contents('php://input'), true);
+if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
+    if(isset($data['action'])) {
+        switch ($data['action']) {
+            case 'checkPresenceEmail':
+                checkPresenceEmail($data['email']);
+                break;
+            case 'updatePasswordLogin':
+                updatePasswordLogin($data['email'], $data['password']);
+                break;
+        }
+    }else{
+        echo json_encode('azione non supportata');
         }
     }

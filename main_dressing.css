@@ -1,7 +1,7 @@
 
 /*css per il main -timer  */
 .vertical-grid {
-    margin-top: 10px;
+    margin-top: auto;
     display: grid;
     grid-template-rows: 1fr;
     grid-template-columns: 1fr 2fr 1fr;

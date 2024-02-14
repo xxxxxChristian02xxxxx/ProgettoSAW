@@ -12,6 +12,7 @@ include('header.php');
 <html lang="en">
 <head>
     <title>Edit users</title>
+    <link rel="stylesheet" type="text/css" href="../dressing.css">
     <link rel="stylesheet" type="text/css" href="../editusers.css">
     <link rel="stylesheet" type="text/css" href="../editTable.css">
 </head>

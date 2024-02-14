@@ -60,7 +60,7 @@ include('header.php');
                     <th>DATE</th>
                     <th>TOTAL TIME</th>
                     <th>TOTAL REWARD</th>
-                    <th>SEASON</th>
+                    <th>SUBJECT</th>
                     <th>DESCRIPTION</th>
                 </tr>
                 </thead>

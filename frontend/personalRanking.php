@@ -11,6 +11,8 @@ include('header.php');
 <html lang="en">
 <head>
     <title>Personal ranking</title>
+    <link rel="stylesheet" type="text/css" href="../dressing.css">
+    <link rel="stylesheet" type="text/css" href="../editTable.css">
     <link rel="stylesheet" type="text/css" href="../ranking.css">
 </head>
 <body>

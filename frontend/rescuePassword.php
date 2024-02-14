@@ -51,7 +51,7 @@
             headers: {
                 'Content-type': 'application/json',
             },
-            body: JSON.stringify({email: email,action:'checkPresenceEmail' }),
+            body: JSON.stringify({email: email, action:'checkPresenceEmail' }),
         })
             .then(response => response.json())
             .then(data => {
@@ -75,9 +75,6 @@
             body: JSON.stringify({email:email, password:confiermPass, action: 'updatePasswordLogin' }),
         })
             .then(response => response.json())
-            .then(data => {
-             console.log("modificata");
-            })
             .catch(error => {
                 // Gestione degli errori durante la chiamata
                 console.error('Si è verificato un errore durante la fetch:', error);
