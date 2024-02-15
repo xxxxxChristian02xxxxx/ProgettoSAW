@@ -4,7 +4,7 @@ if(!function_exists('checkPresenceEmail')){
         require("connection.php");
         $con = connect();
 
-        $query = "SELECT EMAIL FROM USERS WHERE EMAIL=?";
+        $query = "SELECT * FROM USERS WHERE EMAIL=?";
         $stmt = $con->prepare($query);
         $stmt->bind_param('s', $email);
         $stmt->execute();
@@ -33,16 +33,9 @@ if(!function_exists('updatePasswordLogin')){
             $query = "UPDATE USERS SET PASSWORD = ? WHERE EMAIL = ?";
             $stmt = $con->prepare($query);
             $stmt->bind_param('ss', $pass, $email);
-            $stmt->execute();
+            $stmt->get_result();
         }
-
         header('Content-Type: application/json');
-        if($stmt->affected_rows === 1){
-            echo json_encode("true");
-        }
-        else{
-            echo json_encode("true");
-        }
 
     }
 }

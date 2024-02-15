@@ -20,7 +20,7 @@
     align-items: center;
 }
 .swipeButton {
-    background-color: #4CAF50;
+    background-Color:#8db093;
     border: none;
     color: white;
     padding: 15px 32px;
@@ -31,7 +31,10 @@
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 12px;
-    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+    //box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: inset 10px 10px 75px 14px rgba(0,0,0,0.20);
+    -moz-box-shadow: inset 10px 10px 75px 14px rgba(0,0,0,0.20);
+    box-shadow: inset 10px 10px 75px 14px rgba(0,0,0,0.20);
 }
 
 .column #buttom-Swipe-left:hover {
