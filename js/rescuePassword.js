@@ -150,11 +150,12 @@ function appendPasswordModify(popUpContent, email) {
     popUpContent.innerHTML = gridHtml;
 }
 function generatePasswordModify(email) {
+    console.log(email);
     return `
         <h2>Check your email to proceed</h2>
                 <span id="closePopUpButton" class="close">&times;</span>
                 <div>
-                    <p >Your email : ${email.value} <p>
+                    <p >Your email : ${email} <p>
                 </div>
                 <div>
                     <p >An e-mail has been sent to you, just click the number you see on your mail to proceed <p>
