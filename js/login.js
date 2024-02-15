@@ -1,4 +1,4 @@
-document.getElementById('UserRegistration').addEventListener('submit', function (event) {
+document.getElementById('UserLogin').addEventListener('submit', function (event) {
 
     event.preventDefault();
 

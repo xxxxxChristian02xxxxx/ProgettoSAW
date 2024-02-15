@@ -11,7 +11,9 @@ include('header.php');
 <html lang="en">
 <head>
     <title>Global ranking</title>
+    <link rel="stylesheet" type="text/css" href="../dressing.css">
     <link rel="stylesheet" type="text/css" href="../ranking.css">
+    <link rel="stylesheet" type="text/css" href="../editTable.css">
 </head>
 <body>
     <div class="globalRank">

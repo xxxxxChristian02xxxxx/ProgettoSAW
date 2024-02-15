@@ -11,6 +11,7 @@ include('header.php');
 <html lang="en">
 <head>
     <title>Study sessions</title>
+    <link rel="stylesheet" type="text/css" href="../dressing.css">
     <link rel="stylesheet" type="text/css" href="../editTable.css">
 </head>
 <body>

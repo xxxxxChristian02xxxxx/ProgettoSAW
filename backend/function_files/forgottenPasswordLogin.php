@@ -33,10 +33,8 @@ if(!function_exists('updatePasswordLogin')){
             $query = "UPDATE USERS SET PASSWORD = ? WHERE EMAIL = ?";
             $stmt = $con->prepare($query);
             $stmt->bind_param('ss', $pass, $email);
-            $stmt->get_result();
+            $stmt->execute();
         }
-        header('Content-Type: application/json');
-
     }
 }
 

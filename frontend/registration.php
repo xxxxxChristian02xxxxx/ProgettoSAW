@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Sign-up</title>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../form.css">
     <script>
         function validateInput() {
 
@@ -49,7 +50,7 @@
                 }
             }
         }
-
+        /*
         document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('UserRegistration').addEventListener('submit', function (event) {
                 if (!validateInput()) {
@@ -61,6 +62,7 @@
                 }
             });
         });
+         */
     </script>
 </head>
 
@@ -72,61 +74,50 @@
         });
     </script>
 </div>
-    <div class="PageTitle">
+<div class="PageRegistration">
+    <div class="headerRegistration">
         <h1>User Registration</h1>
     </div>
     <div class="RegistrationForm">
-        <form id="UserRegistration" action="../backend/be_registration.php" method="POST">
-            <table>
-                <tr>
-                    <td><label for="firstname">Firstname:</label></td>
-                    <td>
-                        <input type="text" id="firstname" name="firstname">
-                        <span id="firstnameError" class="error"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="lastname">Lastname:</label></td>
-                    <td>
-                        <input type="text"  id="lastname" name="lastname">
-                        <span id="lastnameError" class="error"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="email">Email:</label></td>
-                    <td>
-                        <input type="email" id="email" name="email">
-                        <span id="emailError" class="error"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="pass">Password:</label></td>
-                    <td>
-                        <input type="password" id="pass" name="pass">
-                        <span id="passwordError" class="error"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="confirm">Confirm password:</label></td>
-                    <td>
-                        <input type="password" id="confirm" name="confirm">
-                        <span id="confirmError" class="error"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2"><input type="submit" value="Submit"></td>
-                </tr>
-            </table>
+        <form id="UserRegistration" action="" method="POST">
+            <div class="Firstname">
+                <label for="firstname">Firstname:</label>
+                <input type="text" id="firstname" name="firstname">
+                <span id="firstnameError" class="error"></span>
+            </div>
+            <div class="Lastname">
+                <label for="lastname">Lastname:</label>
+                <input type="text"  id="lastname" name="lastname">
+                <span id="lastnameError" class="error"></span>
+            </div>
+            <div class="Email">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email">
+                <span id="emailError" class="error"></span>
+            </div>
+            <div class="Password">
+                <label for="pass">Password:</label>
+                <input type="password" id="pass" name="pass">
+                <span id="passwordError" class="error"></span>
+            </div>
+            <div class="ConfirmPassword">
+                <label for="confirm">Confirm password:</label>
+                <input type="password" id="confirm" name="confirm">
+                <span id="confirmError" class="error"></span>
+            </div>
+            <div id="Submit">
+                <input type="submit" value="Sign-up">
+            </div>
         </form>
     </div>
-
     <div id="errorMessages" class="error"></div>
+</div>
+<script src="../js/emailVerify.js"></script>
+<script src="../js/registration.js"></script>
 
-    <script src="../js/emailVerify.js"></script>
-
-    <footer>
-        <p>Copyright © 2023. All rights reserved.</p>
-    </footer>
+<footer>
+    <p>Copyright © 2023. All rights reserved.</p>
+</footer>
 </body>
 </html>
 

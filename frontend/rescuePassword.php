@@ -3,7 +3,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Rescue Password</title>
-    <link href="rescuePassword.css" rel="stylesheet" type="text/css">
+    <link href="../rescuePassword.css" rel="stylesheet" type="text/css">
 
 </head>
 

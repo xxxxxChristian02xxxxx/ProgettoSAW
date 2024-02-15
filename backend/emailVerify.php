@@ -31,7 +31,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
     if(isset($data['action'])) {
         switch ($data['action']) {
-            case 'updateProfileData':
+            case 'checkPresenceEmail':
                 checkPresenceEmail($data['email']);
                 break;
         }

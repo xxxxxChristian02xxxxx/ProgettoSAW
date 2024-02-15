@@ -10,7 +10,7 @@ $postData = file_get_contents("php://input");
 // Decode the JSON data
 $data = json_decode($postData, true); // prendo i dati che mi erano stati mandati dal login frontend tramite jason con apifetch
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($data && $_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $data['email'];
     $email = trim($email);
     $password = $data['pass'];

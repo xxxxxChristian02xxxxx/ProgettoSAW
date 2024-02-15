@@ -3,6 +3,7 @@
 <head>
     <title>My Site</title>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../dressing.css">
 </head>
 <body>
 <div id="header">
