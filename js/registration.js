@@ -1,7 +1,7 @@
 document.getElementById('UserRegistration').addEventListener('submit', function (event) {
 
     event.preventDefault();
-
+    validateInput();
     const formData = {
         firstname: document.getElementById('firstname').value,
         lastname: document.getElementById('lastname').value,
@@ -11,6 +11,55 @@ document.getElementById('UserRegistration').addEventListener('submit', function 
     };
     console.log(formData);
     //chimata dal frontend login in backend login
+    fetchRegistration(formData);
+});
+
+
+function validateInput() {
+
+    // Recupero dei valori inseriti in input
+    const firstname = document.getElementById('firstname').value;
+    const lastname = document.getElementById('lastname').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('pass').value;
+    const confirm = document.getElementById('confirm').value;
+
+
+    if (firstname === '') {
+        document.getElementById('firstnameError').innerHTML = 'Il campo firstname è obbligatorio';
+    } else {
+        document.getElementById('firstnameError').innerHTML = '';
+    }
+
+    if (lastname === '') {
+        document.getElementById('lastnameError').innerHTML = 'Il campo lastname è obbligatorio';
+    } else {
+        document.getElementById('lastnameError').innerHTML = '';
+    }
+
+    if (email === '') {
+        document.getElementById('emailError').innerHTML = 'Il campo email è obbligatorio';
+    } else {
+        document.getElementById('emailError').innerHTML = '';
+    }
+
+    if (password !== '' && confirm !== '') {
+        if (password !== confirm) {
+            alert('Passwords do not match');
+            return false;
+        }
+    } else {
+        document.getElementById('confirmError').innerHTML = 'I campi password e confirm è obbligatori';
+    }
+
+    const errorMessage = document.querySelectorAll('.error');
+    for (let i = 0; i < errorMessage.length; i++) {
+        if (errorMessage[i].innerHTML !== '') {
+            return;
+        }
+    }
+}
+function fetchRegistration(formData){
     fetch('../backend/be_registration.php', { // dico il percorso del file di back end
         method: 'POST', //metodo get o post
         headers: {
@@ -32,4 +81,24 @@ document.getElementById('UserRegistration').addEventListener('submit', function 
         .catch(error => {
             console.error('Error:', error);
         });
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('UserRegistration').addEventListener('submit', function (event) {
+        if (!validateInput()) {
+            event.preventDefault();
+
+            validateInput();
+
+            document.getElementById('UserRegistration').submit();
+        }
+    });
 });
+ */
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

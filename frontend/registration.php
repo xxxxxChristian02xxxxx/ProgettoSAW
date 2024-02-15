@@ -5,65 +5,7 @@
     <title>Sign-up</title>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../form.css">
-    <script>
-        function validateInput() {
-
-            // Recupero dei valori inseriti in input
-            const firstname = document.getElementById('firstname').value;
-            const lastname = document.getElementById('lastname').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('pass').value;
-            const confirm = document.getElementById('confirm').value;
-
-
-            if (firstname === '') {
-                document.getElementById('firstnameError').innerHTML = 'Il campo firstname è obbligatorio';
-            } else {
-                document.getElementById('firstnameError').innerHTML = '';
-            }
-
-            if (lastname === '') {
-                document.getElementById('lastnameError').innerHTML = 'Il campo lastname è obbligatorio';
-            } else {
-                document.getElementById('lastnameError').innerHTML = '';
-            }
-
-            if (email === '') {
-                document.getElementById('emailError').innerHTML = 'Il campo email è obbligatorio';
-            } else {
-                document.getElementById('emailError').innerHTML = '';
-            }
-
-            if (password !== '' && confirm !== '') {
-                if (password !== confirm) {
-                    alert('Passwords do not match');
-                    return false;
-                }
-            } else {
-                document.getElementById('confirmError').innerHTML = 'I campi password e confirm è obbligatori';
-            }
-
-            const errorMessage = document.querySelectorAll('.error');
-            for (let i = 0; i < errorMessage.length; i++) {
-                if (errorMessage[i].innerHTML !== '') {
-                    return;
-                }
-            }
-        }
-        /*
-        document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('UserRegistration').addEventListener('submit', function (event) {
-                if (!validateInput()) {
-                    event.preventDefault();
-
-                    validateInput();
-
-                    document.getElementById('UserRegistration').submit();
-                }
-            });
-        });
-         */
-    </script>
+    <!-- SPOSTATO IN REGISTRATION.JS-->
 </head>
 
 <body>
