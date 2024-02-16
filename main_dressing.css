@@ -1,5 +1,16 @@
-
 /*css per il main -timer  */
+h1 {
+    font-family: 'Roboto', sans-serif;;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.subjectChoose {
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
 .vertical-grid {
     margin-top: auto;
     display: grid;
@@ -9,8 +20,6 @@
     height: 100%;
     width: 100%;
     background-Color:#9FB79E;
-
-
 }
 
 .column {

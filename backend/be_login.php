@@ -40,21 +40,26 @@ if ($data && $_SERVER["REQUEST_METHOD"] == "POST") {
     }
     else{
         $row = $res->fetch_assoc();
-        $storedPassword = $row["PASSWORD"];
+        if($row['BANNED']){
+            $response = array("success" => false, "banned" => true);
+        }
+        else{
+            $storedPassword = $row["PASSWORD"];
 
-        if (password_verify($password, $storedPassword)) {
-            require('function_files/session.php');
-            setSession($row['ID']);
+            if (password_verify($password, $storedPassword)) {
+                require('function_files/session.php');
+                setSession($row['ID']);
 
-            if($remember) {
-                require('function_files/RememberMe.php');
-                setRememberMe($remember);
+                if($remember) {
+                    require('function_files/RememberMe.php');
+                    setRememberMe($remember);
+                }
+
+                http_response_code(200);
+                $response = array("success" => true, "banned" => false);
+            }else{
+                $response = array("success" => false, "banned" => false);
             }
-
-            http_response_code(200);
-            $response = array("success" => true);
-        }else{
-            $response = array("success" => false);
         }
     }
     $con->close();

@@ -8,6 +8,9 @@
     width: 100px;
     border-radius: 5px;
     margin: 0 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .popup {
@@ -23,42 +26,58 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-#firstPlace {
-    background-color: #ffffd7;
-}
-
-#secondPlace {
-    background-color: #c0c0c0;
-}
-
-#thirdPlace {
-    background-color: #b08d57;
-}
-
-#PfirstPlace, #PsecondPlace, #PthirdPlace {
-    transform: rotateX(180deg);
-    transform-origin: center;
-    text-align: center;
-    font-family: 'Roboto', sans-serif;
-    font-size: 15px;
-}
-
-#PfirstPlaceName, #PsecondPlaceName, #PthirdPlaceName {
-    transform: rotateX(180deg);
-    transform-origin: center;
-    text-align: center;
-    vertical-align: bottom;
-    font-family: 'Roboto', sans-serif;
-    font-size: 15px;
-}
-
+#PfirstPlace, #PsecondPlace, #PthirdPlace,
+#PfirstPlaceName, #PsecondPlaceName, #PthirdPlaceName,
 #PfirstPlaceSubject, #PsecondPlaceSubject, #PthirdPlaceSubject {
     transform: rotateX(180deg);
     transform-origin: center;
     text-align: center;
-    vertical-align: bottom;
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+#firstPlace {
+    position: relative;
+    background-color: #ffffd7;
+    height: 6em;
+}
+
+#secondPlace {
+    position: relative;
+    background-color: #c0c0c0;
+    height: 5em;
+}
+
+#thirdPlace {
+    position: relative;
+    background-color: #b08d57;
+    height: 4em;
+}
+
+#Pfirstplace, #PsecondPlace, #PthirdPlace {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%) rotateX(180deg);
+    font-size: 20px;
+}
+
+#PfirstPlace {
+    top: 80%
+}
+
+#PsecondPlace {
+    top: 65%
+}
+
+#PthirdPlace {
+    top: 50%;
+}
+#PfirstPlaceName, #PsecondPlaceName, #PthirdPlaceName,
+#PfirstPlaceSubject, #PsecondPlaceSubject, #PthirdPlaceSubject {
+    margin-top: 5px;
+    padding-top: 50%;
 }
 
 .overlay {
@@ -81,8 +100,4 @@
     border: none;
     font-size: 15px;
     cursor: pointer;
-}
-
-#podiumPopup p {
-    font-size: 15px;
 }

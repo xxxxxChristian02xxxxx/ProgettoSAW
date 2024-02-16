@@ -1,6 +1,8 @@
-header, h2 {
+header, h2, body {
     font-family: 'Roboto', sans-serif;
+    background-color: #faf7e5;
 }
+
 .header_button {
     border: 0;
     margin: 0.3rem;
@@ -25,10 +27,15 @@ header, h2 {
     box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 8%) 0px 3px 9px 0px, rgb(60 66 87 / 8%) 0px 2px 5px 0px;
 }
 
+header {
+    margin-bottom: 0;
+}
+
 #privateheaderButton {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background-color: #faf7e5;
 }
 
 .right_button {

@@ -2,7 +2,7 @@ body {
     background-color: #faf7e5;
 }
 
-.PageRegistration, .PageLogin, .PageUpdate {
+.PageRegistration, .PageLogin, .PageUpdate, .rescuePassword {
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
     background-color: #cad7b2;
@@ -17,18 +17,18 @@ body {
     border-radius: 5px;
 }
 
-.headerRegistration, .headerLogin, .headerMyProfile {
+.headerRegistration, .headerLogin, .headerMyProfile,  .headerRescuePassword{
     width: 100%;
     border-bottom: 2px solid black;
     background-color: #a8caba;
 }
 
-.headerRegistration h1, .headerLogin h1, .headerMyProfile h1 {
+.headerRegistration h1, .headerLogin h1, .headerMyProfile h1, .headerRescuePassword h1 {
     font-weight: normal;
     font-size: 25px;
 }
 
-.RegistrationForm, .LoginForm, .UpdateForm {
+.RegistrationForm, .LoginForm, .UpdateForm, .rescuePasswordForm {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -36,9 +36,10 @@ body {
     margin: 15px 0;
 }
 
-#UserRegistration, #UserLogin, #UserUpdate {
+#UserRegistration, #UserLogin, #UserUpdate, #UserRescuePassword {
     width: 50%;
 }
+
 .Firstname label, .Lastname label, .Email label, .Password label, .ConfirmPassword label {
     display: flex;
     justify-items: flex-start;
@@ -67,6 +68,6 @@ body {
     margin-top: 10px;
 }
 
-#Submit input[type="submit"] {
+#Submit input[type="submit"], #Update {
     font-size: 15px;
 }

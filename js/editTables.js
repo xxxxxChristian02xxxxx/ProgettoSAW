@@ -1,6 +1,6 @@
 // Funzione per popolare la tabella
 function populateTable(data, currentPage, rowsPerPage, table) {
-    if(table){
+    if (table) {
         //Pulizia della tabella
         table.innerHTML = '';
 
@@ -10,38 +10,55 @@ function populateTable(data, currentPage, rowsPerPage, table) {
         var end = Math.min(start + rowsPerPage, data.length);
 
         // Popolamento della tabella
-        for(var i=start; i<end; i++){
+        for (var i = start; i < end; i++) {
             var newRow = document.createElement('tr');
             // Aggiunta delle colonne alla riga - iterazione attraverso tutte le chiavi dell'oggetto data[i]
             // e applicazione di una funzione a ciascuna di esse
-            if(table === document.querySelector('#globalRankTable tbody')){
+            if (table === document.querySelector('#globalRankTable tbody')) {
                 var newCell = document.createElement('td');
-                newCell.innerText = i-start+1;
+                newCell.innerText = i - start + 1;
                 newRow.appendChild(newCell);
             }
             Object.keys(data[i]).forEach(function (key) {
                 var newCell = document.createElement('td');
 
-                if(key === 'ROLES'){
-                    var promoteButton = document.createElement('button');
-                    if(data[i][key] === 1){
-                        promoteButton.innerHTML = 'Demote';
-                        promoteButton.setAttribute('data-content', 'Demote');
+                if (key === 'ROLES') {
+                    var promoteDemoteButton = document.createElement('button');
+                    if (data[i][key]) {
+                        promoteDemoteButton.innerHTML = 'Demote';
+                        promoteDemoteButton.setAttribute('data-content', 'Demote');
+                    } else {
+                        promoteDemoteButton.innerHTML = 'Promote';
+                        promoteDemoteButton.setAttribute('data-content', 'Promote');
                     }
-                    else{
-                        promoteButton.innerHTML = 'Promote';
-                        promoteButton.setAttribute('data-content', 'Promote');
-                    }
-                    promoteButton.className = "promoteButton";
-                    newCell.appendChild(promoteButton);
+                    promoteDemoteButton.className = "promoteDemoteButton";
+                    newCell.appendChild(promoteDemoteButton);
                 }
-                else
-                {
+                else if (key === 'BANNED') {
+                    var banUnbanButton = document.createElement('button');
+                    if (data[i][key]) {
+                        banUnbanButton.innerHTML = 'Unban';
+                        banUnbanButton.setAttribute('data-content', 'Unban');
+                    } else {
+                        banUnbanButton.innerHTML = 'Ban';
+                        banUnbanButton.setAttribute('data-content', 'Ban');
+                    }
+                    banUnbanButton.className = "banUnbanButton";
+                    newCell.appendChild(banUnbanButton);
+                }
+                else if (key === 'DATE'){
+                    var date = new Date(data[i][key]);
+
+                    newCell.textContent = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+                }
+                else {
                     newCell.textContent = data[i][key];
                 }
                 newRow.appendChild(newCell)
+
             });
-            if(table === document.querySelector('#edituserTable tbody')){
+
+            if (table === document.querySelector('#edituserTable tbody')) {
                 var deleteCell = document.createElement('td');
                 newRow.appendChild(deleteCell);
                 var deleteButton = document.createElement('button');
@@ -49,7 +66,16 @@ function populateTable(data, currentPage, rowsPerPage, table) {
                 deleteButton.className = "deleteButton";
                 deleteCell.appendChild(deleteButton);
             }
+
             table.appendChild(newRow);
+
+        }
+
+        if (table === document.querySelector('#edituserTable tbody')) {
+            promoteDemoteUser();
+            banUnban();
+            modifyMoney();
+            deleteUser();
         }
 
         // Aggiornamento controlli di paginazione

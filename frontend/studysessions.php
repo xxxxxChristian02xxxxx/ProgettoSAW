@@ -11,7 +11,7 @@ include('header.php');
 <html lang="en">
 <head>
     <title>Study sessions</title>
-    <link rel="stylesheet" type="text/css" href="../dressing.css">
+    <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../editTable.css">
 </head>
 <body>
@@ -56,12 +56,11 @@ include('header.php');
             <table class="dataTable" id="studysessionsTable">
                 <thead>
                 <tr>
-                    <th>SESSION ID</th>
+                    <th>SUBJECT</th>
                     <th>TYPE</th>
                     <th>DATE</th>
                     <th>TOTAL TIME</th>
                     <th>TOTAL REWARD</th>
-                    <th>SUBJECT</th>
                     <th>DESCRIPTION</th>
                 </tr>
                 </thead>

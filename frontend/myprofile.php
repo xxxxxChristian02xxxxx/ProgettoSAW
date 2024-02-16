@@ -13,7 +13,6 @@ include('header.php');
     <title>My profile</title>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
-
     <link rel="stylesheet" type="text/css" href="../form.css">
 
     <script src="../js/emailVerify.js"></script>

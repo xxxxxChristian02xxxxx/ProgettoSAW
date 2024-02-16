@@ -12,9 +12,10 @@ include('header.php');
 <html lang="en">
 <head>
     <title>Edit users</title>
-    <link rel="stylesheet" type="text/css" href="../dressing.css">
+    <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../editusers.css">
     <link rel="stylesheet" type="text/css" href="../editTable.css">
+    <link rel="stylesheet" type="text/css" href="../popup.css">
 </head>
 <body>
     <div class="editUser">
@@ -60,7 +61,6 @@ include('header.php');
                 <th>NAME</th>
                 <th>LASTNAME</th>
                 <th>EMAIL</th>
-                <th>PASSWORD</th>
                 <th>ROLES</th>
                 <th>BANNED</th>
                 <th>MONEY</th>
@@ -74,10 +74,13 @@ include('header.php');
             </div>
         </div>
 
-
         <div id="pagination"></div>
         <script src="../js/editusers.js"></script>
         <script src="../js/editTables.js"></script>
+        <script src="../js/promoteDemote.js"></script>
+        <script src="../js/banUnban.js"></script>
+        <script src="../js/modifyMoney.js"></script>
+        <script src="../js/deleteUser.js"></script>
     </div>
 </body>
 </html>

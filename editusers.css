@@ -2,21 +2,33 @@
     cursor: pointer;
 }
 
-.promoteButton {
+.promoteDemoteButton, .banUnbanButton {
     cursor: pointer;
-    color: white;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
 }
 
-.promoteButton[data-content="Promote"]
+.promoteDemoteButton[data-content="Promote"]
 {
     background-color: green;
     border-color: green;
+    color: white;
 }
 
-.promoteButton[data-content="Demote"]
+.promoteDemoteButton[data-content="Demote"]
 {
     background-color: darkred;
     border-color: darkred;
+    color: white;
+}
+
+.banUnbanButton[data-content="Ban"]{
+    background-color: #f39f18;
+}
+
+.banUnbanButton[data-content="Unban"]{
+    background-color: #fed049;
 }
 
 .deleteButton {

@@ -19,10 +19,14 @@ document.getElementById('UserLogin').addEventListener('submit', function (event)
         .then(response => response.json()) //prendo la risposta di login backend(ha ottenuto i risultati delle query ) e li ha messi nella variabile
         .then(data => { //prendo i dati ottenuti e li processo
 
-            if (data.success) {
+            if (data.success && !data.banned) {
                 window.location.href = 'main.php'; // se chiamata è andata bene faccio display del main.php
-            } else {
-                window.alert('login failed'); //altimenti mando messaggio di errore
+            }
+            else if(!data.success && data.banned) {
+                window.alert("You can't login, you're banned!");
+            }
+            else {
+                window.alert("Login failed"); //altimenti mando messaggio di errore
             }
         })
         .catch(error => {

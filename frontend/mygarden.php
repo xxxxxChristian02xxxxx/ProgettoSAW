@@ -6,12 +6,9 @@ include('../backend/function_files/verifyCookie.php');
 verifyCookie();
 //Aggiunta dell'header
 include('header.php');
-
-$session = getSession(true);
-echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </h2>" ;
 ?>
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <title>My Garden</title>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -19,13 +16,11 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
     <link href="../dressing_garden.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-
-<div class="field" id="plants-container"></div>
-<script src ="../js/mygarden.js"></script>
-
-
-
-
+    <div class="garden">
+        <h1>My garden</h1>
+        <div class="field" id="plants-container"></div>
+        <script src ="../js/mygarden.js"></script>
+    </div>
 </body>
 <script>
 

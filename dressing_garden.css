@@ -1,6 +1,15 @@
 body{
     min-height: 100vh;
 }
+
+.garden{
+    font-family: 'Roboto', sans-serif;;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
 .field{
     background-image: url("images/mygardenbackground.jpg");
 
@@ -13,10 +22,7 @@ body{
     min-height: 100vh;
     height: calc(100vh - 100px); /* subtract the height of the header and footer from the height of the viewport */
 }
-header, footer {
-    height: 50px; /* or any height that fits your header and footer */
-    background-color: white; /* to ensure that the header and footer have a solid background color */
-}
+
 .card {
     display: flex;
     flex-direction: column;

@@ -8,7 +8,7 @@ verifyCookie();
 include('header.php');
 
 $session = getSession(true);
-echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </h2>" ;
+echo "<h1>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </h1>" ;
 ?>
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
@@ -16,7 +16,7 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
     <title>Home</title>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
-    <link href="../main_dressing.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../main_dressing.css">
 </head>
 
 <body>
@@ -26,7 +26,7 @@ echo "<h2>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
         <select id="scelta" name="scelta"></select>
     </span>
     <span>
-        <label for="add_materie">Aggiungi una materia:</label>
+        <label for="add_materie"> oppure aggiune una nuova:</label>
         <input type="text" id="add_materie" name="Testo_materie">
     </span>
     <span><button id="newsub"> + </button></span>
