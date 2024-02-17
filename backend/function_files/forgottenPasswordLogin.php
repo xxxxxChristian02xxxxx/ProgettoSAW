@@ -51,6 +51,6 @@ if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }else
     {
-        echo json_encode('azione non supportata');
+        echo json_encode('Unsupported action');
     }
 }

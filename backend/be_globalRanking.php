@@ -27,7 +27,7 @@ if($res->num_rows > 0)
     while($row = $res->fetch_assoc()){
         $data[] = $row;
     }
-error_log(print_r($data, true));
+
 $con->close();
 
 echo json_encode($data);

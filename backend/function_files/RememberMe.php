@@ -4,36 +4,31 @@ if(!function_exists('setRememberMe')) {
     {
         //set cookie se il rememberme è settato su true
         if ($remember) {
-
             require('session.php');
             $session_variables = getSession(true);
-
 
             $expire = time() + ((60 * 60 * 24) * 7);
             $salt = "%salt&/";
             //creo un token key random per non risalire alle credenziali dell'utente dal cookie
-            //per rendere la proteine del cookie piu forte ci metto il sale
+            //per rendere la protezione del cookie piu forte ci metto il sale
 
-            //faccio hash cosicchè la chiave e il valore del mio cookie, essendo che contengono dati sensibili, vengano encriptati in modo pseudorandomico
-            $token_key = hash('sha256', (time() . $salt));
+            //faccio hash cosicchè il valore del mio cookie, essendo che contiene dati sensibili, venga encriptato in modo pseudorandomico
             $token_value = hash('sha256', ("logged_in" . $salt));
 
+            // Uso json_encode perchè i cookie possono memorizzare solo delle stringhe, quindi di per sè non possono memorizzare
+            // array associativi -> per memorizzare più informazioni in un singolo cookie lo converto in una stringa
             $sessiondata = json_encode(['token_value' => $token_value, 'id' => $session_variables['id']]);
+            // '/' -> indica che il cookie è valido per tutto il sito
             setcookie('ReMe', $sessiondata, $expire, '/');
             $expire = date("Y-m-d", $expire);
 
-            include("function_files/connection.php");
+            include("connection.php");
             $con = connect();
 
             // Preparazione della query con prepared statement
             $query = "UPDATE USERS SET REMEMBER = '1', TOKEN=?, EXPIRE=? WHERE ID=?";
             $stmt = $con->prepare($query);
             $stmt->bind_param('ssi', $token_value, $expire, $session_variables['id']);
-
-            // Assegnazione dei valori ai parametri e esecuzione della query
-            //$token_key = $row['token_key'];
-            //$token_value = $row['token_value'];
-            //$id = $row['id'];
             $stmt->execute();
 
             $stmt->close();

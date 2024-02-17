@@ -41,21 +41,27 @@ if(!function_exists('resetMoney')){
         $stmt->bind_param("s", $email);
         $stmt->execute();
 
-        // ottengo il valore updatato dal db
-        $query = "SELECT MONEY FROM USERS WHERE EMAIL = ?";
-        $stmt = $con->prepare($query);
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        if($stmt->affected_rows === 1){
+            // ottengo il valore updatato dal db
+            $query = "SELECT MONEY FROM USERS WHERE EMAIL = ?";
+            $stmt = $con->prepare($query);
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
 
-        $data = $result->fetch_assoc();
-        $updatedMoney = $data['MONEY'];
+            $data = $result->fetch_assoc();
+            $updatedMoney = $data['MONEY'];
 
-        header('Content-Type: application/json');
-        echo json_encode($updatedMoney);
+            header('Content-Type: application/json');
+            echo json_encode($updatedMoney);
+        }
+        else{
+            echo('Something went wrong with the query result');
+        }
     }
 }
+
 $data = json_decode(file_get_contents('php://input'), true);
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
     if(isset($data['action'])) {
@@ -68,7 +74,6 @@ if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
                 break;
         }
     }else{
-        echo json_encode('azione non supportata');
-
+        echo json_encode('Unsupported action');
     }
 }

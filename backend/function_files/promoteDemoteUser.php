@@ -14,18 +14,23 @@ if(!function_exists('promoteDemote')) {
         $stmt->bind_param('s', $email);
         $stmt->execute();
 
-        $query = "SELECT ROLES FROM USERS WHERE EMAIL = ?";
-        $stmt = $con->prepare($query);
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        if($stmt->affected_rows === 1){
+            $query = "SELECT ROLES FROM USERS WHERE EMAIL = ?";
+            $stmt = $con->prepare($query);
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
-        $data = $result->fetch_assoc();
+            $data = $result->fetch_assoc();
 
-        header('Content-Type: application/json');
-        echo json_encode($data['ROLES']);
+            $con->close();
 
-        $con->close();
+            header('Content-Type: application/json');
+            echo json_encode($data['ROLES']);
+        }
+        else{
+            echo('Something went wrong with the query result');
+        }
     }
 }
 
@@ -35,6 +40,6 @@ if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
         promoteDemote($data['email']);
     }
     else{
-        echo json_encode('azione non supportata');
+        echo json_encode('Unsupported action');
     }
 }

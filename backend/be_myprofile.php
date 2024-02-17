@@ -14,12 +14,14 @@
             $stmt = $con->prepare($query);
             $stmt->bind_param('i', $userId);
             $stmt->execute();
-            $result = $stmt->get_result();
-            $data = $result->fetch_assoc();
+            if($stmt->num_rows === 1){
+                $result = $stmt->get_result();
+                $data = $result->fetch_assoc();
 
-            $con->close();
+                $con->close();
 
-            echo json_encode($data);
+                echo json_encode($data);
+            }
         }
     }
 
@@ -83,6 +85,6 @@ if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
     else{
-        echo json_encode('azione non supportata');
+        echo json_encode('Unsupported action');
     }
 }
