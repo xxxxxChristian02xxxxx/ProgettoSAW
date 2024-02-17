@@ -8,6 +8,9 @@
             <div id="myGardenButton">
                 <a href='mygarden.php' class='header_button'>My Garden</a>
             </div>
+            <div id="shopButton">
+                <a href='shop.php' class='header_button'>Shop</a>
+            </div>
             <div id="studySessionButton">
                 <a href='studysessions.php' class='header_button'>Study Sessions</a>
             </div>

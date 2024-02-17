@@ -10,7 +10,7 @@
             $session = getSession(true);
             $userId = $session['id'];
 
-            $query = "SELECT FIRSTNAME, LASTNAME, EMAIL FROM USERS WHERE ID = ?";
+            $query = "SELECT FIRSTNAME, LASTNAME, EMAIL, MONEY FROM USERS WHERE ID = ?";
             $stmt = $con->prepare($query);
             $stmt->bind_param('i', $userId);
             $stmt->execute();
