@@ -1,11 +1,5 @@
-.podium {
-    display: flex;
-    justify-content: space-around;
-    padding: 20px;
-}
-
 .podium div {
-    width: 100px;
+    width: 150px;
     border-radius: 5px;
     margin: 0 10px;
     flex-direction: column;
@@ -24,6 +18,14 @@
     background-color: #f0f0f0;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 60%;
+}
+
+.popup .podium {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    height:60%
 }
 
 #PfirstPlace, #PsecondPlace, #PthirdPlace,
@@ -35,28 +37,27 @@
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
     font-weight: bold;
-    line-height: 1;
 }
 
-#firstPlace {
+.podium #firstPlace {
     position: relative;
     background-color: #ffffd7;
-    height: 6em;
+    height: 90%;
 }
 
-#secondPlace {
+.podium #secondPlace {
     position: relative;
     background-color: #c0c0c0;
-    height: 5em;
+    height: 60%;
 }
 
-#thirdPlace {
+.podium #thirdPlace {
     position: relative;
     background-color: #b08d57;
-    height: 4em;
+    height: 30%;
 }
 
-#Pfirstplace, #PsecondPlace, #PthirdPlace {
+#PfirstPlace, #PsecondPlace, #PthirdPlace {
     position: absolute;
     left: 50%;
     transform: translate(-50%, -50%) rotateX(180deg);

@@ -53,7 +53,7 @@ include('header.php');
         </div>
 
         <div id="studySessionTableContainer">
-            <table class="dataTable" id="studysessionsTable">
+            <table class="dataTable" id="studySessionsTable">
                 <thead>
                 <tr>
                     <th>SUBJECT</th>
