@@ -44,6 +44,5 @@
         unset($_COOKIE);
         $con->close();
     }
-    header("Location: index.php");
+    header("Location: ../frontend/index.html");
     exit();
-?>

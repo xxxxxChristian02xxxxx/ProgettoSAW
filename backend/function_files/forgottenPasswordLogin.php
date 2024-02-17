@@ -49,7 +49,8 @@ if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
                 updatePasswordLogin($data['email'], $data['password']);
                 break;
         }
-    }else{
+    }else
+    {
         echo json_encode('azione non supportata');
-        }
     }
+}

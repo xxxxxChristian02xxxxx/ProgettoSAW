@@ -21,7 +21,7 @@ if (!function_exists('getSession')) {
             return true;
         } else {
             echo('user not logged in');
-            header("Location: index.php");
+            header("Location: index.html");
         }
     }
 }

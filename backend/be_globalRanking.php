@@ -31,4 +31,3 @@ error_log(print_r($data, true));
 $con->close();
 
 echo json_encode($data);
-?>

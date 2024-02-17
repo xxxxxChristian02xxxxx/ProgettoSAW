@@ -21,9 +21,6 @@ function promoteDemoteUser() {
                 dataTarget['roles']=cellAdmin.innerText;
                 popup(cellAdmin, row, dataTarget);
             });
-            // Aggiungo un listener relativo al click sulla cella della tabella
-            // Quando clicco -> chiamata fetch a file che faccia lo sban o il ban nel db
-
         }
     });
 

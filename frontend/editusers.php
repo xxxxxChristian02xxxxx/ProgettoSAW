@@ -57,14 +57,16 @@ include('header.php');
 
         <table class="dataTable" id="edituserTable">
             <thead>
-                <th>ID</th>
-                <th>NAME</th>
-                <th>LASTNAME</th>
-                <th>EMAIL</th>
-                <th>ROLES</th>
-                <th>BANNED</th>
-                <th>MONEY</th>
-                <th>DELETE USER</th>
+                <tr>
+                    <th>ID</th>
+                    <th>NAME</th>
+                    <th>LASTNAME</th>
+                    <th>EMAIL</th>
+                    <th>ROLES</th>
+                    <th>BANNED</th>
+                    <th>MONEY</th>
+                    <th>DELETE USER</th>
+                </tr>
             </thead>
             <tbody></tbody>
         </table>

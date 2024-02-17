@@ -22,7 +22,7 @@
         <h1>User Registration</h1>
     </div>
     <div class="RegistrationForm">
-        <form id="UserRegistration" action="" method="POST">
+        <form id="UserRegistration" action="registration.php" method="POST">
             <div class="Firstname">
                 <label for="firstname">Firstname:</label>
                 <input type="text" id="firstname" name="firstname">
@@ -57,10 +57,6 @@
 </div>
 <script src="../js/emailVerify.js"></script>
 <script src="../js/registration.js"></script>
-
-<footer>
-    <p>Copyright © 2023. All rights reserved.</p>
-</footer>
 </body>
 </html>
 

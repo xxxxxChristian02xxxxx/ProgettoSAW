@@ -2,11 +2,14 @@
 if(isset($_SESSION['loggedIn'])) {
     include('../backend/function_files/session.php');
     $session = getSession(true);
-    include('private_header.php');
+    if($session['role']){
+        include('privateHeaderAdmin.html');
+    }
+    else{
+        include('privateHeader.html');
+    }
 }
 else{
     include('public_header.html');
-    header("Location: index.php");
+    header("Location: index.html");
 }
-?>
-

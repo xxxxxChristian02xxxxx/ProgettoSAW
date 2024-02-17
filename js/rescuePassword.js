@@ -1,4 +1,20 @@
-function mailFetch(confiermPass,email){
+window.addEventListener("DOMContentLoaded", () => {
+    document.getElementById('UserRescuePassword').addEventListener('submit', function(event) {
+        event.preventDefault();
+        let update = document.getElementById("update");
+        update.addEventListener("click", ()=>{
+            var email = document.getElementById("email").value;
+            var password= document.getElementById("pass").value;
+            var confirmPass= document.getElementById("confirm").value;
+            if(password === confiermPass){
+                mailFetch(confiermPass,email);
+            }
+        })
+    })
+
+})
+
+function mailFetch(confirmPass,email){
     fetch('../backend/function_files/forgottenPasswordLogin.php', {
         method: 'POST',
         headers: {
@@ -9,7 +25,7 @@ function mailFetch(confiermPass,email){
         .then(response => response.json())
         .then(data => {
             if(data['present']) {
-                popup(email,confiermPass);
+                popup(email,confirmPass);
 
             }else{
                 let emailError = document.getElementById("emailErro");

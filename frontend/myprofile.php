@@ -8,7 +8,7 @@ verifyCookie();
 include('header.php');
 ?>
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en">
 <head>
     <title>My profile</title>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>

@@ -36,10 +36,5 @@ if (!function_exists('verifyCookie')) {
             }
             $stmt->close();
         }
-
-        //Verifica che la sessione sia attiva
-        //include('backend/function_files/session.php');
-        //include('frontend/header.php');
     }
 }
-?>

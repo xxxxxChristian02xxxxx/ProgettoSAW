@@ -36,8 +36,7 @@ if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
                 break;
         }
     }
-        else{
+    else{
         echo json_encode('azione non supportata');
+    }
 }
-}
-?>

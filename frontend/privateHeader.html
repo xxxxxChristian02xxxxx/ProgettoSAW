@@ -1,4 +1,10 @@
-<link href='../header.css' rel='stylesheet' type='text/css'>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Private header</title>
+    <link href='../header.css' rel='stylesheet' type='text/css'>
+</head>
+<body>
 <header>
     <div id="privateheaderButton">
         <div class="left_button">
@@ -20,16 +26,12 @@
             <div id="showProfileButton">
                 <a href='myprofile.php' class='header_button'>Show profile</a>
             </div>
-            <?php
-            if ($session['role'] == 1) {
-                echo "<div id='editUserButton'>
-                       <a href='editusers.php' class='header_button admin_only'>Edit Users</a>
-                  </div>";
-            }
-            ?>
             <div id="logoutButton">
-                <a href='logout.php' class='header_button'>Logout</a>
+                <a href='../backend/logout.php' class='header_button'>Logout</a>
             </div>
         </div>
     </div>
 </header>
+</body>
+</html>
+
