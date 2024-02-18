@@ -115,7 +115,7 @@ function generatePopUpSession() {
                 <div class="infoPopup">
                     <div>
                         <p id="durata_session" class="dataText">Duration session:</p>
-                        <span><p id="timeDuration" >tempo</p></span>
+                        <span><p id="timeDuration" >Tempo</p></span>
                     </div>
                     <div>
                         <p id="materia_studiata"  class="dataText">Subjects studied:</p>
@@ -123,7 +123,7 @@ function generatePopUpSession() {
                     </div>
                     <div>
                         <p id="soldi_ottenuti" class="dataText">Money earned:</p>
-                        <span><p id="moneyGotten" >soldi</p></span>
+                        <span><p id="moneyGotten" >Soldi</p></span>
                     </div>
             
                     <div id="descrizione" class ="description">
@@ -134,7 +134,7 @@ function generatePopUpSession() {
                     </div>
                 </div>
                 <div class="buttonsPopup">
-                    <span > <button  class="popup_button_left" id="closePopUp" > yes </button> </span>
+                    <span > <button  class="popup_button_left" id="closePopUp" > Yes </button> </span>
                     <span > <button id="cancelPopup" class="popup_button_right">  Cancel </button> </span>
                 </div>
         </div>

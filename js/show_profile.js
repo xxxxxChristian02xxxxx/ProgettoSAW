@@ -54,7 +54,7 @@ function populateProfile(user){
     if(user['TOTAL_TIME'] === null){
         timestudied.innerText = "0";
     }else{
-        timestudied.innerText=user['TOTAL_TIME'].s;
+        timestudied.innerText=user['TOTAL_TIME'];
     }
     plantspurchased.innerText = user['OCCURENCIESPLANT'];
 

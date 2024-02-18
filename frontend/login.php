@@ -30,17 +30,17 @@
                     <label for="pass">Password:</label>
                     <input type="password" id="pass" name="pass">
                 </div>
-                <div class="RememberMe">
-                    <label for="ReMe">Remember Me:</label>
-                    <input type="checkbox" id="ReMe" name="ReMe">
-                </div>
-                <div class="ForgotPassword">
-                    <a href="rescuePassword.html">Forgot password?</a>
-                </div>
                 <div id="Submit">
                     <input type="submit" value="Sign-in">
                 </div>
         </form>
+        <div class="RememberMe">
+            <label for="ReMe">Remember Me:</label>
+            <input type="checkbox" id="ReMe" name="ReMe">
+        </div>
+        <div class="ForgotPassword">
+            <a href="rescuePassword.html">Forgot password?</a>
+        </div>
     </div>
 </div>
 <script src="../js/login.js"></script>
