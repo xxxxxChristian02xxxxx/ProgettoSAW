@@ -1,12 +1,3 @@
-<?php
-session_start();
-
-//Verifica se impostato un cookie
-include('../backend/function_files/verifyCookie.php');
-verifyCookie();
-//Aggiunta dell'header
-include('header.php');
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +7,15 @@ include('header.php');
     <link rel="stylesheet" type="text/css" href="../ranking.css">
 </head>
 <body>
+    <?php
+    session_start();
+
+    //Verifica se impostato un cookie
+    include('../backend/function_files/verifyCookie.php');
+    verifyCookie();
+    //Aggiunta dell'header
+    include('header.php');
+    ?>
     <div class="personalRank">
         <h1>My personal rank</h1>
         <div id="personalRankTableContainer">

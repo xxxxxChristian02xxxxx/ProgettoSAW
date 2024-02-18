@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Home</title>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../main_dressing.css">
+</head>
+
+<body>
 <?php
 session_start();
 //Verifica se è impostato un cookie
@@ -10,16 +20,6 @@ include('header.php');
 $session = getSession(true);
 echo "<h1>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </h1>" ;
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Home</title>
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../main_dressing.css">
-</head>
-
-<body>
 <div class="subjectChoose">
     <span>
         <label for="scelta">Scegli la materia:</label>
