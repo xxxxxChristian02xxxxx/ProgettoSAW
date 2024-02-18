@@ -56,10 +56,12 @@ h1 {
 }
 .container{
 
-    display: flex; /* add this line */
-    flex-direction: column; /* add this line */
-    align-items: center; /* add this line */
-    justify-content: center; /* add this line */
+    background-size: cover;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     margin: 15px ;
     max-width: 540px;
     text-align: center;
@@ -147,29 +149,48 @@ h1 {
     box-sizing: border-box;
 }
 
-.popup_button{
+.popup_button_right {
     border-radius: 20px;
-    border:0;
-    box-shadow: 0 1px 4px;
-    color:black;
+    border: 0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    color: black;
     cursor: pointer;
     padding: 10px 25px;
+    background-color: #f0f0f0; /* Soft baige background color */
+    margin: 0 20px 0 40px;
+    font-size: 20px;
 }
-
+.popup_button_left{
+    border-radius: 20px;
+    border: 0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    color: black;
+    cursor: pointer;
+    padding: 10px 25px;
+    background-color: #f0f0f0; /* Soft baige background color */
+    margin: 0 20px 40px;
+    font-size: 20px;
+}
+.description{
+    margin-top : 30px;
+}
 .popup_button:active{
     opacity :0.8;
+}
+.dataText{
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
 }
 
 .popup{
     border : 2px solid black;
-    background-color: white;
+    background-color: #a8caba;
     opacity: 0;
     position: fixed;
     top:0;
     right:0; left:0;
-
     bottom:0;
-
     transition: all 0.3s ease-in-out;
     z-index: -1;
     display: flex;
@@ -184,12 +205,12 @@ h1 {
 
 .popup-inner{
     border : 2px solid black;
-    background-color: white;
+    background-color: #cad7b2;
     border-radius: 5px;
     padding :15px 25px;
     width :380px;
     text-align: center;
-
+    height: 460px;
 }
 .popup-inner h2{
     margin: 0;
@@ -198,4 +219,30 @@ h1 {
     line-height: 24px;
     margin:10px 0;
     text-align: center;
+}
+.popup-title{
+    background-color: #cad7b2;
+
+}
+.infoPopup {
+    margin-top: 50px;
+}
+
+.break{
+    border-radius: 20px;
+    border: 0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    color: black;
+    cursor: pointer;
+    padding: 10px 25px;
+    background-color: #f0f0f0;
+
+    font-size: 20px;
+}
+.textBreakContainer{
+    margin-top :60px;
+}
+
+.buttonsPopupBreak{
+    margin-top :70px;
 }

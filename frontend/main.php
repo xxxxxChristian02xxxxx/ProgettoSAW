@@ -67,9 +67,7 @@ echo "<h1>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
         <button class="swipeButton" id="buttom-Swipe-right"> >> </button>
     </div>
 </div>
-<!-- pop up timer-->
 <div class="container_popup" id="popUpMain">
-
     <div class="popup" id="popUpContentMain"></div>
 </div>
 <script src="../js/main.js"></script>

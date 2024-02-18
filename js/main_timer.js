@@ -118,35 +118,33 @@ function sessionPopUpAssembling(popUpContent, typePopUp) {
 function generatePopUpSession() {
     return `
     <div class="popup-inner">
-            <h2> Your Statistics </h2>
-            <div id ="statistiche_sessioone_studio ">
-                <p>
+            <h2  class="popup-title"> Your Statistics </h2>
+                
+                <div class="infoPopup">
                     <div>
+                        <p id="durata_session" class="dataText">Duration session:</p>
+                        <span><p id="timeDuration" >tempo</p></span>
+                    </div>
+                    <div>
+                        <p id="materia_studiata"  class="dataText">Subjects studied:</p>
+                        <span><p id="subStudied"></p></span>
+                    </div>
+                    <div>
+                        <p id="soldi_ottenuti" class="dataText">Money earned:</p>
+                        <span><p id="moneyGotten" >soldi</p></span>
+                    </div>
+            
+                    <div id="descrizione" class ="description">
                         <div>
-                            <p id="durata_session">durata sessione:</p>
-                            <span><p id="timeDuration">tempo</p></span>
-                        </div>
-                        <div>
-                            <p id="materia_studiata">materia studiata:</p>
-                            <span><p id="subStudied"></p></span>
-                        </div>
-                        <div>
-                            <p id="soldi_ottenuti">soldi ottenuti:</p>
-                            <span><p id="moneyGotten">soldi</p></span>
+                            <textarea id ="area_descrizione" rows="4" cols="50" placeholder="Add a short description..."></textarea>
+                            <div> <p id ="word counter" > 0/300</p></div>
                         </div>
                     </div>
-                </p>
-            </div>
-            <div id="descrizione">
-                <div>
-                    <textarea id ="area_descrizione" rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
-                    <div> <p id ="word counter" > 0/300</p></div>
                 </div>
-            </div>
-            <div >
-                <span class="popup_button"> <button id="closePopUp" > yes </button> </span>
-                <span class="popup_button"> <button id="cancelPopup">  Cancel </button> </span>
-            </div>
+                <div class="buttonsPopup">
+                    <span > <button  class="popup_button_left" id="closePopUp" > yes </button> </span>
+                    <span > <button id="cancelPopup" class="popup_button_right">  Cancel </button> </span>
+                </div>
         </div>
 `;
 }
@@ -234,15 +232,22 @@ function sessionPopUpManager(popUpContent, typeClock, timeBreakStart) {
 
 }
 function generatePopUpBreak() {
-    return ` <div id="breakTime">
-            <h2>Break Time</h2>
-            <p>You have accomplished your goal, take some rest.</p>
-            <p>Choose how long is your break:</p>
-            <button id="break5mins" >5 mins</button>
-            <button id="break15mins" class="hide">15 mins</button>
-            <button id="break30mins" class="hide">30 mins</button>
-        </div>`
+    return `
+    <div class="popup-inner"> 
+        <div id="breakTime" >
+            <h2 class="popup-title">Break Time</h2>
+            <div class="textBreakContainer">
+                <p class="dataText" >You have accomplished to your goal, take some rest.</p>
+                <p class="dataText" >Choose how long is your break:</p>
+            </div>
+            <div class="buttonsPopupBreak">
+                <button class ="break" id="break5mins" >5 mins</button>
+                <button id="break15mins" class="break" style="">15 mins</button>
+                <button id="break30mins" class="break" style="" >30 mins</button>
+            </div>
 
+        </div>
+    </div>`
 }
 
 function breakPopUpManager(popUpContent, typeClock) {
@@ -250,12 +255,14 @@ function breakPopUpManager(popUpContent, typeClock) {
     const break5minsButton = document.getElementById('break5mins');
     const break15minsButton = document.getElementById('break15mins');
     const break30minsButton = document.getElementById('break30mins');
-
+    typeClock['timeSpent'] =4000;
+    break15minsButton.style.display="none";
+    break30minsButton.style.display="none";
    if ((typeClock['timeSpent'] >= 1800) && (typeClock['timeSpent'] < 3600)) {
-        break15minsButton.classList.remove("hide");
+        break15minsButton.removeAttribute("style");
     } else if (typeClock['timeSpent'] >= 3600) {
-        break30minsButton.classList.remove("hide");
-        break15minsButton.classList.remove("hide");
+        break30minsButton.removeAttribute("style");
+        break15minsButton.removeAttribute("style");
     }
     break5minsButton.addEventListener('click', () => {
         // handle 5 mins break
@@ -264,8 +271,8 @@ function breakPopUpManager(popUpContent, typeClock) {
         popUpContent.classList.remove("open");
         generatePopUp(1, typeClock, timeBreakStart);
         unlockSelection();
-        break15minsButton.classList.add("hide");
-        break30minsButton.classList.add("hide");
+        break15minsButton.style.display="none";
+        break30minsButton.style.display="none";
 
     });
 
@@ -275,8 +282,8 @@ function breakPopUpManager(popUpContent, typeClock) {
         popUpContent.classList.remove("open");
         generatePopUp(1, typeClock, timeBreakStart);
         unlockSelection();
-        break15minsButton.classList.add("hide");
-        break30minsButton.classList.add("hide");
+        break15minsButton.style.display="none";
+        break30minsButton.style.display="none";
     });
 
     break30minsButton.addEventListener('click', () => {
@@ -285,8 +292,8 @@ function breakPopUpManager(popUpContent, typeClock) {
         popUpContent.classList.remove("open");
         generatePopUp(1, typeClock, timeBreakStart);
         unlockSelection();
-        break15minsButton.classList.add("hide");
-        break30minsButton.classList.add("hide");
+        break15minsButton.style.display="none";
+        break30minsButton.style.display="none";
     });
 
 }
@@ -366,6 +373,9 @@ function startClock(typeClock, time, timeBreakStart) {
             let resetS = document.getElementById("resetStopwatch")
             let buttonSx=document.getElementById("buttom-Swipe-left")
             let buttonRx=document.getElementById("buttom-Swipe-right")
+            let header = document.getElementById("privateheaderButton");
+
+
             range.classList.add("rangePrevent");
             startT.classList.add("rangePrevent");
             resetT.classList.add("rangePrevent");
@@ -373,7 +383,7 @@ function startClock(typeClock, time, timeBreakStart) {
             resetS.classList.add("rangePrevent");
             buttonSx.classList.add("rangePrevent");
             buttonRx.classList.add("rangePrevent");
-
+            header.classList.add("rangePrevent");
             title.innerText = "Break";
             typeClock['idTimerEndOrStop'] = false;
             toggleButton('TimerStart');
@@ -400,6 +410,8 @@ function startClock(typeClock, time, timeBreakStart) {
                     resetS.classList.remove("rangePrevent");
                     buttonSx.classList.remove("rangePrevent");
                     buttonRx.classList.remove("rangePrevent");
+                    header.classList.remove("rangePrevent");
+
 
                 }
             }, 1000)

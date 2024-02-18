@@ -24,7 +24,7 @@ include('header.php');
         <h1>Edit Profile</h1>
     </div>
     <div class="UpdateForm">
-        <form id="UserUpdate" action="myprofile.php" method="POST">
+        <form id="UserUpdate" action="update_profile.php" method="POST">
             <div class="Firstname">
                 <label for="firstname">Firstname:</label>
                 <input type="text" id="firstname" name="firstname"><br>

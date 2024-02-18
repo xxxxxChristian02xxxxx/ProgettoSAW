@@ -1,7 +1,7 @@
 const dataTime={    //per db
     typeSession: null,
     timeSpent: null,
-    money : null,
+    money : 0,
     subjectName: null,
     description: null,
 
@@ -162,6 +162,7 @@ function sessionStopwatch(clocks){
     })
 }
 function subjectAdd(displaySubjects){
+    const regex = /^(?![\d'])[a-z0-9' ]*[a-z0-9]$/i;
     var subChoosen = document.getElementById("scelta");
     const newSubject = document.getElementById("newsub");
     var addSubject;
@@ -169,18 +170,28 @@ function subjectAdd(displaySubjects){
         const textMateria = document.getElementById("add_materie");
         addSubject = document.getElementById("add_materie").value;
         console.log(addSubject)
-        if (!isSubPresent(addSubject,subChoosen)||addSubject==="") {
-            alert("mteria gia inserita");
-        } else {
-            textMateria.value = "";
+        if (!isSubPresent(addSubject,subChoosen)) {
+            alert("This subject has already been created");
+        }
+        else {
+            if(addSubject==="") {
+                alert("Empty space is not a subject");
+            }
+            else{
+                if (!textMateria.value.match(regex)) {
+                    alert('Input does not match the regex pattern. Please enter a string without starting with a space, number, or special characters.');
+                }else{
+                    textMateria.value = "";
 
-            dataTime['subjectName'] = addSubject;
-            databaseDelivery(dataTime,2);
-            var optionElement = document.createElement("option");
-            optionElement.value = addSubject;
-            optionElement.textContent = addSubject;
-            subChoosen.appendChild(optionElement);
-            console.log(addSubject);
+                    dataTime['subjectName'] = addSubject;
+                    databaseDelivery(dataTime, 2);
+                    var optionElement = document.createElement("option");
+                    optionElement.value = addSubject;
+                    optionElement.textContent = addSubject;
+                    subChoosen.appendChild(optionElement);
+                    console.log(addSubject);
+                }
+            }
         }
     })
 }
