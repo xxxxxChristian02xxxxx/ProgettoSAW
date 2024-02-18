@@ -223,7 +223,7 @@ function sessionPopUpManager(popUpContent, typeClock, timeBreakStart) {
 }
 function generatePopUpBreak() {
     return `
-    <div class="popup-inner"> 
+    <div class="popup-inner">  
         <div id="breakTime" >
             <h2 class="popup-title">Break Time</h2>
             <div class="textBreakContainer">
@@ -236,7 +236,6 @@ function generatePopUpBreak() {
                 <button id="break30mins" class="break" style="" >30 mins</button>
             </div>
 
-        </div>
     </div>`
 }
 
@@ -452,7 +451,14 @@ function databaseDelivery(json_data, operationType) {
         },
         body: JSON.stringify({json_data, action: Action}) // encode
     })
-
+        .then(response=>{
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.status === 204) { // No content
+                return null;
+            }
+        })
         .catch(error => {
             console.error('Error:', error);
         });
@@ -467,7 +473,16 @@ function subjectsRequests(displaySubjects) {
         },
         body: JSON.stringify({action: 'subjectTend'}) // encode
     })
-        .then(response => response.json())
+        .then(response => {
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.status === 204) { // No content
+                return null;
+            }
+            return response.json();
+        })
         .then(data => {
             displaySubjects = data;
             populateSelect(displaySubjects);

@@ -3,8 +3,12 @@ function mygardenFetch() {
 
     fetch("../backend/be_mygarden.php")
         .then(response => {
-            //  console.log("Response: ", response); // log the response
-            // return response.text();
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.status === 204) { // No content
+                return null;
+            }
             return response.json();
         })
         .then(data => {

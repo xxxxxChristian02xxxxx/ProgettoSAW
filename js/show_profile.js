@@ -4,7 +4,6 @@ window.addEventListener("DOMContentLoaded", () => {
     let user={
         firstname:null,lastname:null,money:0,timeStudied:0,plantsPurchased:0,email:email,
     }
-    console.log(user);
     dataFetch(user);
 });
 function dataFetch(user){
@@ -22,14 +21,11 @@ function dataFetch(user){
         if (response.status === 204) { // No content
             return null;
         }
-        console.log(response);
         return response.json();
     })
 
     .then(data => {
-        console.log(data);
         user =data;
-        console.log("user :", user);
 
         populateProfile(user);
     })
@@ -39,7 +35,6 @@ function dataFetch(user){
 
 }
 function populateProfile(user){
-    console.log("qui");
     var firstname= document.getElementById("firstname");
     var lastname = document.getElementById("lastname");
     var money= document.getElementById("money");

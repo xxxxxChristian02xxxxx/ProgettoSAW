@@ -7,7 +7,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function getData(currentPage, rowsPerPage) {
     fetch('../backend/be_studysessions.php')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.status === 204) { // No content
+                return null;
+            }
+            return response.json();
+        })
         .then(data => {
             populateTable(data, currentPage, rowsPerPage, table);
             updatePagination(data, currentPage, rowsPerPage, table);

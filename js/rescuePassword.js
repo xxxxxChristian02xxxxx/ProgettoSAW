@@ -1,16 +1,12 @@
 window.addEventListener("DOMContentLoaded", () => {
     document.getElementById('UserRescuePassword').addEventListener('submit', function(event) {
         event.preventDefault();
-        let update = document.getElementById("update");
-        update.addEventListener("click", ()=>{
-            var email = document.getElementById("email").value;
+        var email = document.getElementById("email").value;
             var password= document.getElementById("pass").value;
             var confirmPass= document.getElementById("confirm").value;
             if(password === confirmPass){
-
                 mailFetch(confirmPass,email);
             }
-        })
     })
 
 })
@@ -23,15 +19,23 @@ function mailFetch(confirmPass,email){
         },
         body: JSON.stringify({email: email, action:'checkPresenceEmail' }),
     })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.status === 204) { // No content
+                return null;
+            }
+            return response.json();
+     })
         .then(data => {
             if(data['present']) {
+
                 popup(email,confirmPass);
 
             }else{
                 let emailError = document.getElementById("emailErro");
                 emailError.classList.remove("errore")
-
             }
         })
         .catch(error => {
@@ -70,7 +74,7 @@ function generateRandom(values){
     console.log("key:",numTarget);
     return numTarget
 }
-function isTarget(num, numTarget,email,confiermPass,popUp,popUpContent){
+function isTarget(num, numTarget,email,confiermPass,popUp){
     const changeSucceeded = document.getElementById('changeSucceeded');
     const cometologin1 = document.getElementById('cometologin1');
     const changeNotSuceeded = document.getElementById('changeNotSuceeded');

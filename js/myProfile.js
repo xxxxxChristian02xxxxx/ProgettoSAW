@@ -6,7 +6,11 @@ function displayMyProfile(){
         },
         body: JSON.stringify({action: 'requestProfileData'})
     })
-        .then(response => response.json())
+        .then(response => {
+            //console.log(response);
+            return response.text()
+          //
+        })
         .then(data => {
             console.log(data);
             document.getElementById('firstname').value = data['FIRSTNAME'];
