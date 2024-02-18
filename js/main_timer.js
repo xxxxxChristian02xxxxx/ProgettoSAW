@@ -2,7 +2,6 @@
 function isSubPresent(addSubject, subChoosen) {
     const options = subChoosen.options; // Get an array-like object of all the options
     for (let i = 0; i < options.length; i++) {
-        console.log("array", options[i]);
         if(options[i].innerText===addSubject){
             return false
         }
@@ -25,7 +24,6 @@ function unlockSelection() {
 //-------------------------FUNZIONE PER IL PER TIMER E STOPWATCH -------------------------//
 function toggleButtonTS(typeClock, displayTimer, displayStopwatch, swipeCount) {
 
-    console.log(swipeCount);
     if ((swipeCount % 2) === 0) {
         displayTimer.classList.remove("hide");
         displayStopwatch.classList.add("hide");
@@ -41,7 +39,6 @@ function toggleButtonTS(typeClock, displayTimer, displayStopwatch, swipeCount) {
 function toggleButton(buttonId) {
     // Riferimento all'elemento del bottone
     var button = document.getElementById(buttonId);
-    console.log("button");
     if (button.innerHTML !== 'Start') {
         button.innerHTML = "Stop";
         // Impostazione attributo per cambiare colore bottone
@@ -82,26 +79,21 @@ function generateOptions(option) {
     return optionElement;
 }
 function generatePopUp(popType, typeClock, timeBreak) {
-    console.log("generato ")
     const popUp = document.getElementById('popUpMain');
     const popUpContent = document.getElementById('popUpContentMain');
     if (popUp && popUpContent) {
         switch (popType) {
             case 1:
-                console.log("case 1");
                 sessionPopUpAssembling(popUpContent, 1);
                 popUpContent.classList.add("open");//aggiungo il css
                 sessionPopUpManager(popUpContent, typeClock, timeBreak);
                 break;
             case 2:
-                console.log("10")
                 sessionPopUpAssembling(popUpContent, 2);
                 popUpContent.classList.add("open");//aggiungo il css
                 breakPopUpManager(popUpContent, typeClock);
                 break;
         }
-    } else {
-        console.log("nope");
     }
 }
 
@@ -180,9 +172,7 @@ function sessionPopUpManager(popUpContent, typeClock, timeBreakStart) {
         textPopUp.placeholder = "scrivi qui ...";
         typeClock['isTimerStarted'] = false;
         typeClock['isStopawatchStarted'] = false;
-        // rangeStart.classList.remove("rangePrevent");
         if (typeClock['idTimerEndOrStop']) {
-            console.log("hrei");
             let timeBreak = new Date().getTime();
             startClock(typeClock, timeBreak, timeBreakStart);
         }
@@ -237,8 +227,8 @@ function generatePopUpBreak() {
         <div id="breakTime" >
             <h2 class="popup-title">Break Time</h2>
             <div class="textBreakContainer">
-                <p class="dataText" >You have accomplished to your goal, take some rest.</p>
-                <p class="dataText" >Choose how long is your break:</p>
+                <p class="dataText" >You have accomplished your goal. Take a rest.</p>
+                <p class="dataText" >Choose how long your break is.</p>
             </div>
             <div class="buttonsPopupBreak">
                 <button class ="break" id="break5mins" >5 mins</button>
@@ -255,7 +245,7 @@ function breakPopUpManager(popUpContent, typeClock) {
     const break5minsButton = document.getElementById('break5mins');
     const break15minsButton = document.getElementById('break15mins');
     const break30minsButton = document.getElementById('break30mins');
-    typeClock['timeSpent'] =4000;
+    //typeClock['timeSpent'] =4000;
     break15minsButton.style.display="none";
     break30minsButton.style.display="none";
    if ((typeClock['timeSpent'] >= 1800) && (typeClock['timeSpent'] < 3600)) {
@@ -324,10 +314,8 @@ function updateTimer(typeClock, timeGone) {
 
 //-------------------------FUNZIONE PER IL INZIARE E STOPPARE IL TIMER IL TIMER -------------------------//
 function startClock(typeClock, time, timeBreakStart) {
-    console.log(typeClock['idTimerOrStopwatch'], "false timer, true stopwatch")
     var timeGone = 0;
     if (typeClock['idTimerOrStopwatch']) {    /*intervallo che deve essere aggiornato ogni 1000 ms*/
-        console.log("dentro stopwatch secton", time);
         toggleButton('startStopwatch');
 
         typeClock['interval'] = setInterval(() => {
@@ -335,7 +323,6 @@ function startClock(typeClock, time, timeBreakStart) {
             const diff = currentTime - time;
             const secondsPassed = Math.floor(diff / 1000);
             timeGone = typeClock['startTimeST'] + secondsPassed;
-            console.log(timeGone, secondsPassed, typeClock['startTimeST'], diff, time);
             dataTime['timeSpent']++;
             updateMoney();
             updateTimer(typeClock, timeGone);
@@ -344,7 +331,6 @@ function startClock(typeClock, time, timeBreakStart) {
     } else {
         if (!typeClock['idTimerEndOrStop']) {
             toggleButton('TimerStart');
-            console.log("inizio setinterval");
             typeClock['interval'] = setInterval(() => {
                 const currentTime = new Date();
                 const diff = currentTime - time;
@@ -352,10 +338,8 @@ function startClock(typeClock, time, timeBreakStart) {
                 timeGone = typeClock['startTimeTI'] - secondsPassed;
                 dataTime['timeSpent']++;
                 updateTimer(typeClock, timeGone);
-                console.log(timeGone);
                 updateMoney();
                 if (timeGone === 0) {
-                    /*una vlta finito il timer pulisco l'intervallo*/
                     clearInterval(typeClock['interval']);
                     stopClock(typeClock);
                     typeClock['idTimerEndOrStop'] = true;
@@ -387,7 +371,6 @@ function startClock(typeClock, time, timeBreakStart) {
             title.innerText = "Break";
             typeClock['idTimerEndOrStop'] = false;
             toggleButton('TimerStart');
-            console.log("inizio TimerBreakStart", time);
             let timeGone = 0;
             updateTimer(typeClock, timeBreakStart);
             typeClock['interval'] = setInterval(() => {
@@ -397,8 +380,6 @@ function startClock(typeClock, time, timeBreakStart) {
                 timeGone = timeBreakStart - secondsPassed;
                 updateTimer(typeClock, timeGone);
                 if (timeGone === 0) {
-                    console.log("fine break ");
-                    /*una vlta finito il timer pulisco l'intervallo*/
                     clearInterval(typeClock['interval']);
                     title.innerText = "Timer";
                     resetClock(typeClock,"break");
@@ -445,7 +426,6 @@ function resetClock(typeClock,option) {
 //-------------------------FUNZIONE PER FERMARE IL TIMER  -------------------------//
 function stopClock(typeClock) {
     clearInterval(typeClock['interval']);
-    console.log("stopTimer", typeClock);
     if (typeClock['idTimerOrStopwatch']) {
         toggleButton('startStopwatch');
 
@@ -455,7 +435,6 @@ function stopClock(typeClock) {
 }
 
 function databaseDelivery(json_data, operationType) {
-    console.log('json_data in delivery: ', json_data);
     let Action;
     switch (operationType) {
         case 1:
@@ -474,7 +453,6 @@ function databaseDelivery(json_data, operationType) {
         body: JSON.stringify({json_data, action: Action}) // encode
     })
 
-        .then(response => console.log(response))
         .catch(error => {
             console.error('Error:', error);
         });
