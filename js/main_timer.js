@@ -1,25 +1,11 @@
 //-------------------------FUNZIONE VEDERE SE LA MATERIA AGGIUNTA è VALIDA    -------------------------//
 function isSubPresent(addSubject, subChoosen) {
-    // esempio :
-    /*  console.log("ooop",displaySubjects);
-      for (let i = 0; i < displaySubjects.length; i++) {
-          var subpr = displaySubjects[i].replace(/\s/g, '').toLowerCase();
-          var subnew = addSubject.toString().replace(/\s/g, '').toLowerCase();
-          console.log(subnew, ",", subpr);
-          if (subnew === subpr) {
-              console.log("sono qui");
-              return false;
-          }
-      }
-      return true;*/
     const options = subChoosen.options; // Get an array-like object of all the options
-
     for (let i = 0; i < options.length; i++) {
         console.log("array", options[i]);
         if(options[i].innerText===addSubject){
             return false
-        }  // Get the current option
-         // Log the text of the current option
+        }
     }
     return true;
 
@@ -82,9 +68,6 @@ function showStudySession() {
     moneyMoneyObtained.innerHTML = dataTime['money'];
     subSubStudied.innerHTML = subChoosen.value;
 }
-
-
-
 function populateSelect(options) {
     //let gridHtml = '';
     let subEventuallyStudied = document.getElementById("scelta");
@@ -92,15 +75,12 @@ function populateSelect(options) {
         subEventuallyStudied.appendChild(generateOptions(op));
     })
 }
-
-
 function generateOptions(option) {
     let optionElement = document.createElement("option");
     optionElement.value = option;
     optionElement.textContent = option;
     return optionElement;
 }
-
 function generatePopUp(popType, typeClock, timeBreak) {
     console.log("generato ")
     const popUp = document.getElementById('popUpMain');
@@ -131,7 +111,6 @@ function sessionPopUpAssembling(popUpContent, typePopUp) {
         gridHtml += generatePopUpSession();
     } else if (typePopUp === 2) {
         gridHtml += generatePopUpBreak();
-
     }
     popUpContent.innerHTML = gridHtml;
 }
@@ -183,8 +162,6 @@ function sessionPopUpManager(popUpContent, typeClock, timeBreakStart) {
     const textPopUp = document.getElementById("area_descrizione");
     var buttonT = document.getElementById("TimerStart");
     var buttonS = document.getElementById("startStopwatch");
-
-    console.log("sessionPopUpManager", typeClock);
 
     showStudySession();
 
@@ -334,6 +311,7 @@ function updateTimer(typeClock, timeGone) {
     } else {
         timeTimerElement.innerHTML = formattedTime;
     }
+
 }
 
 
@@ -352,7 +330,7 @@ function startClock(typeClock, time, timeBreakStart) {
             timeGone = typeClock['startTimeST'] + secondsPassed;
             console.log(timeGone, secondsPassed, typeClock['startTimeST'], diff, time);
             dataTime['timeSpent']++;
-            dataTime['money']++;
+            updateMoney();
             updateTimer(typeClock, timeGone);
 
         }, 1000)
@@ -366,15 +344,16 @@ function startClock(typeClock, time, timeBreakStart) {
                 const secondsPassed = Math.floor(diff / 1000);
                 timeGone = typeClock['startTimeTI'] - secondsPassed;
                 dataTime['timeSpent']++;
-                dataTime['money']++;
                 updateTimer(typeClock, timeGone);
-
+                console.log(timeGone);
+                updateMoney();
                 if (timeGone === 0) {
                     /*una vlta finito il timer pulisco l'intervallo*/
                     clearInterval(typeClock['interval']);
                     stopClock(typeClock);
                     typeClock['idTimerEndOrStop'] = true;
                     generatePopUp(2, typeClock);
+
 
                 }
             }, 1000)
@@ -509,3 +488,8 @@ function subjectsRequests(displaySubjects) {
 
 }
 
+function updateMoney(){
+    if(dataTime['timeSpent']%300 ===0){
+        dataTime['money'] += 20;
+    }
+}

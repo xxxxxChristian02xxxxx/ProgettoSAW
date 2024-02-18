@@ -6,8 +6,9 @@ window.addEventListener("DOMContentLoaded", () => {
             var email = document.getElementById("email").value;
             var password= document.getElementById("pass").value;
             var confirmPass= document.getElementById("confirm").value;
-            if(password === confiermPass){
-                mailFetch(confiermPass,email);
+            if(password === confirmPass){
+
+                mailFetch(confirmPass,email);
             }
         })
     })
@@ -166,7 +167,6 @@ function appendPasswordModify(popUpContent, email) {
     popUpContent.innerHTML = gridHtml;
 }
 function generatePasswordModify(email) {
-    console.log(email);
     return `
         <h2>Check your email to proceed</h2>
                 <span id="closePopUpButton" class="close">&times;</span>

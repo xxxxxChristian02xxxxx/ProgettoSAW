@@ -191,7 +191,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const clocks={      //di gestione
         idTimerOrStopwatch : false,   //0  stopwatch , 1 timer
         idTimerEndOrStop:false ,      //0  end , 1 stop
-        startTimeTI : 10, // default
+        startTimeTI : 5, // default
         startTimeST :0,     //default
         isTimerStarted  : false,// false: timer is at max, true:timer is running
         isStopawatchStarted : false, // false : stopwatch is at max , true : stopwatch is running

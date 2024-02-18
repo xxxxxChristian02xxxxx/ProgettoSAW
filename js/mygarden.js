@@ -9,8 +9,6 @@ function mygardenFetch() {
         })
         .then(data => {
             plants = data; // store the data in the `plants` variable
-            console.log("ok");
-            console.log(plants);
             const plantsContainer = document.getElementById('plants-container');
             appendPlantsToContainer(plants, plantsContainer);
         })

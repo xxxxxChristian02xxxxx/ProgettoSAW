@@ -21,7 +21,7 @@ include('header.php');
 <body>
 <div class="PageUpdate">
     <div class="headerMyProfile">
-        <h1>My profile</h1>
+        <h1>Edit Profile</h1>
     </div>
     <div class="UpdateForm">
         <form id="UserUpdate" action="myprofile.php" method="POST">
