@@ -26,7 +26,7 @@ include('header.php');
 </div>
 <div class="right_button">
     <p id="MyMoney">0</p>
-    <button id="cart" class = "shop_button">Cart</button>
+    <a id="cart" class = "shop_button" href="cart.php" >Cart</a>
 </div>
     </div>
 
@@ -58,8 +58,7 @@ include('header.php');
             .catch(error => {
                 console.error("Si è verificato un errore: ", error);
             });
-        getMoney();
-        addFunctiontoButtons(shopContainer)
+        let money = getMoney();
     });
 
     document.getElementById('search_form').addEventListener('submit', (event) => {
@@ -80,20 +79,8 @@ include('header.php');
                 console.error("Si è verificato un errore: ", error);
             });
     });
-    // document.getElementById('cart').addEventListener('click',()=>{
-    //     const popUp = document.getElementById('popUp');
-    //     const popUpContent = document.getElementById('popUpContent');
-    //     if (popUp && popUpContent) {
-    //         popUp.classList.remove('hidden');
-    //         document.body.style.overflow = 'hidden';
-    //         appendCarttoContainer(popUpContent);
-    //         const closePopUpButton = document.getElementById('closePopUpButton');
-    //         if (closePopUpButton) {
-    //             closePopUpButton.addEventListener('click', () => {
-    //                 popUp.classList.add('hidden');
-    //                 document.body.style.overflow = 'auto';
-    //             });
-    //         });
+
+
 
 
 </script>

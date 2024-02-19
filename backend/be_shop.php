@@ -51,3 +51,15 @@ if(isset($_GET['search'])){
 
     echo json_encode($data);
 }
+
+if(isset($_POST['buy'])){
+    $cart = $_POST['cart'];
+    $price = 0;
+    foreach($cart as $item){
+        for($i= 0; $i<$item; $i++){
+            $price += $item[3];
+        }
+    }
+    $risposta['price'] = $price;
+    echo json_encode($risposta);
+}

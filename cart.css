@@ -1,0 +1,55 @@
+.dataTable {
+    font-family: 'Roboto', sans-serif;
+    border-collapse: collapse;
+    border: 1px solid black;
+    width: 85%;
+    margin: auto;
+    font-size: 12px;
+}
+
+.dataTable th {
+    height: 50px;
+    border: 0.5px solid black;
+    text-align: center;
+    background-color: lightgreen;
+}
+
+.dataTable tbody tr td{
+    height: 40px;
+    border: 0.5px solid black;
+    text-align: center;
+    background-color: white;
+}
+
+.command-button{
+    border: 0;
+    margin: 0.3rem;
+    outline: 0;
+    cursor: pointer;
+    background-color: #a8caba;
+    box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 8%) 0px 2px 5px 0px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 4px 8px;
+    display: inline-flex;
+    min-height: 28px;
+    transition: background-color .24s, box-shadow .24s;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+#commands{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.Informations{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
