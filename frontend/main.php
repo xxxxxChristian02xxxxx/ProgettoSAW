@@ -22,14 +22,14 @@ echo "<h1>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
 ?>
 <div class="subjectChoose">
     <span>
-        <label for="scelta">Scegli la materia:</label>
+        <label for="scelta">Choose subject:</label>
         <select id="scelta" name="scelta"></select>
     </span>
     <span>
-        <label for="add_materie"> oppure aggiune una nuova:</label>
+        <label for="add_materie">Add new subject:</label>
         <input type="text" id="add_materie" name="Testo_materie">
+        <button id="newsub"> + </button></span>
     </span>
-    <span><button id="newsub"> + </button></span>
 </div>
 
 <div class="vertical-grid">
@@ -74,3 +74,4 @@ echo "<h1>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
 <script src="../js/main_timer.js"></script>
 </body>
 </html>
+

@@ -7,8 +7,6 @@ function isSubPresent(addSubject, subChoosen) {
         }
     }
     return true;
-
-
 }
 
 function blockSelection() {
@@ -72,6 +70,8 @@ function populateSelect(options) {
         subEventuallyStudied.appendChild(generateOptions(op));
     })
 }
+
+
 function generateOptions(option) {
     let optionElement = document.createElement("option");
     optionElement.value = option;
@@ -184,12 +184,17 @@ function sessionPopUpManager(popUpContent, typeClock, timeBreakStart) {
             if (buttonT.innerHTML === "Stop") {
                 buttonT.innerHTML = "Start";
                 buttonT.removeAttribute("aria-label");
+         
             }
             if (buttonS.innerHTML === "Stop") {
                 buttonS.innerHTML = "Start";
                 buttonS.removeAttribute("aria-label");
+
             }
             popUpContent.classList.remove("open");//aggiungo il css
+            typeClock['modifiableTime'] = typeClock['timegone'];
+            console.log(typeClock['modifiableTime'])
+
         }
     })
     //-------------------------EVENTO CONTARE NUMERO CARATTERI NELLA SEZIONE DESCRIZIONE  -------------------------//
@@ -238,7 +243,6 @@ function generatePopUpBreak() {
 
     </div>`
 }
-
 function breakPopUpManager(popUpContent, typeClock) {
 
     const break5minsButton = document.getElementById('break5mins');
@@ -286,7 +290,6 @@ function breakPopUpManager(popUpContent, typeClock) {
     });
 
 }
-
 //-------------------------FUNZIONE PER FARE L'UPDATE DEL TIMER -------------------------//
 function updateTimer(typeClock, timeGone) {
     let timeTimerElement = document.getElementById("timeTimer");
@@ -309,11 +312,9 @@ function updateTimer(typeClock, timeGone) {
     }
 
 }
-
-
 //-------------------------FUNZIONE PER IL INZIARE E STOPPARE IL TIMER IL TIMER -------------------------//
 function startClock(typeClock, time, timeBreakStart) {
-    var timeGone = 0;
+    //var timeGone  = typeClock['startTimeST'];
     if (typeClock['idTimerOrStopwatch']) {    /*intervallo che deve essere aggiornato ogni 1000 ms*/
         toggleButton('startStopwatch');
 
@@ -321,30 +322,30 @@ function startClock(typeClock, time, timeBreakStart) {
             const currentTime = new Date();
             const diff = currentTime - time;
             const secondsPassed = Math.floor(diff / 1000);
-            timeGone = typeClock['startTimeST'] + secondsPassed;
+            typeClock['timegone'] = typeClock['modifiableTime'] + secondsPassed;
             dataTime['timeSpent']++;
             updateMoney();
-            updateTimer(typeClock, timeGone);
+            updateTimer(typeClock,  typeClock['timegone']);
 
         }, 1000)
     } else {
         if (!typeClock['idTimerEndOrStop']) {
+            console.log(typeClock['modifiableTime'])
             toggleButton('TimerStart');
             typeClock['interval'] = setInterval(() => {
                 const currentTime = new Date();
                 const diff = currentTime - time;
                 const secondsPassed = Math.floor(diff / 1000);
-                timeGone = typeClock['startTimeTI'] - secondsPassed;
+                typeClock['timegone'] = typeClock['modifiableTime'] - secondsPassed;
                 dataTime['timeSpent']++;
-                updateTimer(typeClock, timeGone);
+                console.log(dataTime['timeSpent']);
+                updateTimer(typeClock,  typeClock['timegone']);
                 updateMoney();
-                if (timeGone === 0) {
+                if ( typeClock['timegone'] === 0) {
                     clearInterval(typeClock['interval']);
                     stopClock(typeClock);
                     typeClock['idTimerEndOrStop'] = true;
                     generatePopUp(2, typeClock);
-
-
                 }
             }, 1000)
         } else {
@@ -370,15 +371,15 @@ function startClock(typeClock, time, timeBreakStart) {
             title.innerText = "Break";
             typeClock['idTimerEndOrStop'] = false;
             toggleButton('TimerStart');
-            let timeGone = 0;
+            //let timeGone = 0;
             updateTimer(typeClock, timeBreakStart);
             typeClock['interval'] = setInterval(() => {
                 const currentTime = new Date();
                 const diff = currentTime - time;
                 const secondsPassed = Math.floor(diff / 1000);
-                timeGone = timeBreakStart - secondsPassed;
-                updateTimer(typeClock, timeGone);
-                if (timeGone === 0) {
+                typeClock['timegone'] = timeBreakStart - secondsPassed;
+                updateTimer(typeClock,  typeClock['timegone']);
+                if ( typeClock['timegone'] === 0) {
                     clearInterval(typeClock['interval']);
                     title.innerText = "Timer";
                     resetClock(typeClock,"break");
@@ -408,14 +409,18 @@ function resetClock(typeClock,option) {
         dataTime['subjectName'] = subEventuallyStudied.value;
         databaseDelivery(dataTime, 1);
     }
-    let timeGone;
     if (typeClock['idTimerOrStopwatch']) {
-        timeGone = 0;
+        typeClock['timegone'] = typeClock['startTimeST'];
+        typeClock['modifiableTime'] =typeClock['startTimeST'];
+
     } else {
-        timeGone = typeClock['startTimeTI'];
+        typeClock['timegone'] = typeClock['startTimeTI'];
+        typeClock['modifiableTime'] =typeClock['startTimeTI'];
+
     }
     dataTime['timeSpent'] = 0;
-    updateTimer(typeClock, timeGone);
+
+    updateTimer(typeClock, typeClock['timegone']);
     dataTime['money'] = 0;
     var range = document.getElementById("TimerRange");
     range.classList.remove("rangePrevent");
@@ -425,9 +430,8 @@ function resetClock(typeClock,option) {
 //-------------------------FUNZIONE PER FERMARE IL TIMER  -------------------------//
 function stopClock(typeClock) {
     clearInterval(typeClock['interval']);
-    if (typeClock['idTimerOrStopwatch']) {
+    if (typeClock['idTimerEndOrStop']) {
         toggleButton('startStopwatch');
-
     } else {
         toggleButton('TimerStart');
     }

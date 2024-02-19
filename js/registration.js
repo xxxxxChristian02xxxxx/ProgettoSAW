@@ -68,7 +68,12 @@ function fetchRegistration(formData){
         body: JSON.stringify(formData) // encode
     })
         .then(response => {
-            console.log(response.statusText);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.status === 204) { // No content
+                return null;
+            }
             return response.json();
         }) //prendo la risposta di registration backend(ha ottenuto i risultati delle query ) e li ha messi nella variabile
         .then(data => { //prendo i dati ottenuti e li processo

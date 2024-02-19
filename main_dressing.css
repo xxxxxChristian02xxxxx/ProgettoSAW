@@ -259,3 +259,40 @@ h1 {
     transform: scale(1.1);
     opacity: 0.8;
 }
+/* select subject */
+.subjectChoose {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.subjectChoose label {
+    flex-basis: 100%;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.subjectChoose select,
+.subjectChoose input[type="text"] {
+    flex-basis: calc(50% - 5px);
+    padding: 5px;
+}
+
+.subjectChoose button {
+    flex-basis: calc(20% - 5px);
+    background-color: #8db093;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.subjectChoose button:hover {
+    background-color: #3e8e41;
+}
+
+
+

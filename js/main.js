@@ -40,8 +40,9 @@ function sessionTimer(clocks){
     rangeStart.value = 5;
     rangeStart.min = 1;
     rangeStart.max = 24;
-    updateTimer(clocks,clocks['startTimeTI'])
-    rangeStart.value = (clocks['startTimeTI'] * rangeStart.max)/ 7200 ;
+    clocks['modifiableTime']=clocks['startTimeTI'];
+    updateTimer(clocks,clocks['modifiableTime'])
+    rangeStart.value = (clocks['modifiableTime'] * rangeStart.max)/ 7200 ;
     rangeStart.addEventListener("input",()=> {
 
         let formattedTime
@@ -58,15 +59,13 @@ function sessionTimer(clocks){
             formattedTime = `${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
         }
         timeTimerElement.innerText = formattedTime;
-        clocks['startTimeTI']= timeOnClock;
+        clocks['modifiableTime']= timeOnClock;
 
     })
 
     //-------------------------EVENTO PER DIRE SE SONO IN STOP OPPURE IN START -------------------------//
     startTimerElement.addEventListener('click', function() {
-
         var subChoosen=document.getElementById("scelta").value;
-
         rangeStart.classList.add("rangePrevent");
         if(subChoosen !=='') {
             clocks['isTimerStarted'] = true;
@@ -76,8 +75,9 @@ function sessionTimer(clocks){
                 // Prima volta che è stato cliccato
                 console.log('Primo clic');
 
-                console.log(clocks);
                 var time = new Date().getTime();
+                console.log(clocks['timegone'],time,null);
+
                 startClock(clocks,time,null);
                 // Aggiorna lo stato
                 buttonT.innerHTML = "Stop";
@@ -101,6 +101,7 @@ function sessionTimer(clocks){
         console.log("resetTimer 2")
         if(clocks['isTimerStarted'])  {
             {
+
                 stopClock(clocks);
                 generatePopUp(1,clocks);
                 //resetClock(clocks);
@@ -118,7 +119,7 @@ function sessionStopwatch(clocks){
     const resetStopwatchElement= document.getElementById("resetStopwatch");
     var  subEventuallyStudied=document.getElementById("scelta");
     var buttonS = document.getElementById("startStopwatch");
-
+    clocks['modifiableTime'] =clocks['startTimeST'];
     startStopwatchElement.addEventListener('click', function() {
         if(subEventuallyStudied.value !=='') {
             clocks['isStopawatchStarted'] = true;
@@ -128,8 +129,7 @@ function sessionStopwatch(clocks){
                 // Prima volta che è stato cliccato
                 console.log('Primo clic');
                 var time = new Date().getTime();
-                console.log(clocks,time,null);
-                startClock(clocks,time);
+                startClock(clocks,time,null);
                 // Aggiorna lo stato
                 buttonS.innerHTML = "Stop";
                 buttonS.setAttribute("aria-label", "Stop");
@@ -202,17 +202,20 @@ window.addEventListener("DOMContentLoaded", () => {
     const clocks={      //di gestione
         idTimerOrStopwatch : false,   //0  stopwatch , 1 timer
         idTimerEndOrStop:false ,      //0  end , 1 stop
-        startTimeTI : 5, // default
+        startTimeTI : 1500, // default, it do not changes its values during the timer
+        modifiableTime:0, // it changes its value during timer
         startTimeST :0,     //default
         isTimerStarted  : false,// false: timer is at max, true:timer is running
         isStopawatchStarted : false, // false : stopwatch is at max , true : stopwatch is running
         interval:0,
         shortBreak: 20,
         middleBreak:900,
-        longBreak :1800
+        longBreak :1800,
+        timegone:0,
     }
     var displaySubjects=[];
     subjectsRequests(displaySubjects);
+
     swipe(clocks);
     sessionTimer(clocks);
     sessionStopwatch(clocks);
