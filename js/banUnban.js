@@ -111,6 +111,6 @@ function banUnbanFetch(dataTarget, cell) {
             }
         })
         .catch(error => {
-            console.error("Something went wrong.");
+            console.error("Something went wrong", error);
         });
 }

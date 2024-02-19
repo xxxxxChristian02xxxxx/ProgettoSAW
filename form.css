@@ -71,3 +71,15 @@ body {
 #Submit input[type="submit"], #Update {
     font-size: 15px;
 }
+
+#firstnameError, #lastnameError, #emailError, #passwordError, #confirmError {
+    color: red;
+}
+
+.inputError {
+    border-color: red;
+}
+
+#firstname, #lastname, #email, #money, #timestudied, #plantpurchased {
+    font-weight: bold;
+}

@@ -9,13 +9,13 @@
             require('function_files/session.php');
             $session = getSession(true);
             $userId = $session['id'];
-
+            error_log($userId);
             $query = "SELECT FIRSTNAME, LASTNAME, EMAIL FROM USERS WHERE ID = ?";
             $stmt = $con->prepare($query);
             $stmt->bind_param('i', $userId);
             $stmt->execute();
-            if($stmt->num_rows === 1){
-                $result = $stmt->get_result();
+            $result = $stmt->get_result();
+            if($result->num_rows === 1){
                 $data = $result->fetch_assoc();
 
                 $con->close();

@@ -1,17 +1,17 @@
 document.getElementById('UserRegistration').addEventListener('submit', function (event) {
-
     event.preventDefault();
-    validateInput();
-    const formData = {
-        firstname: document.getElementById('firstname').value,
-        lastname: document.getElementById('lastname').value,
-        email: document.getElementById('email').value,
-        pass: document.getElementById('pass').value,
-        confirm: document.getElementById('confirm').value,
-    };
-    console.log(formData);
-    //chimata dal frontend login in backend login
-    fetchRegistration(formData);
+    if(validateInput()) {
+        const formData = {
+            firstname: document.getElementById('firstname').value,
+            lastname: document.getElementById('lastname').value,
+            email: document.getElementById('email').value,
+            pass: document.getElementById('pass').value,
+            confirm: document.getElementById('confirm').value,
+        };
+        console.log(formData);
+        //chiamata dal frontend login in backend login
+        fetchRegistration(formData);
+    }
 });
 
 
@@ -26,39 +26,54 @@ function validateInput() {
 
 
     if (firstname === '') {
-        document.getElementById('firstnameError').innerHTML = 'Il campo firstname è obbligatorio';
-    } else {
+        document.getElementById('firstnameError').innerHTML = 'Firstname is required!';
+        document.getElementById('firstname').classList.add('inputError');
+        return false;
+    }
+    else{
         document.getElementById('firstnameError').innerHTML = '';
+        document.getElementById('firstname').classList.remove('inputError');
     }
 
     if (lastname === '') {
-        document.getElementById('lastnameError').innerHTML = 'Il campo lastname è obbligatorio';
-    } else {
+        document.getElementById('lastnameError').innerHTML = 'Lastname is required!';
+        document.getElementById('lastname').classList.add('inputError');
+        return false;
+    }
+    else{
         document.getElementById('lastnameError').innerHTML = '';
+        document.getElementById('lastname').classList.remove('inputError');
     }
 
     if (email === '') {
-        document.getElementById('emailError').innerHTML = 'Il campo email è obbligatorio';
-    } else {
+        document.getElementById('emailError').innerHTML = 'Email is required!';
+        document.getElementById('email').classList.add('inputError');
+        return false;
+    }
+    else{
         document.getElementById('emailError').innerHTML = '';
+        document.getElementById('email').classList.remove('inputError');
     }
 
     if (password !== '' && confirm !== '') {
+        document.getElementById('confirmError').innerHTML = '';
+        document.getElementById('pass').classList.remove('inputError');
+        document.getElementById('confirm').classList.remove('inputError');
         if (password !== confirm) {
             alert('Passwords do not match');
             return false;
         }
     } else {
-        document.getElementById('confirmError').innerHTML = 'I campi password e confirm è obbligatori';
+        document.getElementById('confirmError').innerHTML = 'Password and confirm are required!';
+        document.getElementById('pass').classList.add('inputError');
+        document.getElementById('confirm').classList.add('inputError');
+        return false;
     }
 
-    const errorMessage = document.querySelectorAll('.error');
-    for (let i = 0; i < errorMessage.length; i++) {
-        if (errorMessage[i].innerHTML !== '') {
-            return;
-        }
-    }
+    return true;
 }
+
+document.querySelectorAll('')
 function fetchRegistration(formData){
     fetch('../backend/be_registration.php', { // dico il percorso del file di back end
         method: 'POST', //metodo get o post
@@ -87,4 +102,3 @@ function fetchRegistration(formData){
             console.error('Error:', error);
         });
 }
-

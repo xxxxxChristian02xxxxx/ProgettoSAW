@@ -21,8 +21,10 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 if(data['present']) {
                     document.getElementById('emailError').innerHTML = 'Email already used, try a different one';
+                    document.getElementById('email').classList.add('inputError');
                 }else {
                     document.getElementById('emailError').innerHTML = ''
+                    document.getElementById('email').classList.remove('inputError');
                 }
             })
             .catch(error => {

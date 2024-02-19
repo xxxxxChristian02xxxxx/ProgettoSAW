@@ -7,12 +7,15 @@ function displayMyProfile(){
         body: JSON.stringify({action: 'requestProfileData'})
     })
         .then(response => {
-            console.log(response);
-            return response.text()
-          //
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.status === 204) { // No content
+                return null;
+            }
+            return response.json();
         })
         .then(data => {
-            console.log(data);
             document.getElementById('firstname').value = data['FIRSTNAME'];
             document.getElementById('lastname').value = data['LASTNAME'];
             document.getElementById('email').value = data['EMAIL'];

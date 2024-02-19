@@ -25,31 +25,31 @@
         <form id="UserRegistration" action="registration.php" method="POST">
             <div class="Firstname">
                 <label for="firstname">Firstname:</label>
-                <input type="text" name="firstname">
+                <input type="text" id="firstname" name="firstname">
                 <span id="firstnameError" class="error"></span>
             </div>
             <div class="Lastname">
                 <label for="lastname">Lastname:</label>
-                <input type="text"  name="lastname">
+                <input type="text" id="lastname" name="lastname">
                 <span id="lastnameError" class="error"></span>
             </div>
             <div class="Email">
                 <label for="email">Email:</label>
-                <input type="email" name="email">
+                <input type="email" id="email" name="email">
                 <span id="emailError" class="error"></span>
             </div>
             <div class="Password">
                 <label for="pass">Password:</label>
-                <input type="password" name="pass">
+                <input type="password" id="pass" name="pass">
                 <span id="passwordError" class="error"></span>
             </div>
             <div class="ConfirmPassword">
                 <label for="confirm">Confirm password:</label>
-                <input type="password" name="confirm">
+                <input type="password" id="confirm" name="confirm">
                 <span id="confirmError" class="error"></span>
             </div>
             <div id="Submit">
-                <input type="submit" value="Sign-up">
+                <input id="submitButton" type="submit" value="Sign-up">
             </div>
         </form>
     </div>
