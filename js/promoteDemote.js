@@ -48,7 +48,7 @@ function generatePromote(dataTarget){
                 <p>- LASTNAME: <span class="popupValue">${dataTarget['lastname'].innerText}</span></p>
                 <p>- EMAIL: <span class="popupValue">${dataTarget['email'].innerText}</span></p>
             </div>
-            <div class="confirm">
+            <div id="confirm">
                 <p>Are you sure?</p>
                 <button id ="yesPromoteDemote" class="yesButton">Yes</button>
                 <button id ="noPromoteDemote" class="noButton">No </button>

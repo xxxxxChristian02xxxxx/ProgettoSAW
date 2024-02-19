@@ -19,27 +19,46 @@ if(!function_exists('rethriveData')) {
         // prendo l'user e la somma dei tempi i oguno degli user e lo chiamo total time
         //cerco sull id
 
+        $data = array();
 
-        $query ="    SELECT users.ID,users.FIRSTNAME,users.LASTNAME,users.EMAIL,users.MONEY,numeropiante.Value AS OCCURENCIESPLANT,total_time.Value AS TOTAL_TIME
-                    FROM users LEFT JOIN (
-                                        SELECT transactions.USER_ID,COUNT(*) AS Value 
-                                        FROM transactions 
-                                        GROUP BY transactions.USER_ID) AS numeropiante ON users.ID = numeropiante.USER_ID 
-                            LEFT JOIN ( SELECT study_sessions.USER,SUM(study_sessions.TOTAL_TIME) AS Value 
-                                        FROM study_sessions
-                                        GROUP BY study_sessions.USER) AS total_time ON users.ID = total_time.USER
-                    WHERE users.ID = ?";
+        $query ="SELECT FIRSTNAME, LASTNAME, EMAIL, MONEY FROM users WHERE users.ID = ?";
 
-           $stmt = $con->prepare($query);
+        $stmt = $con->prepare($query);
         $stmt->bind_param('i', $userId);
         $stmt->execute();
-            $result = $stmt->get_result();
-            $data = $result->fetch_assoc();
+        $result = $stmt->get_result();
+        if($result->num_rows === 1){
+            $row = $result->fetch_assoc();
+            $data['FIRSTNAME'] = $row['FIRSTNAME'];
+            $data['LASTNAME'] = $row['LASTNAME'];
+            $data['EMAIL'] = $row['EMAIL'];
+            $data['MONEY'] = $row['MONEY'];
+        }
 
+        $query ="SELECT COUNT(DISTINCT TRANSACTIONS_ID) AS OCCURENCIESPLANT FROM TRANSACTIONS WHERE USER_ID = ?";
+        $stmt = $con->prepare($query);
+        $stmt->bind_param('i', $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if($result->num_rows === 1) {
+            $row = $result->fetch_assoc();
+            $data['OCCURENCIESPLANT'] = $row['OCCURENCIESPLANT'];
+        }
 
-            $con->close();
-            header('Content-Type: application/json');
-            echo json_encode($data);
+        $query ="SELECT SUM(TOTAL_TIME) AS TOTAL_TIME FROM STUDY_SESSIONS WHERE USER = ?";
+        $stmt = $con->prepare($query);
+        $stmt->bind_param('i', $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if($result->num_rows === 1) {
+            $row = $result->fetch_assoc();
+            $data['TOTAL_TIME'] = $row['TOTAL_TIME'];
+        }
+
+        $con->close();
+
+        header('Content-Type: application/json');
+        echo json_encode($data);
 
     }
 }

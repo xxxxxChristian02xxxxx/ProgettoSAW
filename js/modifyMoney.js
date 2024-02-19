@@ -44,6 +44,11 @@ function generateModify(cell) {
                 <div>
                     <button id ="resetAmount">Reset Money</button>
                 </div>
+                <div id="confirm" class="hidden"> 
+                       <p>Are you sure you want to modify the money count?</p>
+                       <button id ="yesChange" class="yesButton">Yes</button>
+                       <button id ="noChange" class="noButton">No </button>
+                </div>
   `
 }
 
