@@ -78,9 +78,9 @@ function updateTimer(typeClock, timeGone) {
     let seconds = remainingSeconds % 60;
 
     if (hours) {
-        formattedTime = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
+        formattedTime = `${hours.toString().padStart(2, "0")} : ${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
     } else {
-        formattedTime = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+        formattedTime = `${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
     }
     if (typeClock['idTimerOrStopwatch']) {
         timeStopwatchElement.innerHTML = formattedTime;
