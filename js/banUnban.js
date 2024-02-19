@@ -71,7 +71,7 @@ function generateUnban(dataTarget) {
                         <p>- LASTNAME: <span class="popupValue">${dataTarget['lastname'].innerText}</span></p>
                         <p>- EMAIL: <span class="popupValue">${dataTarget['email'].innerText}</span></p>
                    </div> 
-                   <div class="confirm">
+                   <div id="confirm">
                       <p>Are you sure?</p>
                       <button id ="yesBanUnban" class="yesButton">Yes</button>
                       <button id ="noBanUnban" class="noButton">No</button>

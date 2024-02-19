@@ -85,6 +85,7 @@ function popup(cell, row, dataTarget) {
                 var isnum = null;
                 var num;
 
+                var confirm = document.getElementById('confirm');
                 modifyAmount.addEventListener("input", () => {
                     console.log(num);
                     num = modifyAmount.value;
@@ -106,27 +107,43 @@ function popup(cell, row, dataTarget) {
                 })
                 changeMoney.addEventListener("click", () => {
                     if (isnum) {
-                        dataTarget['operation'] = 1;
-                        dataTarget['money'] = num;
-                        modifyFetch(dataTarget, cell);
-                        popUp.classList.add('hidden');
-                        document.body.style.overflow = 'auto';
+                        confirm.classList.remove('hidden');
+                        const yesChange = document.getElementById('yesChange');
+                        const noChange = document.getElementById('noChange');
+
+                        yesChange.addEventListener('click', () => {
+                            dataTarget['operation'] = 1;
+                            dataTarget['money'] = num;
+                            modifyFetch(dataTarget, cell);
+                            popUp.classList.add('hidden');
+                            document.body.style.overflow = 'auto';
+                        });
+
+                        noChange.addEventListener('click', () => {
+                            popUp.classList.add('hidden');
+                            document.body.style.overflow = 'auto';
+                        });
                     } else {
                         alert("not valied amount");
 
                     }
                 })
                 resetMoney.addEventListener("click", (event) => {
+                    confirm.classList.remove('hidden');
+                    const yesReset = document.getElementById('yesChange');
+                    const noReset = document.getElementById('noChange');
 
-                    if (resetMoney.style.borderColor === "red") {
+                    yesReset.addEventListener('click', () => {
                         dataTarget['operation'] = 2;
-                        resetMoney.style.borderColor = "black";
                         modifyFetch(dataTarget, cell);
                         popUp.classList.add('hidden');
                         document.body.style.overflow = 'auto';
-                    } else {
-                        resetMoney.style.borderColor = "red";
-                    }
+                    });
+
+                    noReset.addEventListener('click', () => {
+                        popUp.classList.add('hidden');
+                        document.body.style.overflow = 'auto';
+                    });
                 });
                 break;
             case row.cells[7]:
