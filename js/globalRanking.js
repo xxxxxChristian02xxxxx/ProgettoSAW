@@ -10,6 +10,12 @@ document.addEventListener('DOMContentLoaded', function() {
 function getData(currentPage, rowsPerPage) {
     fetch("../backend/be_globalRanking.php")
         .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.status === 204) { // No content
+                return null;
+            }
             return response.json();
         })
         .then(data => {

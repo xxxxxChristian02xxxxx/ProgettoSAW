@@ -1,29 +1,12 @@
 //-------------------------FUNZIONE VEDERE SE LA MATERIA AGGIUNTA è VALIDA    -------------------------//
 function isSubPresent(addSubject, subChoosen) {
-    // esempio :
-    /*  console.log("ooop",displaySubjects);
-      for (let i = 0; i < displaySubjects.length; i++) {
-          var subpr = displaySubjects[i].replace(/\s/g, '').toLowerCase();
-          var subnew = addSubject.toString().replace(/\s/g, '').toLowerCase();
-          console.log(subnew, ",", subpr);
-          if (subnew === subpr) {
-              console.log("sono qui");
-              return false;
-          }
-      }
-      return true;*/
     const options = subChoosen.options; // Get an array-like object of all the options
-
     for (let i = 0; i < options.length; i++) {
-        console.log("array", options[i]);
         if(options[i].innerText===addSubject){
             return false
-        }  // Get the current option
-         // Log the text of the current option
+        }
     }
     return true;
-
-
 }
 
 function blockSelection() {
@@ -39,7 +22,6 @@ function unlockSelection() {
 //-------------------------FUNZIONE PER IL PER TIMER E STOPWATCH -------------------------//
 function toggleButtonTS(typeClock, displayTimer, displayStopwatch, swipeCount) {
 
-    console.log(swipeCount);
     if ((swipeCount % 2) === 0) {
         displayTimer.classList.remove("hide");
         displayStopwatch.classList.add("hide");
@@ -55,7 +37,6 @@ function toggleButtonTS(typeClock, displayTimer, displayStopwatch, swipeCount) {
 function toggleButton(buttonId) {
     // Riferimento all'elemento del bottone
     var button = document.getElementById(buttonId);
-    console.log("button");
     if (button.innerHTML !== 'Start') {
         button.innerHTML = "Stop";
         // Impostazione attributo per cambiare colore bottone
@@ -82,9 +63,6 @@ function showStudySession() {
     moneyMoneyObtained.innerHTML = dataTime['money'];
     subSubStudied.innerHTML = subChoosen.value;
 }
-
-
-
 function populateSelect(options) {
     //let gridHtml = '';
     let subEventuallyStudied = document.getElementById("scelta");
@@ -100,28 +78,22 @@ function generateOptions(option) {
     optionElement.textContent = option;
     return optionElement;
 }
-
 function generatePopUp(popType, typeClock, timeBreak) {
-    console.log("generato ")
     const popUp = document.getElementById('popUpMain');
     const popUpContent = document.getElementById('popUpContentMain');
     if (popUp && popUpContent) {
         switch (popType) {
             case 1:
-                console.log("case 1");
                 sessionPopUpAssembling(popUpContent, 1);
                 popUpContent.classList.add("open");//aggiungo il css
                 sessionPopUpManager(popUpContent, typeClock, timeBreak);
                 break;
             case 2:
-                console.log("10")
                 sessionPopUpAssembling(popUpContent, 2);
                 popUpContent.classList.add("open");//aggiungo il css
                 breakPopUpManager(popUpContent, typeClock);
                 break;
         }
-    } else {
-        console.log("nope");
     }
 }
 
@@ -131,7 +103,6 @@ function sessionPopUpAssembling(popUpContent, typePopUp) {
         gridHtml += generatePopUpSession();
     } else if (typePopUp === 2) {
         gridHtml += generatePopUpBreak();
-
     }
     popUpContent.innerHTML = gridHtml;
 }
@@ -139,35 +110,33 @@ function sessionPopUpAssembling(popUpContent, typePopUp) {
 function generatePopUpSession() {
     return `
     <div class="popup-inner">
-            <h2> Your Statistics </h2>
-            <div id ="statistiche_sessioone_studio ">
-                <p>
+            <h2  class="popup-title"> Your Statistics </h2>
+                
+                <div class="infoPopup">
                     <div>
+                        <p id="durata_session" class="dataText">Duration session:</p>
+                        <span><p id="timeDuration" >Tempo</p></span>
+                    </div>
+                    <div>
+                        <p id="materia_studiata"  class="dataText">Subjects studied:</p>
+                        <span><p id="subStudied"></p></span>
+                    </div>
+                    <div>
+                        <p id="soldi_ottenuti" class="dataText">Money earned:</p>
+                        <span><p id="moneyGotten" >Soldi</p></span>
+                    </div>
+            
+                    <div id="descrizione" class ="description">
                         <div>
-                            <p id="durata_session">durata sessione:</p>
-                            <span><p id="timeDuration">tempo</p></span>
-                        </div>
-                        <div>
-                            <p id="materia_studiata">materia studiata:</p>
-                            <span><p id="subStudied"></p></span>
-                        </div>
-                        <div>
-                            <p id="soldi_ottenuti">soldi ottenuti:</p>
-                            <span><p id="moneyGotten">soldi</p></span>
+                            <textarea id ="area_descrizione" rows="4" cols="50" placeholder="Add a short description..."></textarea>
+                            <div> <p id ="word counter" > 0/300</p></div>
                         </div>
                     </div>
-                </p>
-            </div>
-            <div id="descrizione">
-                <div>
-                    <textarea id ="area_descrizione" rows="4" cols="50" placeholder="Scrivi qui..."></textarea>
-                    <div> <p id ="word counter" > 0/300</p></div>
                 </div>
-            </div>
-            <div >
-                <span class="popup_button"> <button id="closePopUp" > yes </button> </span>
-                <span class="popup_button"> <button id="cancelPopup">  Cancel </button> </span>
-            </div>
+                <div class="buttonsPopup">
+                    <span > <button  class="popup_button_left" id="closePopUp" > Yes </button> </span>
+                    <span > <button id="cancelPopup" class="popup_button_right">  Cancel </button> </span>
+                </div>
         </div>
 `;
 }
@@ -183,8 +152,6 @@ function sessionPopUpManager(popUpContent, typeClock, timeBreakStart) {
     const textPopUp = document.getElementById("area_descrizione");
     var buttonT = document.getElementById("TimerStart");
     var buttonS = document.getElementById("startStopwatch");
-
-    console.log("sessionPopUpManager", typeClock);
 
     showStudySession();
 
@@ -205,9 +172,7 @@ function sessionPopUpManager(popUpContent, typeClock, timeBreakStart) {
         textPopUp.placeholder = "scrivi qui ...";
         typeClock['isTimerStarted'] = false;
         typeClock['isStopawatchStarted'] = false;
-        // rangeStart.classList.remove("rangePrevent");
         if (typeClock['idTimerEndOrStop']) {
-            console.log("hrei");
             let timeBreak = new Date().getTime();
             startClock(typeClock, timeBreak, timeBreakStart);
         }
@@ -219,12 +184,17 @@ function sessionPopUpManager(popUpContent, typeClock, timeBreakStart) {
             if (buttonT.innerHTML === "Stop") {
                 buttonT.innerHTML = "Start";
                 buttonT.removeAttribute("aria-label");
+         
             }
             if (buttonS.innerHTML === "Stop") {
                 buttonS.innerHTML = "Start";
                 buttonS.removeAttribute("aria-label");
+
             }
             popUpContent.classList.remove("open");//aggiungo il css
+            typeClock['modifiableTime'] = typeClock['timegone'];
+            console.log(typeClock['modifiableTime'])
+
         }
     })
     //-------------------------EVENTO CONTARE NUMERO CARATTERI NELLA SEZIONE DESCRIZIONE  -------------------------//
@@ -257,28 +227,35 @@ function sessionPopUpManager(popUpContent, typeClock, timeBreakStart) {
 
 }
 function generatePopUpBreak() {
-    return ` <div id="breakTime">
-            <h2>Break Time</h2>
-            <p>You have accomplished your goal, take some rest.</p>
-            <p>Choose how long is your break:</p>
-            <button id="break5mins" >5 mins</button>
-            <button id="break15mins" class="hide">15 mins</button>
-            <button id="break30mins" class="hide">30 mins</button>
-        </div>`
+    return `
+    <div class="popup-inner">  
+        <div id="breakTime" >
+            <h2 class="popup-title">Break Time</h2>
+            <div class="textBreakContainer">
+                <p class="dataText" >You have accomplished your goal. Take a rest.</p>
+                <p class="dataText" >Choose how long your break is.</p>
+            </div>
+            <div class="buttonsPopupBreak">
+                <button class ="break" id="break5mins" >5 mins</button>
+                <button id="break15mins" class="break" style="">15 mins</button>
+                <button id="break30mins" class="break" style="" >30 mins</button>
+            </div>
 
+    </div>`
 }
-
 function breakPopUpManager(popUpContent, typeClock) {
 
     const break5minsButton = document.getElementById('break5mins');
     const break15minsButton = document.getElementById('break15mins');
     const break30minsButton = document.getElementById('break30mins');
-
+    //typeClock['timeSpent'] =4000;
+    break15minsButton.style.display="none";
+    break30minsButton.style.display="none";
    if ((typeClock['timeSpent'] >= 1800) && (typeClock['timeSpent'] < 3600)) {
-        break15minsButton.classList.remove("hide");
+        break15minsButton.removeAttribute("style");
     } else if (typeClock['timeSpent'] >= 3600) {
-        break30minsButton.classList.remove("hide");
-        break15minsButton.classList.remove("hide");
+        break30minsButton.removeAttribute("style");
+        break15minsButton.removeAttribute("style");
     }
     break5minsButton.addEventListener('click', () => {
         // handle 5 mins break
@@ -287,8 +264,8 @@ function breakPopUpManager(popUpContent, typeClock) {
         popUpContent.classList.remove("open");
         generatePopUp(1, typeClock, timeBreakStart);
         unlockSelection();
-        break15minsButton.classList.add("hide");
-        break30minsButton.classList.add("hide");
+        break15minsButton.style.display="none";
+        break30minsButton.style.display="none";
 
     });
 
@@ -298,8 +275,8 @@ function breakPopUpManager(popUpContent, typeClock) {
         popUpContent.classList.remove("open");
         generatePopUp(1, typeClock, timeBreakStart);
         unlockSelection();
-        break15minsButton.classList.add("hide");
-        break30minsButton.classList.add("hide");
+        break15minsButton.style.display="none";
+        break30minsButton.style.display="none";
     });
 
     break30minsButton.addEventListener('click', () => {
@@ -308,12 +285,11 @@ function breakPopUpManager(popUpContent, typeClock) {
         popUpContent.classList.remove("open");
         generatePopUp(1, typeClock, timeBreakStart);
         unlockSelection();
-        break15minsButton.classList.add("hide");
-        break30minsButton.classList.add("hide");
+        break15minsButton.style.display="none";
+        break30minsButton.style.display="none";
     });
 
 }
-
 //-------------------------FUNZIONE PER FARE L'UPDATE DEL TIMER -------------------------//
 function updateTimer(typeClock, timeGone) {
     let timeTimerElement = document.getElementById("timeTimer");
@@ -334,48 +310,42 @@ function updateTimer(typeClock, timeGone) {
     } else {
         timeTimerElement.innerHTML = formattedTime;
     }
+
 }
-
-
 //-------------------------FUNZIONE PER IL INZIARE E STOPPARE IL TIMER IL TIMER -------------------------//
 function startClock(typeClock, time, timeBreakStart) {
-    console.log(typeClock['idTimerOrStopwatch'], "false timer, true stopwatch")
-    var timeGone = 0;
+    //var timeGone  = typeClock['startTimeST'];
     if (typeClock['idTimerOrStopwatch']) {    /*intervallo che deve essere aggiornato ogni 1000 ms*/
-        console.log("dentro stopwatch secton", time);
         toggleButton('startStopwatch');
 
         typeClock['interval'] = setInterval(() => {
             const currentTime = new Date();
             const diff = currentTime - time;
             const secondsPassed = Math.floor(diff / 1000);
-            timeGone = typeClock['startTimeST'] + secondsPassed;
-            console.log(timeGone, secondsPassed, typeClock['startTimeST'], diff, time);
+            typeClock['timegone'] = typeClock['modifiableTime'] + secondsPassed;
             dataTime['timeSpent']++;
-            dataTime['money']++;
-            updateTimer(typeClock, timeGone);
+            updateMoney();
+            updateTimer(typeClock,  typeClock['timegone']);
 
         }, 1000)
     } else {
         if (!typeClock['idTimerEndOrStop']) {
+            console.log(typeClock['modifiableTime'])
             toggleButton('TimerStart');
-            console.log("inizio setinterval");
             typeClock['interval'] = setInterval(() => {
                 const currentTime = new Date();
                 const diff = currentTime - time;
                 const secondsPassed = Math.floor(diff / 1000);
-                timeGone = typeClock['startTimeTI'] - secondsPassed;
+                typeClock['timegone'] = typeClock['modifiableTime'] - secondsPassed;
                 dataTime['timeSpent']++;
-                dataTime['money']++;
-                updateTimer(typeClock, timeGone);
-
-                if (timeGone === 0) {
-                    /*una vlta finito il timer pulisco l'intervallo*/
+                console.log(dataTime['timeSpent']);
+                updateTimer(typeClock,  typeClock['timegone']);
+                updateMoney();
+                if ( typeClock['timegone'] === 0) {
                     clearInterval(typeClock['interval']);
                     stopClock(typeClock);
                     typeClock['idTimerEndOrStop'] = true;
                     generatePopUp(2, typeClock);
-
                 }
             }, 1000)
         } else {
@@ -387,6 +357,9 @@ function startClock(typeClock, time, timeBreakStart) {
             let resetS = document.getElementById("resetStopwatch")
             let buttonSx=document.getElementById("buttom-Swipe-left")
             let buttonRx=document.getElementById("buttom-Swipe-right")
+            let header = document.getElementById("privateheaderButton");
+
+
             range.classList.add("rangePrevent");
             startT.classList.add("rangePrevent");
             resetT.classList.add("rangePrevent");
@@ -394,22 +367,19 @@ function startClock(typeClock, time, timeBreakStart) {
             resetS.classList.add("rangePrevent");
             buttonSx.classList.add("rangePrevent");
             buttonRx.classList.add("rangePrevent");
-
+            header.classList.add("rangePrevent");
             title.innerText = "Break";
             typeClock['idTimerEndOrStop'] = false;
             toggleButton('TimerStart');
-            console.log("inizio TimerBreakStart", time);
-            let timeGone = 0;
+            //let timeGone = 0;
             updateTimer(typeClock, timeBreakStart);
             typeClock['interval'] = setInterval(() => {
                 const currentTime = new Date();
                 const diff = currentTime - time;
                 const secondsPassed = Math.floor(diff / 1000);
-                timeGone = timeBreakStart - secondsPassed;
-                updateTimer(typeClock, timeGone);
-                if (timeGone === 0) {
-                    console.log("fine break ");
-                    /*una vlta finito il timer pulisco l'intervallo*/
+                typeClock['timegone'] = timeBreakStart - secondsPassed;
+                updateTimer(typeClock,  typeClock['timegone']);
+                if ( typeClock['timegone'] === 0) {
                     clearInterval(typeClock['interval']);
                     title.innerText = "Timer";
                     resetClock(typeClock,"break");
@@ -421,6 +391,8 @@ function startClock(typeClock, time, timeBreakStart) {
                     resetS.classList.remove("rangePrevent");
                     buttonSx.classList.remove("rangePrevent");
                     buttonRx.classList.remove("rangePrevent");
+                    header.classList.remove("rangePrevent");
+
 
                 }
             }, 1000)
@@ -437,14 +409,18 @@ function resetClock(typeClock,option) {
         dataTime['subjectName'] = subEventuallyStudied.value;
         databaseDelivery(dataTime, 1);
     }
-    let timeGone;
     if (typeClock['idTimerOrStopwatch']) {
-        timeGone = 0;
+        typeClock['timegone'] = typeClock['startTimeST'];
+        typeClock['modifiableTime'] =typeClock['startTimeST'];
+
     } else {
-        timeGone = typeClock['startTimeTI'];
+        typeClock['timegone'] = typeClock['startTimeTI'];
+        typeClock['modifiableTime'] =typeClock['startTimeTI'];
+
     }
     dataTime['timeSpent'] = 0;
-    updateTimer(typeClock, timeGone);
+
+    updateTimer(typeClock, typeClock['timegone']);
     dataTime['money'] = 0;
     var range = document.getElementById("TimerRange");
     range.classList.remove("rangePrevent");
@@ -454,17 +430,14 @@ function resetClock(typeClock,option) {
 //-------------------------FUNZIONE PER FERMARE IL TIMER  -------------------------//
 function stopClock(typeClock) {
     clearInterval(typeClock['interval']);
-    console.log("stopTimer", typeClock);
-    if (typeClock['idTimerOrStopwatch']) {
+    if (typeClock['idTimerEndOrStop']) {
         toggleButton('startStopwatch');
-
     } else {
         toggleButton('TimerStart');
     }
 }
 
 function databaseDelivery(json_data, operationType) {
-    console.log('json_data in delivery: ', json_data);
     let Action;
     switch (operationType) {
         case 1:
@@ -482,8 +455,14 @@ function databaseDelivery(json_data, operationType) {
         },
         body: JSON.stringify({json_data, action: Action}) // encode
     })
-
-        .then(response => console.log(response))
+        .then(response=>{
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.status === 204) { // No content
+                return null;
+            }
+        })
         .catch(error => {
             console.error('Error:', error);
         });
@@ -498,7 +477,16 @@ function subjectsRequests(displaySubjects) {
         },
         body: JSON.stringify({action: 'subjectTend'}) // encode
     })
-        .then(response => response.json())
+        .then(response => {
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.status === 204) { // No content
+                return null;
+            }
+            return response.json();
+        })
         .then(data => {
             displaySubjects = data;
             populateSelect(displaySubjects);
@@ -509,3 +497,8 @@ function subjectsRequests(displaySubjects) {
 
 }
 
+function updateMoney(){
+    if(dataTime['timeSpent']%300 ===0){
+        dataTime['money'] += 20;
+    }
+}

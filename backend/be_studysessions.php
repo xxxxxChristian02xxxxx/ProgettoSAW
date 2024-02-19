@@ -30,7 +30,7 @@ if(isset($_GET['column'])) {
     echo json_encode($values);
 }
 else{
-    json_encode(['error' => 'missing column parameter']);
+    json_encode(['error' => 'Missing column parameter']);
 }
 
 $query = "SELECT SUBJECTS.NAME AS SUBJECT, STUDY_SESSIONS.TYPE, STUDY_SESSIONS.DATE, STUDY_SESSIONS.TOTAL_TIME, STUDY_SESSIONS.TOTAL_REWARD, STUDY_SESSIONS.DESCRIPTION 
@@ -57,4 +57,3 @@ if($result->num_rows>0){
 $con->close();
 
 echo json_encode($data);
-?>

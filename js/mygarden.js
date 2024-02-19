@@ -1,3 +1,26 @@
+function mygardenFetch() {
+    let plants = [];
+
+    fetch("../backend/be_mygarden.php")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.status === 204) { // No content
+                return null;
+            }
+            return response.json();
+        })
+        .then(data => {
+            plants = data; // store the data in the `plants` variable
+            const plantsContainer = document.getElementById('plants-container');
+            appendPlantsToContainer(plants, plantsContainer);
+        })
+        .catch(error => {
+            console.error("Si è verificato un errore: ", error);
+        });
+}
+
 function generateCard(plant) {
     let path = "../images/" +plant.IMG_DIR;
     return `
@@ -27,3 +50,7 @@ function appendPlantsToContainer(plants, container) {
     });
     container.innerHTML = gridHtml;
 }
+
+window.addEventListener('DOMContentLoaded', () => {
+    mygardenFetch();
+});

@@ -68,8 +68,15 @@ function modifyFetch(dataTarget, cell) {
         .then(response =>
             //console.log("Response: ", response); // log the response
             //return response.text();
-            response.json()
-        )
+        {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.status === 204) { // No content
+                return null;
+            }
+            return response.json();
+        }        )
         .then(data => {
             console.log(data);
             cell.innerText = data;

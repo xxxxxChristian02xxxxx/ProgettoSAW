@@ -9,17 +9,19 @@
             require('function_files/session.php');
             $session = getSession(true);
             $userId = $session['id'];
-
-            $query = "SELECT FIRSTNAME, LASTNAME, EMAIL, MONEY FROM USERS WHERE ID = ?";
+            error_log($userId);
+            $query = "SELECT FIRSTNAME, LASTNAME, EMAIL FROM USERS WHERE ID = ?";
             $stmt = $con->prepare($query);
             $stmt->bind_param('i', $userId);
             $stmt->execute();
             $result = $stmt->get_result();
-            $data = $result->fetch_assoc();
+            if($result->num_rows === 1){
+                $data = $result->fetch_assoc();
 
-            $con->close();
+                $con->close();
 
-            echo json_encode($data);
+                echo json_encode($data);
+            }
         }
     }
 
@@ -83,6 +85,6 @@ if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
     else{
-        echo json_encode('azione non supportata');
+        echo json_encode('Unsupported action');
     }
 }

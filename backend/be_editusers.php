@@ -8,7 +8,7 @@ $session = getSession(true);
 include("function_files/connection.php");
 $con = connect();
 
-//creazione prepared statemet per prelevare tutta la tabella
+//creazione prepared statemet per prelevare i dati dalla la tabella
 $query = "SELECT ID, FIRSTNAME, LASTNAME, EMAIL, ROLES, BANNED, MONEY FROM USERS"; // query
 $stmt = $con->prepare($query); // execute query
 $stmt->execute();
@@ -26,5 +26,3 @@ if($result->num_rows>0){
 $con->close();
 
 echo json_encode($data);
-
-?>

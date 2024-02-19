@@ -29,15 +29,10 @@ if(!function_exists('checkPresenceEmail')) {
 $data = json_decode(file_get_contents('php://input'), true);
 
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
-    if(isset($data['action'])) {
-        switch ($data['action']) {
-            case 'checkPresenceEmail':
-                checkPresenceEmail($data['email']);
-                break;
-        }
+    if(isset($data['action']) && $data['action'] === 'checkPresenceEmail') {
+        checkPresenceEmail($data['email']);
     }
-        else{
-        echo json_encode('azione non supportata');
+    else{
+        echo json_encode('Unsupported action');
+    }
 }
-}
-?>

@@ -10,7 +10,6 @@ if (!function_exists('verifyCookie')) {
             include('connection.php');
             $con = connect();
 
-
             $cookie_val = $_COOKIE['ReMe'];
             $decodedata = json_decode($cookie_val, true);
             $token_val = $decodedata['token_value'];
@@ -22,7 +21,7 @@ if (!function_exists('verifyCookie')) {
 
             $res = $stmt->get_result();
 
-            if ($res->num_rows == 1) {
+            if ($res->num_rows === 1) {
                 $expire = $res->fetch_assoc();
                 //Se scaduto rimanda alla pagina di login
                 if (date(time()) > $expire['EXPIRE']) {
@@ -33,13 +32,9 @@ if (!function_exists('verifyCookie')) {
                 }
             } else {
                 //todo: create error
+                echo('Something went wrong with the query result');
             }
-            $stmt->close();
+            $con->close();
         }
-
-        //Verifica che la sessione sia attiva
-        //include('backend/function_files/session.php');
-        //include('frontend/header.php');
     }
 }
-?>

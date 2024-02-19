@@ -2,7 +2,7 @@ body {
     background-color: #faf7e5;
 }
 
-.PageRegistration, .PageLogin, .PageUpdate, .rescuePassword {
+.PageRegistration, .PageLogin, .PageUpdate, .rescuePassword, .PageProfileUser {
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
     background-color: #cad7b2;
@@ -17,7 +17,7 @@ body {
     border-radius: 5px;
 }
 
-.headerRegistration, .headerLogin, .headerMyProfile,  .headerRescuePassword{
+.headerRegistration, .headerLogin, .headerMyProfile,  .headerRescuePassword, .HeaderShowProfileUser{
     width: 100%;
     border-bottom: 2px solid black;
     background-color: #a8caba;
@@ -28,7 +28,7 @@ body {
     font-size: 25px;
 }
 
-.RegistrationForm, .LoginForm, .UpdateForm, .rescuePasswordForm {
+.RegistrationForm, .LoginForm, .UpdateForm, .rescuePasswordForm, .ShowUserForm {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -70,4 +70,16 @@ body {
 
 #Submit input[type="submit"], #Update {
     font-size: 15px;
+}
+
+#firstnameError, #lastnameError, #emailError, #passwordError, #confirmError {
+    color: red;
+}
+
+.inputError {
+    border-color: red;
+}
+
+#firstname, #lastname, #email, #money, #timestudied, #plantpurchased {
+    font-weight: bold;
 }

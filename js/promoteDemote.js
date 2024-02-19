@@ -21,9 +21,6 @@ function promoteDemoteUser() {
                 dataTarget['roles']=cellAdmin.innerText;
                 popup(cellAdmin, row, dataTarget);
             });
-            // Aggiungo un listener relativo al click sulla cella della tabella
-            // Quando clicco -> chiamata fetch a file che faccia lo sban o il ban nel db
-
         }
     });
 
@@ -88,8 +85,13 @@ function promoteDemoteFetch(dataTarget,cell){
         body: JSON.stringify({action: 'promoteDemote', email: dataTarget['email'].innerText})
     })
         .then(response => {
-            return response.json();
-        })
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.status === 204) { // No content
+                return null;
+            }
+            return response.json();        })
         .then(data => {
             console.log(data);
             var promoteDemoteButton = cell.querySelector('.promoteDemoteButton');

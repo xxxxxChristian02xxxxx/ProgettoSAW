@@ -3,7 +3,7 @@ function banUnban() {
     // Come prima cosa accedo alle righe della tabelle
     // querySelectorAll restituisce una lista, in questo caso la lista di quelle che sono le righe della tabella
     var rows = document.querySelectorAll('#edituserTable tbody tr');
-    const dataTarget= {
+    var dataTarget= {
         email:null,
         firstname:null,
         lastname:null,
@@ -30,7 +30,6 @@ function banUnban() {
 }
 
 function appendBanUnabanToContainer(popUpContent, dataTarget) {
-    console.log(dataTarget);
     let gridHtml = '';
     if(dataTarget['banned'] === 'Ban'){
         gridHtml += generateBan(dataTarget);
@@ -90,6 +89,12 @@ function banUnbanFetch(dataTarget, cell) {
         body: JSON.stringify({action: 'banUnban', email: dataTarget['email'].innerText})
     })
         .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.status === 204) { // No content
+                return null;
+            }
             return response.json();
         })
         .then(data => {
@@ -106,6 +111,6 @@ function banUnbanFetch(dataTarget, cell) {
             }
         })
         .catch(error => {
-            console.error("Something went wrong.");
-        })
+            console.error("Something went wrong", error);
+        });
 }

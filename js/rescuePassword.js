@@ -1,4 +1,17 @@
-function mailFetch(confiermPass,email){
+window.addEventListener("DOMContentLoaded", () => {
+    document.getElementById('UserRescuePassword').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var email = document.getElementById("email").value;
+            var password= document.getElementById("pass").value;
+            var confirmPass= document.getElementById("confirm").value;
+            if(password === confirmPass){
+                mailFetch(confirmPass,email);
+            }
+    })
+
+})
+
+function mailFetch(confirmPass,email){
     fetch('../backend/function_files/forgottenPasswordLogin.php', {
         method: 'POST',
         headers: {
@@ -6,15 +19,23 @@ function mailFetch(confiermPass,email){
         },
         body: JSON.stringify({email: email, action:'checkPresenceEmail' }),
     })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.status === 204) { // No content
+                return null;
+            }
+            return response.json();
+     })
         .then(data => {
             if(data['present']) {
-                popup(email,confiermPass);
+
+                popup(email,confirmPass);
 
             }else{
                 let emailError = document.getElementById("emailErro");
                 emailError.classList.remove("errore")
-
             }
         })
         .catch(error => {
@@ -53,7 +74,7 @@ function generateRandom(values){
     console.log("key:",numTarget);
     return numTarget
 }
-function isTarget(num, numTarget,email,confiermPass,popUp,popUpContent){
+function isTarget(num, numTarget,email,confiermPass,popUp){
     const changeSucceeded = document.getElementById('changeSucceeded');
     const cometologin1 = document.getElementById('cometologin1');
     const changeNotSuceeded = document.getElementById('changeNotSuceeded');
@@ -150,7 +171,6 @@ function appendPasswordModify(popUpContent, email) {
     popUpContent.innerHTML = gridHtml;
 }
 function generatePasswordModify(email) {
-    console.log(email);
     return `
         <h2>Check your email to proceed</h2>
                 <span id="closePopUpButton" class="close">&times;</span>

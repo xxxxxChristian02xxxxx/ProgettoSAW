@@ -1,11 +1,11 @@
 <?php
 session_start();
 if(!function_exists('addSessionStudied')){
-    function addSessionStudied($moneyObtainedFromSession,$typesession,$total_time_spent, $subjectStudied, $seasonId, $descriptionSession){
+    function addSessionStudied($moneyObtainedFromSession, $typesession, $total_time_spent, $subjectStudied, $seasonId, $descriptionSession){
         require('function_files/session.php');
         $session_variables = getSession(true);
         $userId =$session_variables['id'];
-        error_log("$moneyObtainedFromSession, $typesession, $total_time_spent, $seasonId, $descriptionSession");
+
         require('function_files/connection.php');
         $con = connect();
 
@@ -15,7 +15,7 @@ if(!function_exists('addSessionStudied')){
         $stmt->bind_param('ii', $moneyObtainedFromSession, $userId);
         $stmt->execute();
         if ($stmt->affected_rows !== 1) {
-            echo "error nella modifica dei soldi dell'utente ";
+            echo "Error in user money modification";
         }
 
         // DEVO CAMBIARE TOTAL REWARD, MA è PER VEDERE SE FUNZIONA
@@ -25,7 +25,7 @@ if(!function_exists('addSessionStudied')){
         $stmt->bind_param('iiiiis', $typesession, $total_time_spent, $moneyObtainedFromSession, $userId, $seasonId, $descriptionSession);
         $stmt->execute();
 
-        // Recupero l'id della sessione
+        // Recupero l'id della sessione - restituisce l'id autogenerato nell'esecuzione dell'ultima query
         $sessionId = mysqli_insert_id($con);
 
         // Query per ricavare id della materia studiata
@@ -33,16 +33,22 @@ if(!function_exists('addSessionStudied')){
         $stmt = $con->prepare($query);
         $stmt->bind_param("s", $subjectStudied);
         $stmt->execute();
-        $res = $stmt->get_result();
-        $row = $res->fetch_assoc();
-        error_log(print_r($row, true));
-        $subjectId = $row['ID'];
 
-        $query = "INSERT INTO subject_sessions (SUBJECT_ID, SESSION_ID) VALUES (?, ?)";
-        $stmt = $con->prepare($query);
-        $stmt->bind_param("ii", $subjectId, $sessionId);
-        $stmt->execute();
-        $con->close();
+        if($stmt->num_rows === 1){
+            $res = $stmt->get_result();
+            $row = $res->fetch_assoc();
+
+            $subjectId = $row['ID'];
+
+            $query = "INSERT INTO subject_sessions (SUBJECT_ID, SESSION_ID) VALUES (?, ?)";
+            $stmt = $con->prepare($query);
+            $stmt->bind_param("ii", $subjectId, $sessionId);
+            $stmt->execute();
+            $con->close();
+        }
+        else{
+            echo("Something went wrong with the query result");
+        }
     }
 }
 if(!function_exists('updateSubject')){
@@ -54,30 +60,23 @@ if(!function_exists('updateSubject')){
         $con = connect();
 
         //---------------QUERY PER AGGIORNARE LA MATERIA STUDIATA SE NUOVA  ---------------//
+        // Se duplicato, anzichè generare errore si aggiorna la riga andando a essegnare di fatto nuovamente lo stesso valore
         $query = "INSERT INTO subjects (NAME) VALUES (?) ON DUPLICATE KEY UPDATE NAME=NAME";
         $stmt=$con->prepare($query);
         $stmt->bind_param('s',$subjectStudied);
         //Esecuzione della query
-        if(!$stmt->execute()){
-            header('Content-Type: application/json');
+        $stmt->execute();
 
-            echo json_encode("errore") ;
-
-
-        }
         if ($stmt->affected_rows == 1) {
             header('Content-Type: application/json');
 
-            echo json_encode("materia studiata aggiunta o già esistente") ;
+            echo json_encode("Subject correctly added or already existing") ;
         } else {
             header('Content-Type: application/json');
 
-            echo json_encode("error per aggiungere la materia studiata")  ;
+            echo json_encode("Error in adding new subject")  ;
         }
         $con->close();
-
-        header('Content-Type: application/json');
-        echo json_encode("finito la queri");
     }
 }
 if(!function_exists('subjectTend')){
@@ -112,6 +111,7 @@ if(!function_exists('subjectTend')){
 
     }
 }
+
 $data = json_decode(file_get_contents('php://input'), true);
 
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {

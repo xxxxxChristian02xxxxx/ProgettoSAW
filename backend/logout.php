@@ -19,13 +19,14 @@
         $token_val = $decodedata['token_value'];
         $userId = $decodedata['id'];
 
-        //todo: a very large problem  firstname + lastname are not unique keys
         $query = "SELECT TOKEN FROM USERS WHERE ID=?";
         $stmt = $con->prepare($query);
         $stmt->bind_param('i', $userId);
         $stmt->execute();
 
+        // $token_val è la variabile associata al risultato della query
         $stmt->bind_result($token_val);
+        // recupera il risultato della query e lo associa a $token_val
         $stmt->fetch();
 
         $stmt->close();
@@ -39,11 +40,11 @@
 
         $stmt->close();
 
+        // Per eliminare il cookie impostao la data di scadenza nel passato
         setcookie('ReMe','', time()-3600, "/");
 
         unset($_COOKIE);
         $con->close();
     }
-    header("Location: index.php");
+    header("Location: ../frontend/index.html");
     exit();
-?>

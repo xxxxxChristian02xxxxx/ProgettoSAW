@@ -35,15 +35,18 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #faf7e5;
 }
 
 .right_button {
+
     display: flex;
     margin-left: auto;
+
 }
 
 .left_button {
+
     display: flex;
     margin-right: auto;
+
 }

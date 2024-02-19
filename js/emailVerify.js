@@ -9,12 +9,22 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify({email: emailInput, action:'checkPresenceEmail'}),
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                if (response.status === 204) { // No content
+                    return null;
+                }
+                return response.json();
+            })
             .then(data => {
                 if(data['present']) {
                     document.getElementById('emailError').innerHTML = 'Email already used, try a different one';
+                    document.getElementById('email').classList.add('inputError');
                 }else {
                     document.getElementById('emailError').innerHTML = ''
+                    document.getElementById('email').classList.remove('inputError');
                 }
             })
             .catch(error => {

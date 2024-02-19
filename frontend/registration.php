@@ -22,7 +22,7 @@
         <h1>User Registration</h1>
     </div>
     <div class="RegistrationForm">
-        <form id="UserRegistration" action="" method="POST">
+        <form id="UserRegistration" action="registration.php" method="POST">
             <div class="Firstname">
                 <label for="firstname">Firstname:</label>
                 <input type="text" id="firstname" name="firstname">
@@ -30,7 +30,7 @@
             </div>
             <div class="Lastname">
                 <label for="lastname">Lastname:</label>
-                <input type="text"  id="lastname" name="lastname">
+                <input type="text" id="lastname" name="lastname">
                 <span id="lastnameError" class="error"></span>
             </div>
             <div class="Email">
@@ -49,7 +49,7 @@
                 <span id="confirmError" class="error"></span>
             </div>
             <div id="Submit">
-                <input type="submit" value="Sign-up">
+                <input id="submitButton" type="submit" value="Sign-up">
             </div>
         </form>
     </div>
@@ -57,10 +57,6 @@
 </div>
 <script src="../js/emailVerify.js"></script>
 <script src="../js/registration.js"></script>
-
-<footer>
-    <p>Copyright © 2023. All rights reserved.</p>
-</footer>
 </body>
 </html>
 

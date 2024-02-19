@@ -21,8 +21,8 @@ function deleteUser($email){
     $data = array();
 
     if($result->num_rows>0){
-    while($row = $result->fetch_assoc()){
-    $data[] = $row;
+        while($row = $result->fetch_assoc()){
+            $data[] = $row;
         }
     }
 
@@ -37,6 +37,6 @@ if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
         deleteUser($data['email']);
     }
     else{
-        echo json_encode('azione non supportata');
+        echo json_encode('Unsupported action');
     }
 }

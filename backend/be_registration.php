@@ -7,7 +7,7 @@ $postData = file_get_contents("php://input");
 
 // Decode the JSON data
 $data = json_decode($postData, true);
-error_log(print_r($data, true));
+
 if ($data && $_SERVER["REQUEST_METHOD"] == "POST") {
     //Memorizzazione in variabili dei dati inseriti nel form
     $firstname = $data['firstname'];
@@ -44,7 +44,7 @@ if ($data && $_SERVER["REQUEST_METHOD"] == "POST") {
         $data = array("success" => false);
     }
     $con->close();
-    error_log(print_r($data, true));
+
     echo json_encode($data);
 }
 
