@@ -5,40 +5,81 @@
     <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../dressing.css">
+    <style>
+        .footer{
+            text-align: center;
+            background-color: #333;
+            color:#fff;
+            padding: 20px;
+            height: 80px;
+            inset: 0;
+        }
+        .footer a {
+            color: white;
+            margin: 0 5px;
+        }
+        .footer p{
+            margin :0;
+            font-size: 13px;
+
+        }
+        .wrapper {
+            height:auto ;
+            min-height:calc(100vh - 46px - 155.5px);
+        }
+        .titleFooter{
+            font-size: 15px;
+        }
+    </style>
 </head>
 <body>
-<div id="header">
-    <script>
-        $(function() {
-            $("#header").load("public_header.html");
-        });
-    </script>
-</div>
-    <h1>STAR-Garden</h1>
-    <h3>The only place where studying you take care of your personal garden!</h3>
-<div class="carousel">
-     <div class="carouselImages">
-         <div class="imageContainer">
-             <img src="../images/study.jpeg" alt="A guy studying on a big book with a pencil in his mouth">
-             <div class="caption">Study</div>
-         </div>
-         <div class="imageContainer">
-             <img src="../images/money.jpeg" alt="A black and white draw of some money">
-             <div class="caption">Get your reward</div>
-         </div>
-         <div class="imageContainer">
-             <img src="../images/buy.jpeg" alt="Image with the word buy">
-             <div class="caption">Buy your plants</div>
-         </div>
-         <div class="imageContainer">
-             <img src="../images/garden.jpeg" alt="A draw of some colored flowers">
-             <div class="caption">And watch your collection of plants grow more and more </div>
-         </div>
+    <header>
+        <div id="header">
+        <script>
+            $(function() {
+                $("#header").load("public_header.html");
+            });
+        </script>
+    </div>
+    </header>
+        <div class="wrapper">
+
+        <h1>STAR-Garden</h1>
+        <h3>The only place where studying you take care of your personal garden!</h3>
+    <div class="carousel">
+         <div class="carouselImages">
+             <div class="imageContainer">
+                 <img src="../images/study.jpeg" alt="A guy studying on a big book with a pencil in his mouth">
+                 <div class="caption">Study</div>
+             </div>
+             <div class="imageContainer">
+                 <img src="../images/money.jpeg" alt="A black and white draw of some money">
+                 <div class="caption">Get your reward</div>
+             </div>
+             <div class="imageContainer">
+                 <img src="../images/buy.jpeg" alt="Image with the word buy">
+                 <div class="caption">Buy your plants</div>
+             </div>
+             <div class="imageContainer">
+                 <img src="../images/garden.jpeg" alt="A draw of some colored flowers">
+                 <div class="caption">And watch your collection of plants grow more and more </div>
+             </div>
+        </div>
+    </div>
+
+    <div class="signup">
+        <h4>Then? What are you waiting for? Sign up and start building your own garden just by studying what you like!</h4>
     </div>
 </div>
 
-<div class="signup">
-    <h4>Then? What are you waiting for? Sign up and start building your own garden just by studying what you like!</h4>
-</div>
+<div class="footer">
+        <div class="titleFooter">Contacts:</div>
+        <p>Located in: Your location</p>
+        <p>Where to find us: Your address</p>
+        <div class="social-media">
+            <a href="https://www.instagram.com" target="_blank"><img src="../images/instagram.png" alt="Instagram" width="30" height="30"></a>
+            <a href="https://www.facebook.com" target="_blank"><img src="../images/facebook.png" alt="Facebook" width="30" height="30"></a>
+        </div>
+    </div>
 </body>
 </html>
