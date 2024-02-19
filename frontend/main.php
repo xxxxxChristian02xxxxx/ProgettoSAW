@@ -72,6 +72,7 @@ echo "<h1>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
 </div>
 <script src="../js/main.js"></script>
 <script src="../js/main_timer.js"></script>
+<script src="../js/main_popup.js"></script>
 </body>
 </html>
 
