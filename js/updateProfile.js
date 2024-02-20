@@ -1,5 +1,5 @@
 function displayMyProfile(){
-    fetch('../backend/be_myprofile.php', {
+    fetch('../backend/be_updateProfile.php', {
         method: 'POST',
         headers: {
             'Content-Type':'application/json'
@@ -19,6 +19,7 @@ function displayMyProfile(){
             document.getElementById('firstname').value = data['FIRSTNAME'];
             document.getElementById('lastname').value = data['LASTNAME'];
             document.getElementById('email').value = data['EMAIL'];
+            updateDataProfile();
         })
         .catch(error => {
             console.error('Error: ', error);
@@ -36,10 +37,10 @@ function updateDataProfile() {
         const firstname = document.getElementById('firstname').value;
         const lastname = document.getElementById('lastname').value;
         const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+        const password = document.getElementById('pass').value;
         const confirm = document.getElementById('confirm').value;
 
-        const data = [];
+        let data = {};
 
         if(firstname !== storedFirstname){
             data['firstname'] = firstname;
@@ -69,18 +70,28 @@ function updateDataProfile() {
             data['password'] = '';
         }
 
-        fetch('../backend/be_myprofile.php', {
+        fetch('../backend/be_updateprofile.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({action: 'updateProfileData', data})
+            body: JSON.stringify({data: data, action: 'updateProfileData'})
         })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                if (response.status === 204) { // No content
+                    return null;
+                }
+            })
+            .then(() => window.location.reload())
             .catch(error => {
                 console.error('Error: ', error);
             });
     })
 }
 
-displayMyProfile();
-updateDataProfile();
+document.addEventListener('DOMContentLoaded', function() {
+    displayMyProfile();
+})

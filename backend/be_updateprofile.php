@@ -34,45 +34,54 @@ if(!function_exists('updateProfileData')){
         require('function_files/connection.php');
         $con = connect();
 
+        $query = "UPDATE USERS SET ";
+        $params = array();
+
         //Se è stato aggiornato il nome
         if ($firstname) {
-            $query = "UPDATE USERS SET FIRSTNAME = ? WHERE ID = ?";
-            $stmt = $con->prepare($query);
-            $stmt->bind_param('si', $firstname, $userId);
-            $stmt->execute();
+            $query .= "FIRSTNAME = ?, ";
+            $params[] = $firstname;
         }
 
         //Se è stato aggiornato il cognome
         if ($lastname) {
-            $query = "UPDATE USERS SET LASTNAME = ? WHERE ID = ?";
-            $stmt = $con->prepare($query);
-            $stmt->bind_param('si', $lastname, $userId);
-            $stmt->execute();
+            $query .= "LASTNAME = ?, ";
+            $params[] = $lastname;
         }
 
         //Se è stata aggiornata l'email
         if ($email) {
-            $query = "UPDATE USERS SET EMAIL = ? WHERE ID = ?";
-            $stmt = $con->prepare($query);
-            $stmt->bind_param('si', $email, $userId);
-            $stmt->execute();
+            $query .= "EMAIL = ?, ";
+            $params[] = $email;
         }
 
         //Se è stata aggiornata la password
         if ($password) {
             $password = password_hash($password, PASSWORD_DEFAULT);
+            $query .= "PASSWORD = ?, ";
+            $params[] = $password;
+        }
 
-            $query = "UPDATE USERS SET PASSWORD = ? WHERE ID = ?";
+        if(!empty($params)){
+            //Rimozione dell'ultima virgola e spazio dalla query
+            $query = rtrim($query, ", ");
+
+            $query .= " WHERE ID = ?";
+            $params[] = $userId;
+
             $stmt = $con->prepare($query);
-            $stmt->bind_param('si', $password, $userId);
+            $type = str_repeat('s', count($params)-1);
+            $stmt->bind_param($type.'i', ...$params);
             $stmt->execute();
         }
+
         $con->close();
     }
 }
 
 $data = json_decode(file_get_contents('php://input'), true);
-
+error_log("sono qui");
+error_log(print_r($data, true));
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
     if(isset($data['action'])) {
         switch ($data['action']) {
@@ -80,7 +89,7 @@ if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
                 requestProfileData();
                 break;
             case 'updateProfileData':
-                updateProfileData($data['json_data']['firstname'], $data['json_data']['lastname'], $data['json_data']['email'], $data['json_data']['password']);
+                updateProfileData($data['data']['firstname'], $data['data']['lastname'], $data['data']['email'], $data['data']['password']);
                 break;
         }
     }

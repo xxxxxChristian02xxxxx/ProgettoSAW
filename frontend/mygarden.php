@@ -16,10 +16,18 @@
     //Aggiunta dell'header
     include('header.php');
     ?>
+    <main class="wrapper">
+
     <div class="garden">
         <h1>My garden</h1>
         <div class="field" id="plants-container"></div>
         <script src ="../js/mygarden.js"></script>
     </div>
+    </main>
+    <footer id="footer">
+        <?php
+        include('footer.html');
+        ?>
+    </footer>
 </body>
 </html>

@@ -40,30 +40,25 @@ function sessionTimer(clocks){
     rangeStart.value = 5;
     rangeStart.min = 1;
     rangeStart.max = 24;
-    clocks['modifiableTime']=clocks['startTimeTI'];
-    updateTimer(clocks,clocks['modifiableTime'])
-    rangeStart.value = (clocks['modifiableTime'] * rangeStart.max)/ 7200 ;
+    clocks['modifiableTimeTimer']=clocks['startTimeTI'];
+    updateTimer(clocks,clocks['modifiableTimeTimer'])
+    rangeStart.value = (clocks['modifiableTimeTimer'] * rangeStart.max)/ 7200 ;
     rangeStart.addEventListener("input",()=> {
-
         let formattedTime
-        let timeOnClock = (7200 / rangeStart.max) * rangeStart.value;
+        let timeOnClock= (7200 / rangeStart.max) * rangeStart.value;
         let hours = Math.floor(timeOnClock / 3600);
         var remainingSeconds = timeOnClock % 3600;
         let minutes = Math.floor(remainingSeconds / 60);
         let seconds = remainingSeconds % 60;
-        console.log(timeOnClock);
-
         if (hours) {
             formattedTime = `${hours.toString().padStart(2, "0")} : ${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
         } else {
             formattedTime = `${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
         }
         timeTimerElement.innerText = formattedTime;
-        clocks['modifiableTime']= timeOnClock;
-
+        clocks['modifiableTimeTimer']=timeOnClock;
+        clocks['startTimeTI']=timeOnClock;
     })
-
-    //-------------------------EVENTO PER DIRE SE SONO IN STOP OPPURE IN START -------------------------//
     startTimerElement.addEventListener('click', function() {
         var subChoosen=document.getElementById("scelta").value;
         rangeStart.classList.add("rangePrevent");
@@ -74,9 +69,9 @@ function sessionTimer(clocks){
                 blockSelection();
                 // Prima volta che è stato cliccato
                 console.log('Primo clic');
-
+                console.log("ora",clocks['modifiableTimeTimer'])
                 var time = new Date().getTime();
-                console.log(clocks['timegone'],time,null);
+                console.log(clocks,time,null);
 
                 startClock(clocks,time,null);
                 // Aggiorna lo stato
@@ -87,6 +82,8 @@ function sessionTimer(clocks){
                 // Seconda volta che è stato cliccato
                 console.log('Secondo clic');
                 console.log(clocks);
+                overWrite(clocks);
+                console.log("trascrivi",clocks);
                 stopClock(clocks);
                 // Aggiorna lo stato
                 buttonT.innerHTML = "Start";
@@ -104,7 +101,6 @@ function sessionTimer(clocks){
 
                 stopClock(clocks);
                 generatePopUp(1,clocks);
-                //resetClock(clocks);
 
             }
         }else
@@ -119,7 +115,8 @@ function sessionStopwatch(clocks){
     const resetStopwatchElement= document.getElementById("resetStopwatch");
     var  subEventuallyStudied=document.getElementById("scelta");
     var buttonS = document.getElementById("startStopwatch");
-    clocks['modifiableTime'] =clocks['startTimeST'];
+    clocks['modifiableTimeStopwatch']=clocks['startTimeST'];
+
     startStopwatchElement.addEventListener('click', function() {
         if(subEventuallyStudied.value !=='') {
             clocks['isStopawatchStarted'] = true;
@@ -129,6 +126,8 @@ function sessionStopwatch(clocks){
                 // Prima volta che è stato cliccato
                 console.log('Primo clic');
                 var time = new Date().getTime();
+                console.log("ora2",clocks['modifiableTimeStopwatch'])
+
                 startClock(clocks,time,null);
                 // Aggiorna lo stato
                 buttonS.innerHTML = "Stop";
@@ -137,6 +136,9 @@ function sessionStopwatch(clocks){
 
                 // Seconda volta che è stato cliccato
                 console.log('Secondo clic');
+                overWrite(clocks)
+                console.log("trascritto",clocks)
+
                 stopClock(clocks);
                 // Aggiorna lo stato
                 buttonS.innerHTML = "Start";
@@ -203,8 +205,9 @@ window.addEventListener("DOMContentLoaded", () => {
         idTimerOrStopwatch : false,   //0  stopwatch , 1 timer
         idTimerEndOrStop:false ,      //0  end , 1 stop
         startTimeTI : 1500, // default, it do not changes its values during the timer
-        modifiableTime:0, // it changes its value during timer
+        modifiableTimeTimer:0, // it changes its value during timer
         startTimeST :0,     //default
+        modifiableTimeStopwatch:0,
         isTimerStarted  : false,// false: timer is at max, true:timer is running
         isStopawatchStarted : false, // false : stopwatch is at max , true : stopwatch is running
         interval:0,
@@ -213,11 +216,17 @@ window.addEventListener("DOMContentLoaded", () => {
         longBreak :1800,
         timegone:0,
     }
+
     var displaySubjects=[];
     subjectsRequests(displaySubjects);
 
     swipe(clocks);
-    sessionTimer(clocks);
-    sessionStopwatch(clocks);
+
+        sessionStopwatch(clocks);
+
+
+        sessionTimer(clocks);
+
+
     subjectAdd(displaySubjects);
 });
