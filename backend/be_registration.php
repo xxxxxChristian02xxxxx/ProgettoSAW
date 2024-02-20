@@ -25,7 +25,9 @@ if ($data && $_SERVER["REQUEST_METHOD"] == "POST") {
     $con = connect();
 
     //Cifratura della password
-    $password = password_hash($password, PASSWORD_DEFAULT);
+    if($password ===  $confirm){
+        $password = password_hash($password, PASSWORD_DEFAULT);
+    }
 
     //Preparazione della query per aggiungere un nuovo utente
     //Vediamo poi i prepared statement

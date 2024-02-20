@@ -58,7 +58,7 @@ include('header.php');
 
             </form>
         </div>
-        <script src="../js/myProfile.js"></script>
+        <script src="../js/updateProfile.js"></script>
 
     </div>
     </main>

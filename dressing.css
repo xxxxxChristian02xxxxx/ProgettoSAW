@@ -119,6 +119,37 @@ h4 {
 .titleFooter{
     font-size: 15px;
 }
-.social-media{
+
+.footerInformation {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.info {
+    display: flex;
+    margin-top: 10px;
+}
+
+.info p {
     margin-top: 3px;
+}
+.social-media img{
+    width: 20px;
+    height: 20px;
+    margin-top: 5px;
+}
+
+.social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.socialText {
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+}
+
+.socialImg img{
+    width: 100px;
+    margin-right: 20px;
 }
