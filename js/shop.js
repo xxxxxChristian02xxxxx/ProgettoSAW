@@ -21,12 +21,13 @@ function appendPlantsToContainer(plants, container) {
 }
 
 function getMoney(){
-    fetch('../backend/be_myprofile.php', {
+    let a = {'action':'rethriveData'}
+    fetch('../backend/show_profile.php', {
         method: 'POST',
         headers: {
             'Content-Type':'application/json'
         },
-        body: JSON.stringify({action: 'requestProfileData'})
+        body: JSON.stringify(a)
     })
         .then(response => response.json())
         .then(data => {
@@ -49,68 +50,6 @@ function addFunctiontoButtons(name) {
     }
 }
 
-function appendCarttoContainer(popUpContent, items, money){
-    let gridHtml = '';
-    gridHtml += `<h2>Cart</h2>
-    <span id="closePopUpButton" className="close">&times;</span>
-    <div>
-    <div>
-        <p>This is your actual cart:</p>
-        `;
-   let cart = generateCart(items, money);
-    if(cart === 0){
-        gridHtml += `</div>
-        <div class="confirm">
-        <p>YOU DON'T HAVE ENOUGH MONEY</p>
-        </div>
-       </div>`;
-        popUpContent.innerHTML = gridHtml;
-        return 0;
-    }
-    for (let key in cart) {
-        gridHtml += `<p>${key} : ${cart[key]}</p>`;
-    }
-    gridHtml += `</div>
-        <div class="confirm">
-        <p>Are you sure?</p>
-        <button id ="yesCart" class="yesButton">Yes</button>
-        <button id ="noCart" class="noButton">No</button>
-        </div>
-       </div>`;
-    popUpContent.innerHTML = gridHtml;
-    return cart;
-}
 
-function generateCart(plants, money){
-    let cart = {};
-    let total = 0;
-    for (let i = 0; i < plants.length; i++){
-        if(localStorage.hasOwnProperty(plants[i].NAME)){
-            cart[plants[i].NAME] = localStorage.getItem(plants[i].NAME);
-            total += plants[i].PRICE * localStorage.getItem(plants[i].NAME);
-        }
-    }
-    if(total > money){
-        alert('You do not have enough money');
-        return 0;
-    }
-    console.log(cart);
-    return cart;
-}
 
-function buyFetch(cart){
-    fetch("../backend/be_shop.php", {
-        method: "POST",
-        headers: {
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify({action: 'buy', cart: cart})
-    })
-        .then(response => {
-            console.log(response);
-        })
-        .catch(error => {
-            console.error('Error: ', error);
-        });
 
-}

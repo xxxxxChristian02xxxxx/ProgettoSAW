@@ -59,7 +59,7 @@ if(!function_exists('rethriveData')) {
 
         header('Content-Type: application/json');
         echo json_encode($data);
-
+        return $data;
     }
 }
 
@@ -81,15 +81,15 @@ if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
 
 
 
-
-
-$query ="   SELECT 
-    (SELECT COUNT(DISTINCT TRANSACTIONS_ID) FROM TRANSACTIONS WHERE USER_ID = 1) AS OCCURENCIESPLANT,
-    (SELECT SUM(TOTAL_TIME) FROM STUDY_SESSIONS WHERE USER = 1) AS TOTAL_TIME,
-    FIRSTNAME, LASTNAME, EMAIL, MONEY 
-  FROM 
-    users 
-  WHERE 
-    users.ID = 1;
-
-";
+//
+//
+//$query ="   SELECT
+//    (SELECT COUNT(DISTINCT TRANSACTIONS_ID) FROM TRANSACTIONS WHERE USER_ID = 1) AS OCCURENCIESPLANT,
+//    (SELECT SUM(TOTAL_TIME) FROM STUDY_SESSIONS WHERE USER = 1) AS TOTAL_TIME,
+//    FIRSTNAME, LASTNAME, EMAIL, MONEY
+//  FROM
+//    users
+//  WHERE
+//    users.ID = 1;
+//
+//";

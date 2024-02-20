@@ -1,13 +1,14 @@
 const table = document.querySelector('#cartTable tbody')
 
 function setMoney() {
-    console.log("setMoney");
-    fetch('../backend/be_myprofile.php', {
+
+    let a = {'action':'rethriveData'}
+    fetch('../backend/show_profile.php', {
         method: 'POST',
         headers: {
             'Content-Type':'application/json'
         },
-        body: JSON.stringify({action: 'requestProfileData'})
+        body: JSON.stringify(a)
     })
         .then(response => response.json())
         .then(data => {
@@ -18,6 +19,7 @@ function setMoney() {
         .catch(error => {
             console.error('Error: ', error);
         });
+    console.log("setMoney");
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -35,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function createbuyButton(cart) {
+    console.log(cart)
     document.getElementById('buy').addEventListener('click', () => {
 
             fetch("../backend/be_shop.php?buy=1", {
@@ -42,15 +45,16 @@ function createbuyButton(cart) {
                 body: JSON.stringify({carts: cart}),
             })
                 .then(response => {
+                    console.log(response);
                     return response.json();
                 })
                 .then(data => {
-                    alert($data['price']);
+                    alert(data['cart']);
                     localStorage.clear();
                     location.reload();
                 })
                 .catch(error => {
-                    console.error("Si è verificato un errore: ", error);
+                    console.error("Vengo qua: ", error);
                 });
     });
 }
@@ -64,7 +68,7 @@ function createCart(plants) {
     for (let i = 0; i < plants.length; i++){
         if(localStorage.hasOwnProperty(plants[i].NAME)){
             $price = plants[i].PRICE * localStorage.getItem(plants[i].NAME);
-            cart.push([plants[i].NAME, localStorage.getItem(plants[i].NAME), $price] );
+            cart.push([plants[i].NAME, localStorage.getItem(plants[i].NAME), $price, plants[i].PLANTS_ID] );
             totalprice += $price;
         }
     }
