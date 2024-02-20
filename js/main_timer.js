@@ -46,11 +46,11 @@ function showStudySession() {
     var subChoosen = document.getElementById("scelta");
 
     if(dataTime['timeSpent']<60){
-        timeDuratioSession.innerHTML = dataTime['timeSpent'] + " secondi";
+        timeDuratioSession.innerHTML = dataTime['timeSpent'] + "s ";
     }else if(dataTime['timeSpent']>60 && dataTime['timeSpent']< 3600){
-        timeDuratioSession.innerHTML  = Math.floor(dataTime['timeSpent'] / 60) + " minuti" ;
+        timeDuratioSession.innerHTML  = Math.floor(dataTime['timeSpent'] / 60) + "m " ;
     }else{
-        timeDuratioSession.innerHTML = Math.floor(dataTime['timeSpent'] / 3600) + " ore " + Math.floor((dataTime['timeSpent'] % 3600) / 60) + " minuti";
+        timeDuratioSession.innerHTML = Math.floor(dataTime['timeSpent'] / 3600) + "h " + Math.floor((dataTime['timeSpent'] % 3600) / 60) + "m";
     }
     moneyMoneyObtained.innerHTML = dataTime['money'];
     subSubStudied.innerHTML = subChoosen.value;

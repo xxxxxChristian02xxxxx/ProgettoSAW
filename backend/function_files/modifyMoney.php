@@ -1,4 +1,4 @@
-<?php
+ <?php
 session_start();
 if(!function_exists('modifyMoney')){
     function modifyMoney($email, $money){
@@ -14,18 +14,24 @@ if(!function_exists('modifyMoney')){
         $stmt->execute();
 
         // ottengo il valore updatato dal db
-        $query = "SELECT MONEY FROM USERS WHERE EMAIL = ?";
-        $stmt = $con->prepare($query);
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        if($stmt->affected_rows === 1) {
+
+            $query = "SELECT MONEY FROM USERS WHERE EMAIL = ?";
+            $stmt = $con->prepare($query);
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
 
-        $data = $result->fetch_assoc();
-        $updatedMoney = $data['MONEY'];
+            $data = $result->fetch_assoc();
+            $updatedMoney = $data['MONEY'];
 
-        header('Content-Type: application/json');
-        echo json_encode($updatedMoney);
+            header('Content-Type: application/json');
+            echo json_encode($updatedMoney);
+        }else {
+            echo('Something went wrong with the query result');
+
+        }
     }
 }
 if(!function_exists('resetMoney')){
