@@ -262,7 +262,7 @@ function subjectsRequests(displaySubjects) {
 
 }
 function updateMoney(){
-    if(dataTime['timeSpent']%300 ===0){
+    if(dataTime['timeSpent']%300 ===0 && dataTime['timeSpent']!==0){
         dataTime['money'] += 20;
     }
 }

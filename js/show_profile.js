@@ -46,11 +46,29 @@ function populateProfile(user){
     lastname.innerText = user['LASTNAME'];
     money.innerText = user['MONEY'];
     email.innerText=user['EMAIL'];
+    //user['TOTAL_TIME']=0;
     if(user['TOTAL_TIME'] === null){
         timestudied.innerText = "0";
     }else{
-        timestudied.innerText=user['TOTAL_TIME'];
+        displayTime(user['TOTAL_TIME'],timestudied);
     }
     plantspurchased.innerText = user['OCCURENCIESPLANT'];
+}
+function displayTime(time,timestudied){
+    let formattedTime;
+    let hours = Math.floor(time / 3600);
+    let remainingSeconds = time % 3600;
+    let minutes = Math.floor(remainingSeconds / 60);
+    let seconds = remainingSeconds % 60;
+    if (hours) {
+        formattedTime = hours + "h " + minutes + "m " + seconds + "s";
+    } else {
+        formattedTime = minutes + "m " + seconds + "s";
+    }
+    timestudied.innerText = formattedTime;
+
+
 
 }
+
+

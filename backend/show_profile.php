@@ -78,3 +78,18 @@ if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
         echo json_encode('Unsupported action');
     }
 }
+
+
+
+
+
+$query ="   SELECT 
+    (SELECT COUNT(DISTINCT TRANSACTIONS_ID) FROM TRANSACTIONS WHERE USER_ID = 1) AS OCCURENCIESPLANT,
+    (SELECT SUM(TOTAL_TIME) FROM STUDY_SESSIONS WHERE USER = 1) AS TOTAL_TIME,
+    FIRSTNAME, LASTNAME, EMAIL, MONEY 
+  FROM 
+    users 
+  WHERE 
+    users.ID = 1;
+
+";

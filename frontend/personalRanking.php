@@ -16,6 +16,8 @@
     //Aggiunta dell'header
     include('header.php');
     ?>
+    <main class="wrapper">
+
     <div class="personalRank">
         <h1>My personal rank</h1>
         <div id="personalRankTableContainer">
@@ -57,5 +59,11 @@
         <div class="overlay"></div>
         <script src="../js/personalRanking.js"></script>
     </div>
+    </main>
+    <footer id="footer">
+        <?php
+        include('footer.html');
+        ?>
+    </footer>
 </body>
 </html>
