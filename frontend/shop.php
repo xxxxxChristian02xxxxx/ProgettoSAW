@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Shop</title>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
+    <link href="../shop.css" rel="stylesheet" type="text/css">
+    <script src ="../js/shop.js"></script>
+</head>
+<body>
 <?php
 session_start();
 
@@ -7,29 +17,20 @@ verifyCookie();
 //Aggiunta dell'header
 include('header.php');
 ?>
-<!DOCTYPE html>
-<head>
-    <title>Shop</title>
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
-    <link href="../shop.css" rel="stylesheet" type="text/css">
-    <script src ="../js/shop.js"></script>
-</head>
-<body>
 <header>
     <div id = "Shop_NavBar">
-<div class="left_button">
-    <form id="search_form" method="get">
-        <input type="text" id="search" name="search" placeholder="Search...">
-        <input type="submit" class = "shop_button" value="Go">
-    </form>
-</div>
-<div class="right_button">
-    <p id="MyMoney">0</p>
-    <a id="cart" class = "shop_button" href="cart.php" >Cart</a>
-</div>
+        <div class="left_button">
+            <form id="search_form" method="get">
+                <label for="search">Search: </label>
+                <input type="text" id="search" name="search" placeholder="Search...">
+                <input type="submit" class = "shop_button" value="Go">
+            </form>
+        </div>
+        <div class="right_button">
+            <p id="MyMoney">0</p>
+            <a id="cart" class = "shop_button" href="cart.php" >Cart</a>
+        </div>
     </div>
-
 </header>
 <main id="shop-container">
 
@@ -80,8 +81,7 @@ include('header.php');
             });
     });
 
-
-
-
 </script>
+
 </body>
+</html>

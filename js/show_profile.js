@@ -7,7 +7,7 @@ window.addEventListener("DOMContentLoaded", () => {
     dataFetch(user);
 });
 function dataFetch(user){
-    fetch('../backend/show_profile.php', {
+    fetch('../backend/be_show_profile.php', {
     method: 'POST',
     headers: {
         'Content-Type':'application/json'

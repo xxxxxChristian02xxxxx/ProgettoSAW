@@ -1,13 +1,3 @@
-<?php
-
-session_start();
-
-//Verifica se impostato un cookie
-include('../backend/function_files/verifyCookie.php');
-verifyCookie();
-//Aggiunta dell'header
-include('header.php');
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +6,15 @@ include('header.php');
 
 </head>
 <body>
+<?php
+session_start();
+
+//Verifica se impostato un cookie
+include('../backend/function_files/verifyCookie.php');
+verifyCookie();
+//Aggiunta dell'header
+include('header.php');
+?>
 <div class="editUser">
     <h1>Cart:</h1>
     <div class="Informations">
@@ -29,9 +28,11 @@ include('header.php');
 
     <table class="dataTable" id="cartTable">
         <thead>
-        <th>FLOWER</th>
-        <th>QUANTITY</th>
-        <th>PRICE</th>
+        <tr>
+            <th>FLOWER</th>
+            <th>QUANTITY</th>
+            <th>TOTAL PRICE</th>
+        </tr>
         </thead>
         <tbody></tbody>
     </table>
@@ -40,8 +41,9 @@ include('header.php');
     <button id="empty" class="command-button">Empty</button>
 </div>
     <div id="pagination"></div>
-    <script src="../js/cart.js"> var money = 0;
-    var price = 0;
+    <script src="../js/cart.js">
+        var money = 0;
+        var price = 0;
     </script>
 
 </div>

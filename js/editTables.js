@@ -232,10 +232,6 @@ function populateValueSelection(data, selectedColumn, table) {
         filterValue.appendChild(option);
     });
 
-    filterValue.addEventListener('change', function () {
-        var selectedValue = this.value;
-    });
-
     document.addEventListener('click', function(event) {
         if(event.target.id === 'filterButton'){
             filterTable(data, table);

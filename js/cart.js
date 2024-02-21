@@ -1,9 +1,8 @@
 const table = document.querySelector('#cartTable tbody')
-
 function setMoney() {
 
     let a = {'action':'rethriveData'}
-    fetch('../backend/show_profile.php', {
+    return fetch('../backend/be_show_profile.php', {
         method: 'POST',
         headers: {
             'Content-Type':'application/json'
@@ -19,14 +18,12 @@ function setMoney() {
         .catch(error => {
             console.error('Error: ', error);
         });
-    console.log("setMoney");
 }
 
 document.addEventListener('DOMContentLoaded', function () {
     // Si ottengono i dati
     console.log("ciao");
-    price = getData();
-    money = setMoney();
+    getData();
 
     console.log("testiong");
     document.getElementById('empty').addEventListener('click', () => {
@@ -36,22 +33,24 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-function createbuyButton(cart) {
-    console.log(cart)
+function createbuyButton(cart, money) {
     document.getElementById('buy').addEventListener('click', () => {
 
             fetch("../backend/be_shop.php?buy=1", {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({carts: cart}),
+                body: JSON.stringify({carts: cart, money: money}),
             })
                 .then(response => {
-                    console.log(response);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    if (response.status === 204) { // No content
+                        return null;
+                    }
                     return response.json();
                 })
                 .then(data => {
+                    console.log(data['cart']);
                     alert(data['cart']);
                     localStorage.clear();
                     location.reload();
@@ -63,11 +62,11 @@ function createbuyButton(cart) {
 }
 
 function createCart(plants) {
+    const money = setMoney();
     let totalprice = 0;
     let cart = [];
     console.log(plants)
     console.log(localStorage);
-    let total = 0;
     for (let i = 0; i < plants.length; i++){
         if(localStorage.hasOwnProperty(plants[i].NAME)){
             $price = plants[i].PRICE * localStorage.getItem(plants[i].NAME);
@@ -78,7 +77,7 @@ function createCart(plants) {
     document.getElementById('totalPrice').innerHTML = 'Total price: ' + totalprice;
     console.log(cart);
     populatecartTable(cart);
-    createbuyButton(cart);
+    createbuyButton(cart, money);
     return totalprice;
 }
 
@@ -104,12 +103,16 @@ function populatecartTable(cart){
     table.innerHTML = '';
     for (let key in cart) {
         let newRow = document.createElement('tr');
-        let newCell;
-        for (let i = 0; i < 3; i++){
-            newCell = document.createElement('td');
-            newCell.textContent = cart[key][i];
-            newRow.appendChild(newCell);
-        }
+        let newCell = document.createElement('td');
+        // nome pianta
+        newCell.textContent = cart[key][0];
+        newRow.appendChild(newCell);
+        newCell = document.createElement('td');
+        newCell.textContent = cart[key][1];
+        newRow.appendChild(newCell);
+        newCell = document.createElement('td');
+        newCell.textContent = cart[key][2];
+        newRow.appendChild(newCell);
         table.appendChild(newRow);
     }
 }

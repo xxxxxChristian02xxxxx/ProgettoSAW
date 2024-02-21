@@ -79,9 +79,9 @@ echo "<h1>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
 </main>
     <footer id="footer">
     <?php
-    include('footer.html');
+        include('footer.html');
     ?>
-</footer>
+    </footer>
 </body>
 </html>
 

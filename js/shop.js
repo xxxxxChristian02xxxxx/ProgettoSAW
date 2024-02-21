@@ -23,7 +23,7 @@ function appendPlantsToContainer(plants, container) {
 
 function getMoney(){
     let a = {'action':'rethriveData'}
-    fetch('../backend/show_profile.php', {
+    fetch('../backend/be_show_profile.php', {
         method: 'POST',
         headers: {
             'Content-Type':'application/json'

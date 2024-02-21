@@ -45,7 +45,7 @@ function generateDelete(dataTarget) {
   `;
 }
 
-function deleteUserFetch(dataTarget, cell) {
+function deleteUserFetch(dataTarget) {
     fetch("../backend/function_files/deleteUser.php", {
         method: "POST",
         headers: {
@@ -62,9 +62,9 @@ function deleteUserFetch(dataTarget, cell) {
             }
             return response.json();
         })
-        .then(data => {
+        .then(
             getData(1,5)
-        })
+        )
         .catch(error => {
             console.error("qualcosa è andato storto", error);
         })

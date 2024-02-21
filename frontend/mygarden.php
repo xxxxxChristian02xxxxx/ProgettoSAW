@@ -26,7 +26,7 @@
     </main>
     <footer id="footer">
         <?php
-        include('footer.html');
+            include('footer.html');
         ?>
     </footer>
 </body>
