@@ -39,6 +39,7 @@ function generateModify(cell) {
                 <div>
                     <label for ="modifymount">Insert Amount:</label>
                     <input type="text" id="modifymount">
+                    <p id="alertspace" class="hidden">no space allowed</p>
                     <button id="changeMoney">Change Money</button>
                 </div>
                 <div>
