@@ -65,6 +65,10 @@ include('header.php');
     document.getElementById('search_form').addEventListener('submit', (event) => {
         event.preventDefault();
         const search = document.getElementById('search').value;
+        if (search === '') {
+            alert('Empty search');
+            return;
+        }
         fetch(`../backend/be_shop.php?search=${search}`,{
             method: 'GET',
         })
@@ -74,7 +78,12 @@ include('header.php');
             .then(data => {
                 items = data;
                 const shopContainer = document.getElementById('shop-container');
-                appendPlantsToContainer(items, shopContainer);
+                if (items.length === 0) {
+                    alert('No items found');
+                }else{
+                    appendPlantsToContainer(items, shopContainer);
+                }
+
             })
             .catch(error => {
                 console.error("Si è verificato un errore: ", error);

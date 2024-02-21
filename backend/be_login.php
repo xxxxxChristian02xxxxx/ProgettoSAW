@@ -20,6 +20,12 @@ if ($data && $_SERVER["REQUEST_METHOD"] == "POST") {
         $remember = false;
     }
 
+    $response = login($email, $password, $remember);
+
+    echo json_encode($response);
+}
+
+function login($email, $password, $remember){
     //Connessione al db
     include('function_files/connection.php');
     $con = connect();
@@ -61,5 +67,5 @@ if ($data && $_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     $con->close();
-    echo json_encode($response);
+    return $response;
 }

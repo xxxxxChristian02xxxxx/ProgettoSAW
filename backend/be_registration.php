@@ -21,6 +21,12 @@ if ($data && $_SERVER["REQUEST_METHOD"] == "POST") {
     $confirm = $data['confirm'];
     $confirm = trim($confirm);
 
+
+    $data = registration($firstname, $lastname, $email, $password, $confirm);
+    echo json_encode($data);
+}
+
+function registration($firstname, $lastname, $email, $password, $confirm){
     include("function_files/connection.php");
     $con = connect();
 
@@ -47,6 +53,5 @@ if ($data && $_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $con->close();
 
-    echo json_encode($data);
+    return $data;
 }
-

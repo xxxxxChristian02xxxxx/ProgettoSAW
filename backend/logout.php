@@ -1,4 +1,6 @@
 <?php
+function logout()
+{
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
 
@@ -34,17 +36,19 @@
         // Preparazione della query con prepared statement
         $query = "UPDATE USERS SET REMEMBER = 0, TOKEN = '', EXPIRE = '0000-00-00' WHERE TOKEN=?";
         $stmt = $con->prepare($query);
-        $stmt->bind_param('s',$token_val);
+        $stmt->bind_param('s', $token_val);
 
         $stmt->execute();
 
         $stmt->close();
 
         // Per eliminare il cookie impostao la data di scadenza nel passato
-        setcookie('ReMe','', time()-3600, "/");
+        setcookie('ReMe', '', time() - 3600, "/");
 
         unset($_COOKIE);
         $con->close();
     }
     header("Location: ../frontend/index.html");
     exit();
+}
+logout();
