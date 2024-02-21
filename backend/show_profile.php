@@ -30,7 +30,7 @@ if(!function_exists('rethriveData')) {
         header('Content-Type: application/json');
         echo json_encode($data);
         }else{
-            echo("Something went wrong with the query result");
+            echo(['error' => 'Something went wrong with the query result']);
         }
     }
 }
