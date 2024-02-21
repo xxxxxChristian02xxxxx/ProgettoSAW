@@ -27,7 +27,8 @@ include('header.php');
             </form>
         </div>
         <div class="right_button">
-            <p id="MyMoney">0</p>
+            <h3 id="Wallet">Wallet: </h3>
+            <h3 id="MyMoney">0</h3>
             <a id="cart" class = "shop_button" href="cart.php" >Cart</a>
         </div>
     </div>
@@ -83,7 +84,6 @@ include('header.php');
                 }else{
                     appendPlantsToContainer(items, shopContainer);
                 }
-
             })
             .catch(error => {
                 console.error("Si è verificato un errore: ", error);

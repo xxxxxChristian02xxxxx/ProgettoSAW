@@ -1,13 +1,11 @@
 const table = document.querySelector('#cartTable tbody')
 function setMoney() {
-
-    let a = {'action':'rethriveData'}
     return fetch('../backend/be_show_profile.php', {
         method: 'POST',
         headers: {
             'Content-Type':'application/json'
         },
-        body: JSON.stringify(a)
+        body: JSON.stringify({'action':'rethriveData'})
     })
         .then(response => response.json())
         .then(data => {
@@ -103,16 +101,11 @@ function populatecartTable(cart){
     table.innerHTML = '';
     for (let key in cart) {
         let newRow = document.createElement('tr');
-        let newCell = document.createElement('td');
-        // nome pianta
-        newCell.textContent = cart[key][0];
-        newRow.appendChild(newCell);
-        newCell = document.createElement('td');
-        newCell.textContent = cart[key][1];
-        newRow.appendChild(newCell);
-        newCell = document.createElement('td');
-        newCell.textContent = cart[key][2];
-        newRow.appendChild(newCell);
+        for(var i=0; i<3; i++){
+            let newCell = document.createElement('td');
+            newCell.textContent = cart[key][i];
+            newRow.appendChild(newCell);
+        }
         table.appendChild(newRow);
     }
 }
