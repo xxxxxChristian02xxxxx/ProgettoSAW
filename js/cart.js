@@ -42,6 +42,9 @@ function createbuyButton(cart) {
 
             fetch("../backend/be_shop.php?buy=1", {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({carts: cart}),
             })
                 .then(response => {
@@ -101,15 +104,12 @@ function populatecartTable(cart){
     table.innerHTML = '';
     for (let key in cart) {
         let newRow = document.createElement('tr');
-        let newCell = document.createElement('td');
-        newCell.textContent = cart[key][0];
-        newRow.appendChild(newCell);
-        newCell = document.createElement('td');
-        newCell.textContent = cart[key][1];
-        newRow.appendChild(newCell);
-        newCell = document.createElement('td');
-        newCell.textContent = cart[key][2];
-        newRow.appendChild(newCell);
+        let newCell;
+        for (let i = 0; i < 3; i++){
+            newCell = document.createElement('td');
+            newCell.textContent = cart[key][i];
+            newRow.appendChild(newCell);
+        }
         table.appendChild(newRow);
     }
 }

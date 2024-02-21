@@ -50,6 +50,14 @@
 
 .Informations{
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     margin-top: 20px;
+}
+
+#yourMoney{
+    text-align: left;
+}
+
+#totalPrice{
+    text-align: right;
 }

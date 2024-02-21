@@ -6,7 +6,8 @@ function generateCard(plant) {
             <h2 class="card-title">${plant.NAME}</h2>
             <img src="${path}" alt="${plant.NAME}" class="card-image">
             <p class="card-price">Per unit: $${plant.PRICE}</p>
-            <button class="card-buy" onclick="addFunctiontoButtons('${plant.NAME}')"> BUY</button>
+            <p id="cart-cout" class="card-price">In the cart: 0</p>
+            <button class="card-buy" onclick="addFunctiontoButtons('${plant.NAME}')">ADD TO CART</button>
           </div>
         </div> 
   `;
@@ -48,6 +49,7 @@ function addFunctiontoButtons(name) {
     }else{
         localStorage.setItem(name, '1');
     }
+    document.getElementById(name).querySelector('#cart-cout').innerHTML = "In the cart: " + localStorage.getItem(name);
 }
 
 
