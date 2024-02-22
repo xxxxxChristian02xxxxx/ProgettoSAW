@@ -18,11 +18,12 @@ if(!function_exists('banUnban')){
             $result = $stmt->get_result();
 
             $data = $result->fetch_assoc();
+            $sanitized_data =htmlspecialchars($data['BANNED']);
 
             $con->close();
 
             header('Content-Type: application/json');
-            echo json_encode($data['BANNED']);
+            echo json_encode($sanitized_data);
         }
         else{
             echo('Something went wrong with the query result');

@@ -19,11 +19,12 @@ if(!function_exists('promoteDemote')) {
             $result = $stmt->get_result();
 
             $data = $result->fetch_assoc();
+            $sanitized_data =htmlspecialchars($data);
 
             $con->close();
 
             header('Content-Type: application/json');
-            echo json_encode($data['ROLES']);
+            echo json_encode($sanitized_data);
         }
         else{
             echo('Something went wrong with the query result');

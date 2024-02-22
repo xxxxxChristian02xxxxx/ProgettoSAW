@@ -21,7 +21,7 @@ if(!function_exists('modifyMoney')){
 
 
             $data = $result->fetch_assoc();
-            $sanitized_data = htmlspecialchars( $data['MONEY']);
+            $sanitized_data =htmlspecialchars($data['MONEY']);
 
             header('Content-Type: application/json');
             echo json_encode($sanitized_data);
@@ -54,7 +54,7 @@ if(!function_exists('resetMoney')){
 
 
             $data = $result->fetch_assoc();
-            $sanitized_data = htmlspecialchars( $data['MONEY']);
+            $sanitized_data =htmlspecialchars($data['MONEY']);
 
             header('Content-Type: application/json');
             echo json_encode($sanitized_data);
