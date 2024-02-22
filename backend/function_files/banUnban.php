@@ -2,9 +2,6 @@
 session_start();
 if(!function_exists('banUnban')){
     function banUnban($email){
-        require('session.php');
-        $session_variables = getSession(true);
-
         require('connection.php');
         $con = connect();
 
@@ -45,5 +42,8 @@ if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
         else{
             echo json_encode('Unsupported action');
         }
+    }
+    else{
+        echo json_encode("You can't ban or unban users, you're not an admin");
     }
 }

@@ -2,9 +2,6 @@
 session_start();
 if(!function_exists('modifyMoney')){
     function modifyMoney($email, $money){
-        require('session.php');
-        $session_variables = getSession(true);
-
         require('connection.php');
         $con = connect();
 
@@ -70,16 +67,23 @@ if(!function_exists('resetMoney')){
 
 $data = json_decode(file_get_contents('php://input'), true);
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
-    if(isset($data['action'])) {
-        switch ($data['action']) {
-            case 'modifyMoney':
-                modifyMoney($data['email'],$data['money']);
-                break;
-            case 'resetMoney':
-                resetMoney($data['email']);
-                break;
+    require('session.php');
+    $session_variables = getSession(true);
+    if($session_variables['role']) {
+        if (isset($data['action'])) {
+            switch ($data['action']) {
+                case 'modifyMoney':
+                    modifyMoney($data['email'], $data['money']);
+                    break;
+                case 'resetMoney':
+                    resetMoney($data['email']);
+                    break;
+            }
+        } else {
+            echo json_encode('Unsupported action');
         }
-    }else{
-        echo json_encode('Unsupported action');
+    }
+    else{
+        echo json_encode("You can't modify money, you're not an admin");
     }
 }
