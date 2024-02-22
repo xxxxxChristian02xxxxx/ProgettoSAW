@@ -17,10 +17,11 @@
             $result = $stmt->get_result();
             if($result->num_rows === 1){
                 $data = $result->fetch_assoc();
+                $sanitized_data = array_map('htmlspecialchars', $data);
 
                 $con->close();
 
-                echo json_encode($data);
+                echo json_encode($sanitized_data);
             }
         }
     }

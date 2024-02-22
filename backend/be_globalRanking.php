@@ -25,7 +25,8 @@ $data = array();
 header('Content-Type: application/json');
 if($res->num_rows > 0)
     while($row = $res->fetch_assoc()){
-        $data[] = $row;
+        $sanitized_row = array_map('htmlspecialchars', $row);
+        $data[] = $sanitized_row;
     }
 
 $con->close();

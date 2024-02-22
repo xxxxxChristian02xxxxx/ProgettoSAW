@@ -21,10 +21,10 @@ if(!function_exists('modifyMoney')){
 
 
             $data = $result->fetch_assoc();
-            $updatedMoney = $data['MONEY'];
+            $sanitized_data = htmlspecialchars( $data['MONEY']);
 
             header('Content-Type: application/json');
-            echo json_encode($updatedMoney);
+            echo json_encode($sanitized_data);
         }else {
             echo('Something went wrong with the query result');
 
@@ -54,10 +54,10 @@ if(!function_exists('resetMoney')){
 
 
             $data = $result->fetch_assoc();
-            $updatedMoney = $data['MONEY'];
+            $sanitized_data = htmlspecialchars( $data['MONEY']);
 
             header('Content-Type: application/json');
-            echo json_encode($updatedMoney);
+            echo json_encode($sanitized_data);
         }
         else{
             echo('Something went wrong with the query result');

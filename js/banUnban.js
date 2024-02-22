@@ -95,6 +95,7 @@ function banUnbanFetch(dataTarget, cell) {
             if (response.status === 204) { // No content
                 return null;
             }
+            console.log(response);
             return response.json();
         })
         .then(data => {

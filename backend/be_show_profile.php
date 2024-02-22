@@ -22,13 +22,14 @@ if(!function_exists('rethriveData')) {
         $stmt->execute();
         $result = $stmt->get_result();
         error_log('cio');
-        if ($result->num_rows === 1){
+        if ($result->num_rows === 1) {
             $data = $result->fetch_assoc();
+            $sanitized_data = array_map('htmlspecialchars', $data);
 
 
-        $con->close();
-        header('Content-Type: application/json');
-        echo json_encode($data);
+            $con->close();
+            header('Content-Type: application/json');
+            echo json_encode($sanitized_data);
         }else{
             echo(['error' => 'Something went wrong with the query result']);
         }
@@ -42,9 +43,7 @@ if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
             case 'rethriveData':
                 rethriveData();
                 break;
-            case 'resetMoney':
-                resetMoney($data['email']);
-                break;
+
         }
     }else{
         echo json_encode('Unsupported action');

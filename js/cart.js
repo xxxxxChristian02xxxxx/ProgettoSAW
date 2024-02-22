@@ -7,7 +7,8 @@ function setMoney() {
         },
         body: JSON.stringify({'action':'rethriveData'})
     })
-        .then(response => response.json())
+        .then(response =>
+            response.json())
         .then(data => {
             console.log(data);
             document.getElementById('yourMoney').innerHTML = 'Total money: ' + data['MONEY'];

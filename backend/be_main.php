@@ -100,7 +100,8 @@ if(!function_exists('subjectTend')){
         if($result->num_rows>0)
         {
             while($row = $result->fetch_assoc()) {
-                $subjects[] = $row['NAME'];
+                $sanitized_row = array_map('htmlspecialchars', $row);
+                $subjects = $sanitized_row;
             }
         }
 

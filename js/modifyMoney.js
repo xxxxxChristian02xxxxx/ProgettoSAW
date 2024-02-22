@@ -81,7 +81,8 @@ function modifyFetch(dataTarget, cell) {
             if (response.status === 204) { // No content
                 return null;
             }
-            return response.json();
+            console.log(response)
+            return response.text();
         }        )
         .then(data => {
             console.log(data);

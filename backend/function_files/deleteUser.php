@@ -19,8 +19,8 @@ function deleteUser($email){
 
     if($result->num_rows>0){
         while($row = $result->fetch_assoc()){
-            $data[] = $row;
-        }
+            $sanitized_row = array_map('htmlspecialchars', $row);
+            $data[] = $sanitized_row;        }
     }
 
     $con->close();
