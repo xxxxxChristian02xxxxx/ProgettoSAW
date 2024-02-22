@@ -86,9 +86,6 @@
             <script src="../js/deleteUser.js"></script>
     </div>
 
-        <div id="rankRedirect">
-            <a href="provaImmagine.php">Add a new flower</a>
-        </div>
 </main>
     <footer id="footer">
         <?php
