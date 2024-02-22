@@ -21,10 +21,10 @@ function populateTable(data, currentPage, rowsPerPage, table) {
             }
             Object.keys(data[i]).forEach(function (key) {
                 var newCell = document.createElement('td');
-
                 if (key === 'ROLES') {
                     var promoteDemoteButton = document.createElement('button');
-                    if (data[i][key]) {
+
+                    if (parseInt(data[i][key])) {
                         promoteDemoteButton.innerHTML = 'Demote';
                         promoteDemoteButton.setAttribute('data-content', 'Demote');
                     } else {
@@ -36,7 +36,7 @@ function populateTable(data, currentPage, rowsPerPage, table) {
                 }
                 else if (key === 'BANNED') {
                     var banUnbanButton = document.createElement('button');
-                    if (data[i][key]) {
+                    if (parseInt(data[i][key])) {
                         banUnbanButton.innerHTML = 'Unban';
                         banUnbanButton.setAttribute('data-content', 'Unban');
                     } else {
@@ -261,6 +261,11 @@ function filterTable(data, table) {
 function resetFilters(data, table){
     document.getElementById('columnFilter').value='';
     document.getElementById('valueFilter').value='';
+    var valueFilterDiv = document.querySelectorAll('.valueFilter');
+    valueFilterDiv.forEach(function (divElement) {
+        divElement.style.display = 'none';
+    });
+    valueFilterDiv.style.display = 'none';
     var rowsPerPage = document.getElementById('rowsPerPage').value;
     populateTable(data, 1, rowsPerPage, table);
 }

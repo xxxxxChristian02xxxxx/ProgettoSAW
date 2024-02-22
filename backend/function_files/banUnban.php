@@ -11,6 +11,7 @@ if(!function_exists('banUnban')){
         $stmt->execute();
 
         if($stmt->affected_rows === 1){
+
             $query = "SELECT BANNED FROM USERS WHERE EMAIL = ?";
             $stmt = $con->prepare($query);
             $stmt->bind_param("s", $email);
@@ -18,8 +19,7 @@ if(!function_exists('banUnban')){
             $result = $stmt->get_result();
 
             $data = $result->fetch_assoc();
-            $sanitized_data =htmlspecialchars($data['BANNED']);
-
+            $sanitized_data = htmlspecialchars($data['BANNED']);
             $con->close();
 
             header('Content-Type: application/json');
