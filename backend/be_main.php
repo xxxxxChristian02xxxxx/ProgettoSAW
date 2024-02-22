@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(!function_exists('addSessionStudied')){
-    function addSessionStudied($moneyObtainedFromSession, $typesession, $total_time_spent, $subjectStudied, $seasonId, $descriptionSession){
+    function addSessionStudied($moneyObtainedFromSession, $typesession, $total_time_spent, $subjectStudied, $descriptionSession){
         require('function_files/session.php');
         $session_variables = getSession(true);
         $userId =$session_variables['id'];
@@ -19,27 +19,28 @@ if(!function_exists('addSessionStudied')){
         }
 
         // DEVO CAMBIARE TOTAL REWARD, MA è PER VEDERE SE FUNZIONA
-        $query = "INSERT INTO STUDY_SESSIONS (SESSION_ID, TYPE, DATE, TOTAL_TIME, TOTAL_REWARD, USER, SEASON, DESCRIPTION) VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO STUDY_SESSIONS (SESSION_ID, TYPE, DATE, TOTAL_TIME, TOTAL_REWARD, USER, SEASON, DESCRIPTION) VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, NULL, ?)";
 
         $stmt = $con->prepare($query);
-        $stmt->bind_param('iiiiis', $typesession, $total_time_spent, $moneyObtainedFromSession, $userId, $seasonId, $descriptionSession);
+        $stmt->bind_param('iiiis', $typesession, $total_time_spent, $moneyObtainedFromSession, $userId, $descriptionSession);
         $stmt->execute();
 
         // Recupero l'id della sessione - restituisce l'id autogenerato nell'esecuzione dell'ultima query
         $sessionId = mysqli_insert_id($con);
-
+        error_log("sono qui: ". $sessionId);
         // Query per ricavare id della materia studiata
-        $query = "SELECT ID FROM subjects WHERE NAME = ?";
+        $query = "SELECT ID FROM SUBJECTS WHERE NAME = ?";
         $stmt = $con->prepare($query);
         $stmt->bind_param("s", $subjectStudied);
         $stmt->execute();
+        $res = $stmt->get_result();
 
-        if($stmt->num_rows === 1){
-            $res = $stmt->get_result();
+        if($res->num_rows === 1){
+            error_log("qui ci siamo");
             $row = $res->fetch_assoc();
 
             $subjectId = $row['ID'];
-
+            error_log("sono qua: ". $subjectId);
             $query = "INSERT INTO subject_sessions (SUBJECT_ID, SESSION_ID) VALUES (?, ?)";
             $stmt = $con->prepare($query);
             $stmt->bind_param("ii", $subjectId, $sessionId);
@@ -120,7 +121,7 @@ if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
     if(isset($data['action'])) {
         switch ($data['action']) {
             case 'addSessionStudied':
-                addSessionStudied($data['json_data']['money'],$data['json_data']['typeSession'],$data['json_data']['timeSpent'], $data['json_data']['subjectName'], $data['json_data']['season'], $data['json_data']['description']);
+                addSessionStudied($data['json_data']['money'],$data['json_data']['typeSession'],$data['json_data']['timeSpent'], $data['json_data']['subjectName'],$data['json_data']['description']);
                 break;
             case 'updateSubject':
                 updateSubject($data['json_data']['subjectName']);
