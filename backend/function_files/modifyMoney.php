@@ -1,5 +1,7 @@
  <?php
 session_start();
+ require('inputCheck.php');
+
 if(!function_exists('modifyMoney')){
     function modifyMoney($email, $money){
         require('connection.php');
@@ -67,6 +69,11 @@ if(!function_exists('resetMoney')){
 
 $data = json_decode(file_get_contents('php://input'), true);
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
+    if(!inputMoney( $data['money'])){
+        echo json_encode('no valid money');
+
+    }
+
     require('session.php');
     $session_variables = getSession(true);
     if($session_variables['role']) {

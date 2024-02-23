@@ -84,6 +84,9 @@ $data = json_decode(file_get_contents('php://input'), true);
 error_log("sono qui");
 error_log(print_r($data, true));
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
+    if(!inputMailcheck($data['data']['email'])){
+        echo json_encode('no valid email');
+    }
     if(isset($data['action'])) {
         switch ($data['action']) {
             case 'requestProfileData':

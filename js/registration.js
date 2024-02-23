@@ -89,6 +89,7 @@ function fetchRegistration(formData){
             if (response.status === 204) { // No content
                 return null;
             }
+            console.log(response)
             return response.json();
         }) //prendo la risposta di registration backend(ha ottenuto i risultati delle query ) e li ha messi nella variabile
         .then(data => { //prendo i dati ottenuti e li processo

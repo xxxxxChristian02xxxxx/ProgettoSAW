@@ -1,12 +1,17 @@
 <?php
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
+    require ('../backend/function_files/inputCheck.php');
 
 if(!function_exists('checkPresenceEmail')) {
     function checkPresenceEmail($email)
     {
         require("function_files/connection.php");
         $con = connect();
+        if(!inputMailcheck($email)){
+            echo json_encode('no valid email');
+        }
+
 
         $query = "SELECT EMAIL FROM USERS WHERE EMAIL=?";
         $stmt = $con->prepare($query);

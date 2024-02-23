@@ -1,5 +1,7 @@
 <?php
 session_start();
+require ('../backend/function_files/inputCheck.php');
+
 if(!function_exists('addSessionStudied')){
     function addSessionStudied($moneyObtainedFromSession, $typesession, $total_time_spent, $subjectStudied, $descriptionSession){
         require('function_files/session.php');
@@ -121,9 +123,16 @@ if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
     if(isset($data['action'])) {
         switch ($data['action']) {
             case 'addSessionStudied':
+                if(!inputSubject($data['json_data']['subjectName'])){
+                    echo json_encode('Sunbject not allowed');
+                }
                 addSessionStudied($data['json_data']['money'],$data['json_data']['typeSession'],$data['json_data']['timeSpent'], $data['json_data']['subjectName'],$data['json_data']['description']);
                 break;
             case 'updateSubject':
+                if(!inputSubject($data['json_data']['subjectName'])){
+                    echo json_encode('Sunbject not allowed');
+
+                }
                 updateSubject($data['json_data']['subjectName']);
                 break;
             case 'subjectTend':

@@ -2,6 +2,8 @@
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+require ('../backend/function_files/inputCheck.php');
+
 
 // Get the raw POST data
 $postData = file_get_contents("php://input");
@@ -14,6 +16,10 @@ if ($data && $_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($email);
     $password = $data['pass'];
     $password = trim($password);
+    if(!inputMailcheck($email)){
+        echo json_encode('no valid email');
+    }
+
     if ($data['ReMe']) {
         $remember = true;
     } else {
