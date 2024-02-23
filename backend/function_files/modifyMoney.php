@@ -69,10 +69,7 @@ if(!function_exists('resetMoney')){
 
 $data = json_decode(file_get_contents('php://input'), true);
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
-    if(!inputMoney( $data['money'])){
-        echo json_encode('no valid money');
 
-    }
 
     require('session.php');
     $session_variables = getSession(true);
@@ -80,6 +77,9 @@ if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
         if (isset($data['action'])) {
             switch ($data['action']) {
                 case 'modifyMoney':
+                    if(!inputMoney( $data['money'])){
+                        echo json_encode('no valid money');
+                    }
                     modifyMoney($data['email'], $data['money']);
                     break;
                 case 'resetMoney':

@@ -96,9 +96,10 @@ function banUnbanFetch(dataTarget, cell) {
                 return null;
             }
             console.log(response);
-            return response.json();
+            return response.text();
         })
         .then(data => {
+            console.log(data);
             var banUnbanButton = cell.querySelector('.banUnbanButton');
             if(data === 1){
                 banUnbanButton.innerHTML = 'Unban';
