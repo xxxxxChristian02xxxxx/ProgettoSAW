@@ -1,4 +1,4 @@
-<?php
+ <?php
 function logout()
 {
     error_reporting(E_ALL);

@@ -1,6 +1,6 @@
 <?php
     session_start();
-
+include("function_files/inputCheck.php");
     if(!function_exists('requestProfileData')){
         function requestProfileData(){
             require('function_files/connection.php');
@@ -17,10 +17,11 @@
             $result = $stmt->get_result();
             if($result->num_rows === 1){
                 $data = $result->fetch_assoc();
+                $sanitized_data = array_map('htmlspecialchars', $data);
 
                 $con->close();
 
-                echo json_encode($data);
+                echo json_encode($sanitized_data);
             }
         }
     }
@@ -83,12 +84,16 @@ $data = json_decode(file_get_contents('php://input'), true);
 error_log("sono qui");
 error_log(print_r($data, true));
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
+
     if(isset($data['action'])) {
         switch ($data['action']) {
             case 'requestProfileData':
                 requestProfileData();
                 break;
             case 'updateProfileData':
+                if(!inputMailcheck($data['data']['email'])){
+                    echo json_encode('no valid email');
+                }
                 updateProfileData($data['data']['firstname'], $data['data']['lastname'], $data['data']['email'], $data['data']['password']);
                 break;
         }

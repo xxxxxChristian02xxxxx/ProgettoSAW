@@ -191,7 +191,6 @@ function subjectAdd(displaySubjects){
                     optionElement.value = addSubject;
                     optionElement.textContent = addSubject;
                     subChoosen.appendChild(optionElement);
-                    console.log(addSubject);
                 }
             }
         }

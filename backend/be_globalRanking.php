@@ -9,7 +9,7 @@ require("function_files/connection.php");
 $con = connect();
 
 $query = "SELECT CONCAT(USERS.FIRSTNAME, ' ', USERS.LASTNAME) AS USER, 
-          PLANTS.PRICE AS MOST_EXPENSIVE_STICKER, 
+          MAX(PLANTS.PRICE) AS MOST_EXPENSIVE_STICKER, 
           SUM(STUDY_SESSIONS.TOTAL_TIME) AS TOTAL_STUDY_HOURS
           FROM PLANTS INNER JOIN TRANSACTIONS ON PLANTS.PLANTS_ID = TRANSACTIONS.PLANT_ID
           INNER JOIN USERS ON TRANSACTIONS.USER_ID = USERS.ID
@@ -25,7 +25,8 @@ $data = array();
 header('Content-Type: application/json');
 if($res->num_rows > 0)
     while($row = $res->fetch_assoc()){
-        $data[] = $row;
+        $sanitized_row = array_map('htmlspecialchars', $row);
+        $data[] = $sanitized_row;
     }
 
 $con->close();

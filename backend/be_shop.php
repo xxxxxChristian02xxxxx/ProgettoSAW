@@ -21,7 +21,8 @@ $query = "SELECT PLANTS_ID, NAME, IMG_DIR, PRICE FROM PLANTS";
     header('Content-Type: application/json');
     if($result->num_rows>0){
         while($row = $result->fetch_assoc()){
-            $data[] = $row;
+            $sanitized_row = array_map('htmlspecialchars', $row);
+            $data[] = $sanitized_row;
         }
     }
 
@@ -44,7 +45,8 @@ if(isset($_GET['search'])){
     header('Content-Type: application/json');
     if($result->num_rows>0){
         while($row = $result->fetch_assoc()){
-            $data[] = $row;
+            $sanitized_row = array_map('htmlspecialchars', $row);
+            $data[] = $sanitized_row;
         }
     }
 

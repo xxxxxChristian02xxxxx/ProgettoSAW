@@ -3,7 +3,7 @@
 <head>
     <title>Cart</title>
     <link rel="stylesheet" type="text/css" href="../cart.css">
-
+    <link rel="stylesheet" type="text/css" href="../editTable.css">
 </head>
 <body>
 <?php
@@ -15,16 +15,17 @@ verifyCookie();
 //Aggiunta dell'header
 include('header.php');
 ?>
-<div class="editUser">
-    <h1>Cart:</h1>
-    <div class="Informations">
-        <div class="info">
-            <p id="yourMoney" class="info"></p>
+<main class="wrapper">
+    <div class="cart">
+        <h1>Cart</h1>
+        <div class="Informations">
+            <div class="info">
+                <h3 id="yourMoney" class="info"></h3>
+            </div>
+            <div class="info">
+                <h3 id="totalPrice" class="info"></h3>
+            </div>
         </div>
-        <div class="info">
-            <p id="totalPrice" class="info"></p>
-        </div>
-    </div>
 
     <table class="dataTable" id="cartTable">
         <thead>
@@ -43,10 +44,8 @@ include('header.php');
 </div>
     <div id="pagination"></div>
     <script src="../js/cart.js">
-        var money = 0;
-        var price = 0;
     </script>
-
-</div>
+    </div>
+</main>
 </body>
 </html>

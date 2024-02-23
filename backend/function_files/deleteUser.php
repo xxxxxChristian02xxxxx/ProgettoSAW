@@ -2,9 +2,6 @@
 session_start();
 if(!function_exists('deleteUser')){
 function deleteUser($email){
-    require('session.php');
-    $session_variables = getSession(true);
-
     require('connection.php');
     $con = connect();
 
@@ -22,8 +19,8 @@ function deleteUser($email){
 
     if($result->num_rows>0){
         while($row = $result->fetch_assoc()){
-            $data[] = $row;
-        }
+            $sanitized_row = array_map('htmlspecialchars', $row);
+            $data[] = $sanitized_row;        }
     }
 
     $con->close();
@@ -33,10 +30,16 @@ function deleteUser($email){
 }
 $data = json_decode(file_get_contents('php://input'), true);
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
-    if(isset($data['action']) && $data['action']==='deleteUser'){
-        deleteUser($data['email']);
+    require('session.php');
+    $session_variables = getSession(true);
+    if($session_variables['role']) {
+        if (isset($data['action']) && $data['action'] === 'deleteUser') {
+            deleteUser($data['email']);
+        } else {
+            echo json_encode('Unsupported action');
+        }
     }
     else{
-        echo json_encode('Unsupported action');
+        echo json_encode("You can't delete users, you're not an admin");
     }
 }

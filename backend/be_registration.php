@@ -1,6 +1,8 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+require ('../backend/function_files/inputCheck.php');
+
 
 // Get the raw POST data
 $postData = file_get_contents("php://input");
@@ -21,6 +23,9 @@ if ($data && $_SERVER["REQUEST_METHOD"] == "POST") {
     $confirm = $data['confirm'];
     $confirm = trim($confirm);
 
+    if(!inputMailcheck($email)){
+        echo json_encode('no valid email');
+    }
 
     $data = registration($firstname, $lastname, $email, $password, $confirm);
     echo json_encode($data);

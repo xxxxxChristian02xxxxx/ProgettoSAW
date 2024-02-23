@@ -1,10 +1,9 @@
  <?php
 session_start();
+ require('inputCheck.php');
+
 if(!function_exists('modifyMoney')){
     function modifyMoney($email, $money){
-        require('session.php');
-        $session_variables = getSession(true);
-
         require('connection.php');
         $con = connect();
 
@@ -24,10 +23,10 @@ if(!function_exists('modifyMoney')){
 
 
             $data = $result->fetch_assoc();
-            $updatedMoney = $data['MONEY'];
+            $sanitized_data =htmlspecialchars($data['MONEY']);
 
             header('Content-Type: application/json');
-            echo json_encode($updatedMoney);
+            echo json_encode($sanitized_data);
         }else {
             echo('Something went wrong with the query result');
 
@@ -57,10 +56,10 @@ if(!function_exists('resetMoney')){
 
 
             $data = $result->fetch_assoc();
-            $updatedMoney = $data['MONEY'];
+            $sanitized_data =htmlspecialchars($data['MONEY']);
 
             header('Content-Type: application/json');
-            echo json_encode($updatedMoney);
+            echo json_encode($sanitized_data);
         }
         else{
             echo('Something went wrong with the query result');
@@ -70,16 +69,28 @@ if(!function_exists('resetMoney')){
 
 $data = json_decode(file_get_contents('php://input'), true);
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
-    if(isset($data['action'])) {
-        switch ($data['action']) {
-            case 'modifyMoney':
-                modifyMoney($data['email'],$data['money']);
-                break;
-            case 'resetMoney':
-                resetMoney($data['email']);
-                break;
+
+
+    require('session.php');
+    $session_variables = getSession(true);
+    if($session_variables['role']) {
+        if (isset($data['action'])) {
+            switch ($data['action']) {
+                case 'modifyMoney':
+                    if(!inputMoney( $data['money'])){
+                        echo json_encode('no valid money');
+                    }
+                    modifyMoney($data['email'], $data['money']);
+                    break;
+                case 'resetMoney':
+                    resetMoney($data['email']);
+                    break;
+            }
+        } else {
+            echo json_encode('Unsupported action');
         }
-    }else{
-        echo json_encode('Unsupported action');
+    }
+    else{
+        echo json_encode("You can't modify money, you're not an admin");
     }
 }

@@ -10,10 +10,10 @@ $con = connect();
 
 $query = "SELECT SUBJECTS.NAME AS SUBJECT, STUDY_SESSIONS.TYPE, STUDY_SESSIONS.DATE, STUDY_SESSIONS.TOTAL_TIME, STUDY_SESSIONS.TOTAL_REWARD, STUDY_SESSIONS.DESCRIPTION 
           FROM STUDY_SESSIONS 
-          INNER JOIN USERS ON STUDY_SESSIONS.USER = USERS.ID 
-          INNER JOIN SUBJECT_SESSIONS ON STUDY_SESSIONS.SESSION_ID = SUBJECT_SESSIONS.SESSION_ID
+          LEFT JOIN USERS ON STUDY_SESSIONS.USER = USERS.ID 
+          LEFT JOIN SUBJECT_SESSIONS ON STUDY_SESSIONS.SESSION_ID = SUBJECT_SESSIONS.SESSION_ID
           INNER JOIN SUBJECTS ON SUBJECT_SESSIONS.SUBJECT_ID = SUBJECTS.ID
-          WHERE USERS.EMAIL =?";
+          WHERE USERS.EMAIL = ?";
 $stmt = $con->prepare($query);
 $stmt->bind_param('s', $session['email']);
 $stmt->execute();
@@ -25,7 +25,9 @@ $result = $stmt->get_result();
 header('Content-Type: application/json');
 if($result->num_rows>0){
     while($row = $result->fetch_assoc()){
-        $data[] = $row;
+        //to apply it to each element of the array
+        $sanitized_row = array_map('htmlspecialchars', $row);
+        $data[] = $sanitized_row;
     }
 }
 

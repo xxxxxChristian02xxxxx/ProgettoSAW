@@ -1,15 +1,14 @@
 const table = document.querySelector('#cartTable tbody')
 function setMoney() {
-
-    let a = {'action':'rethriveData'}
     return fetch('../backend/be_show_profile.php', {
         method: 'POST',
         headers: {
             'Content-Type':'application/json'
         },
-        body: JSON.stringify(a)
+        body: JSON.stringify({'action':'rethriveData'})
     })
-        .then(response => response.json())
+        .then(response =>
+            response.json())
         .then(data => {
             console.log(data);
             document.getElementById('yourMoney').innerHTML = 'Total money: ' + data['MONEY'];

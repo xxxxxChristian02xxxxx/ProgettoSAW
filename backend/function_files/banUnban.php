@@ -2,9 +2,6 @@
 session_start();
 if(!function_exists('banUnban')){
     function banUnban($email){
-        require('session.php');
-        $session_variables = getSession(true);
-
         require('connection.php');
         $con = connect();
 
@@ -25,7 +22,7 @@ if(!function_exists('banUnban')){
             $con->close();
 
             header('Content-Type: application/json');
-            echo json_encode($data['BANNED']);
+            echo json_encode($data);
         }
         else{
             echo('Something went wrong with the query result');
@@ -36,10 +33,17 @@ if(!function_exists('banUnban')){
 
 $data = json_decode(file_get_contents('php://input'), true);
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
-    if(isset($data['action']) && $data['action'] === 'banUnban'){
-        banUnban($data['email']);
+    require('session.php');
+    $session_variables = getSession(true);
+    if($session_variables['role']){
+        if(isset($data['action']) && $data['action'] === 'banUnban'){
+            banUnban($data['email']);
+        }
+        else{
+            echo json_encode('Unsupported action');
+        }
     }
     else{
-        echo json_encode('Unsupported action');
+        echo json_encode("You can't ban or unban users, you're not an admin");
     }
 }
