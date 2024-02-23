@@ -103,15 +103,26 @@ function populatecartTable(cart){
     table.innerHTML = '';
     for (let key in cart) {
         let newRow = document.createElement('tr');
-        let newCell = document.createElement('td');
-        // nome pianta
-        newCell.textContent = cart[key][0];
-        newRow.appendChild(newCell);
+        let newCell;
+        for(let i = 0; i < 3; i++){
+            newCell = document.createElement('td');
+            newCell.textContent = cart[key][i];
+            newRow.appendChild(newCell)
+        }
         newCell = document.createElement('td');
-        newCell.textContent = cart[key][1];
-        newRow.appendChild(newCell);
-        newCell = document.createElement('td');
-        newCell.textContent = cart[key][2];
+        var lessButton = document.createElement('button');
+        lessButton.innerHTML = '-';
+        lessButton.className = "lessButton";
+        lessButton.addEventListener('click', () => {
+            if(localStorage.getItem(cart[key][0]) > 1){
+                localStorage.setItem(cart[key][0], parseInt(localStorage.getItem(cart[key][0])) - 1);
+                location.reload();
+            }else{
+                localStorage.removeItem(cart[key][0]);
+                location.reload();
+            }
+        });
+        newCell.appendChild(lessButton);
         newRow.appendChild(newCell);
         table.appendChild(newRow);
     }

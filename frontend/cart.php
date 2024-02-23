@@ -31,7 +31,8 @@ include('header.php');
         <tr>
             <th>FLOWER</th>
             <th>QUANTITY</th>
-            <th>TOTAL PRICE</th>
+            <th>PRICE</th>
+            <th>REMOVE</th>
         </tr>
         </thead>
         <tbody></tbody>

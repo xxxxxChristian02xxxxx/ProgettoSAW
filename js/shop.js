@@ -52,6 +52,55 @@ function addFunctiontoButtons(name) {
     document.getElementById(name).querySelector('#cart-cout').innerHTML = "In the cart: " + localStorage.getItem(name);
 }
 
+function populateAllPlants(shopContainer){
+    let items = [];
+    fetch("../backend/be_shop.php?flowers=1",{
+        method: 'GET',
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            items = data;
+            appendPlantsToContainer(items, shopContainer);
+        })
+        .catch(error => {
+            console.error("Si è verificato un errore: ", error);
+        });
+
+}
+
+document.getElementById('search_form').addEventListener('submit', (event) => {
+    let items = [];
+    event.preventDefault();
+    const search = document.getElementById('search').value;
+    const shopContainer = document.getElementById('shop-container');
+    if (search === '') {
+        alert('Empty search');
+        populateAllPlants(shopContainer);
+        return;
+    }
+    fetch(`../backend/be_shop.php?search=${search}`,{
+        method: 'GET',
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            items = data;
+            if (items.length === 0) {
+                alert('No items found');
+                populateAllPlants(shopContainer);
+            }else{
+                appendPlantsToContainer(items, shopContainer);
+            }
+
+        })
+        .catch(error => {
+            console.error("Si è verificato un errore: ", error);
+        });
+});
+
 
 
 
