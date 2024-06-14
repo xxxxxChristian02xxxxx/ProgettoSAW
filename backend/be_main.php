@@ -1,13 +1,13 @@
 <?php
 session_start();
 require ('../backend/function_files/inputCheck.php');
+require_once('function_files/connection.php');
 
 function addSessionStudied($moneyObtainedFromSession, $typesession, $total_time_spent, $subjectStudied, $descriptionSession){
     require('function_files/session.php');
     
     $userId =$_SESSION['id'];
 
-    require('function_files/connection.php');
     $con = connect();
 
     $query = "UPDATE USERS SET MONEY = MONEY + ? WHERE ID =?";
@@ -53,9 +53,7 @@ function addSessionStudied($moneyObtainedFromSession, $typesession, $total_time_
 
 function updateSubject($subjectStudied){
     require('function_files/session.php');
-    
 
-    require('function_files/connection.php');
     $con = connect();
 
         $query = "INSERT INTO SUBJECTS (NAME) VALUES (?) ON DUPLICATE KEY UPDATE NAME=NAME";
@@ -80,7 +78,7 @@ function subjectTend(){
     require('function_files/session.php');
     
     $userId =$_SESSION['id'];
-    require('function_files/connection.php');
+
     $con = connect();
 
         $query = "SELECT DISTINCT SUBJECT FROM STUDY_SESSIONS WHERE STUDY_SESSIONS.USER = ?";

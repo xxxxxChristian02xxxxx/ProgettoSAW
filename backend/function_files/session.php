@@ -1,24 +1,10 @@
 <?php
-function getSession($wantData)
-{
-    if (isset($_SESSION['loggedIn'])) {
-        if ($wantData) {
-
-            return $session;
-        }
-        return true;
-    } else {
-        echo('User not logged in');
-        header("Location: index.html");
-        return false;
-    }
-}
+require('connection.php');
 function setSession($id)
 {
     $_SESSION['loggedIn'] = true;
     $_SESSION['id'] = $id;
 
-    require('connection.php');
     $con = connect();
     $query = "SELECT * FROM USERS WHERE ID = ?";
     $stmt = $con->prepare($query);

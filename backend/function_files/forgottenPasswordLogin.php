@@ -1,6 +1,6 @@
 <?php
+require("connection.php");
 function checkPresenceEmail($email){
-    require("connection.php");
     $con = connect();
 
     $query = "SELECT * FROM USERS WHERE EMAIL=?";
@@ -21,8 +21,6 @@ function checkPresenceEmail($email){
 }
 
 function updatePasswordLogin($email, $password){
-
-    require('connection.php');
     $con = connect();
 
     if ($password) {

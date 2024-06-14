@@ -1,8 +1,8 @@
  <?php
 session_start();
 require('inputCheck.php');
+ require('connection.php');
 function modifyMoney($email, $money){
-    require('connection.php');
     $con = connect();
 
     $query = "UPDATE USERS SET MONEY = ?  WHERE EMAIL = ? AND ROLES != 1";
@@ -29,9 +29,7 @@ function modifyMoney($email, $money){
 
 function resetMoney($email){
     require('session.php');
-    
 
-    require('connection.php');
     $con = connect();
 
     $query = "UPDATE USERS SET MONEY = 0  WHERE EMAIL = ? AND ROLES != 1";

@@ -2,7 +2,7 @@
 session_start();
     function rethriveData()
     {
-        require('function_files/connection.php');
+        require_once('function_files/connection.php');
         $con = connect();
 
         require('function_files/session.php');

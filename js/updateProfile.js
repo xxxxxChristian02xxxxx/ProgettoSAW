@@ -1,5 +1,5 @@
 function displayMyProfile(){
-    fetch('../backend/be_updateProfile.php', {
+    fetch('../backend/be_updateprofile.php', {
         method: 'POST',
         headers: {
             'Content-Type':'application/json'

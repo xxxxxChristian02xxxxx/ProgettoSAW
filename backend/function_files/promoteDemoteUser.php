@@ -1,7 +1,7 @@
 <?php
 session_start();
+require('connection.php');
 function promoteDemote($email) {
-    require('connection.php');
     $con = connect();
 
     $query = "UPDATE USERS SET ROLES = !ROLES WHERE EMAIL = ?";

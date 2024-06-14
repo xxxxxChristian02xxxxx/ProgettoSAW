@@ -1,8 +1,8 @@
 <?php
 session_start();
 include("function_files/inputCheck.php");
+require_once('function_files/connection.php');
 function requestProfileData(){
-    require('function_files/connection.php');
     $con = connect();
 
     require('function_files/session.php');
@@ -25,7 +25,7 @@ function requestProfileData(){
 function updateProfileData($firstname, $lastname, $email, $password){
     require('function_files/session.php');
 
-    require('function_files/connection.php');
+
     $con = connect();
 
     $con->close();

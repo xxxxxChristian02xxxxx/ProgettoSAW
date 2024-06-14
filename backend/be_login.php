@@ -1,6 +1,7 @@
 <?php
 session_start();
 require ('function_files/inputCheck.php');
+require_once('function_files/connection.php');
 
 $postData = file_get_contents("php://input");
 
@@ -28,8 +29,8 @@ if ($data && $_SERVER["REQUEST_METHOD"] == "POST") {
 
 function login($email, $password, $remember){
     //Connessione al db
-    include('function_files/connection.php');
-    $con = connect();
+    $db = new Database();
+    $con = $db->getConnection();
 
     //Preparazione della query con prepared statement
     $query = "SELECT * FROM USERS WHERE EMAIL= ? ";
@@ -67,6 +68,6 @@ function login($email, $password, $remember){
             }
         }
     }
-    $con->close();
+    $db->closeConnection();
     return $response;
 }

@@ -3,7 +3,6 @@ function setRememberMe($remember)
 {
     if ($remember) {
         require('session.php');
-        
 
         $expire = time() + ((60 * 60 * 24) * 7);
         $salt = "%salt&/";

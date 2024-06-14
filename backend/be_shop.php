@@ -62,10 +62,7 @@ if(isset($_GET['buy'])){
     $money = $data['money'];
 
     include('function_files/session.php');
-    
 
-    include("function_files/connection.php");
-    $con = connect();
     // Loop through each item in the cart
     foreach($cart as $item) {
         // Here you would typically update the database to reflect the purchase

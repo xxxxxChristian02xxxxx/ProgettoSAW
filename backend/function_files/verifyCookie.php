@@ -1,8 +1,9 @@
 <?php
+include('connection.php');
 function verifyCookie()
 {
     if (isset($_COOKIE['ReMe'])) {
-        include('connection.php');
+
         $con = connect();
 
         $cookie_val = $_COOKIE['ReMe'];
