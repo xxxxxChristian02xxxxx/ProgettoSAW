@@ -4,7 +4,7 @@
     <title>My profile</title>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../form.css">
+    <link rel="stylesheet" type="text/css" href="../css/form.css">
 
 </head>
 
@@ -27,47 +27,32 @@ include('header.php');
         <div class="ShowUserForm">
             <div class="Firstname">
                 <p >Firstname: </p>
-                <span>
-                        <p id="firstname"></p>
-                    </span>
+                <p id="firstname"></p>
             </div>
 
             <div class="Lastname">
                 <p >Lastname: </p>
-                <span>
-                        <p id="lastname"></p>
-                    </span>
+                <p id="lastname"></p>
             </div>
 
             <div class="Email">
-                <span>
                 <p >Email:  </p>
-                <span>
-                    <p id="email"></p>
-                </span>
-                    </span>
+                <p id="email"></p>
             </div>
 
             <div class="Money">
                 <p >Money: </p>
-                <span>
-                    <p id="money"></p>
-                </span>
+                <p id="money"></p>
             </div>
 
             <div class="TimeStudied">
                 <p >Total Time Studied: </p>
-                <span>
-                        <p id="timestudied"></p>
-                    </span>
-
+                <p id="timestudied"></p>
             </div>
 
             <div id="NumberPlants">
                 <p >Number Plants Purchased: </p>
-                <span>
-                        <p id="plantpurchased"></p>
-                    </span>
+                <p id="plantpurchased"></p>
             </div>
         </div>
     </div>

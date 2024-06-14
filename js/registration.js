@@ -8,22 +8,17 @@ document.getElementById('UserRegistration').addEventListener('submit', function 
             pass: document.getElementById('pass').value,
             confirm: document.getElementById('confirm').value,
         };
-        console.log(formData);
         //chiamata dal frontend login in backend login
         fetchRegistration(formData);
     }
 });
 
-
 function validateInput() {
-
-    // Recupero dei valori inseriti in input
     const firstname = document.getElementById('firstname').value;
     const lastname = document.getElementById('lastname').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('pass').value;
     const confirm = document.getElementById('confirm').value;
-
 
     if (firstname === '') {
         document.getElementById('firstnameError').innerHTML = 'Firstname is required!';
@@ -69,34 +64,31 @@ function validateInput() {
         document.getElementById('confirm').classList.add('inputError');
         return false;
     }
-
     return true;
 }
 
-document.querySelectorAll('')
 function fetchRegistration(formData){
-    fetch('../backend/be_registration.php', { // dico il percorso del file di back end
-        method: 'POST', //metodo get o post
+    fetch('../backend/be_registration.php', {
+        method: 'POST',
         headers: {
-            'Content-Type': 'application/json' // specifico la uso
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData) // encode
+        body: JSON.stringify(formData)
     })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            if (response.status === 204) { // No content
+            if (response.status === 204) {
                 return null;
             }
-            console.log(response)
             return response.json();
-        }) //prendo la risposta di registration backend(ha ottenuto i risultati delle query ) e li ha messi nella variabile
-        .then(data => { //prendo i dati ottenuti e li processo
+        })
+        .then(data => {
             if (data.success) {
-                window.location.href = 'login.php'; // se chiamata è andata bene faccio display del main.php
+                window.location.href = 'login.php';
             } else {
-                window.alert('Registration failed'); //altimenti mando messaggio di errore
+                window.alert('Registration failed');
             }
         })
         .catch(error => {

@@ -4,7 +4,7 @@
     <title>My Garden</title>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
-    <link href="../dressing_garden.css" rel="stylesheet" type="text/css">
+    <link href="../css/dressing_garden.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <?php

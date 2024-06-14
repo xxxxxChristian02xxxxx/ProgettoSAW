@@ -4,8 +4,8 @@
     <title>Rescue Password</title>
     <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <link href="../form.css" rel="stylesheet" type="text/css">
-    <link href="../rescuePassword.css" rel="stylesheet" type="text/css">
+    <link href="../css/form.css" rel="stylesheet" type="text/css">
+    <link href="../css/rescuePassword.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>

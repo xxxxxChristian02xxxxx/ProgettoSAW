@@ -3,8 +3,8 @@
 <head>
     <title>Personal ranking</title>
     <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../editTable.css">
-    <link rel="stylesheet" type="text/css" href="../ranking.css">
+    <link rel="stylesheet" type="text/css" href="../css/editTable.css">
+    <link rel="stylesheet" type="text/css" href="../css/ranking.css">
 </head>
 <body>
     <?php
@@ -54,7 +54,7 @@
                     <p id="PthirdPlace">3rd</p>
                 </div>
             </div>
-            <p>Close the popup to show the global rank</p>
+            <p>Close the popup to show your personal rank</p>
         </div>
         <div class="overlay"></div>
         <script src="../js/personalRanking.js"></script>

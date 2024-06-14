@@ -10,15 +10,14 @@ if(!function_exists('rethriveData')) {
         $session = getSession(true);
         $userId = $session['id'];
 
-        $query = "    SELECT
-                    (SELECT COUNT(DISTINCT TRANSACTIONS_ID) FROM TRANSACTIONS WHERE USER_ID = 1) AS OCCURENCIESPLANT,
-                    (SELECT SUM(TOTAL_TIME) FROM STUDY_SESSIONS WHERE USER = 1) AS TOTAL_TIME,
-                    FIRSTNAME, LASTNAME, EMAIL, MONEY
-                    FROM users
-                    WHERE ID = ?;";
+        $query = "  SELECT FIRSTNAME, LASTNAME, EMAIL, MONEY,
+                    (SELECT COUNT(DISTINCT TRANSACTIONS_ID) FROM TRANSACTIONS WHERE USER_ID = ?) AS OCCURENCIESPLANT,
+                    (SELECT SUM(TOTAL_TIME) FROM STUDY_SESSIONS WHERE STUDY_SESSIONS.USER = ?) AS TOTAL_TIME
+                    FROM USERS
+                    WHERE ID = ?";
 
         $stmt = $con->prepare($query);
-        $stmt->bind_param('i', $userId);
+        $stmt->bind_param('iii', $userId, $userId, $userId);
         $stmt->execute();
         $result = $stmt->get_result();
         error_log('cio');
@@ -26,10 +25,10 @@ if(!function_exists('rethriveData')) {
             $data = $result->fetch_assoc();
             $sanitized_data = array_map('htmlspecialchars', $data);
 
-
             $con->close();
             header('Content-Type: application/json');
             echo json_encode($sanitized_data);
+            return $sanitized_data;
         }else{
             echo(['error' => 'Something went wrong with the query result']);
         }
@@ -43,13 +42,8 @@ if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
             case 'rethriveData':
                 rethriveData();
                 break;
-
         }
     }else{
         echo json_encode('Unsupported action');
     }
 }
-
-
-
-

@@ -4,9 +4,6 @@ const dataTime={    //per db
     money : 0,
     subjectName: null,
     description: null,
-
-    // season: null,
-
 };
 
 function swipe(clocks){
@@ -31,7 +28,6 @@ function swipe(clocks){
     })
 }
 function sessionTimer(clocks){
-    //gestione timer
     const startTimerElement= document.getElementById("TimerStart");
     const resetTimerElement= document.getElementById("resetTimer");
     const timeTimerElement= document.getElementById("timeTimer");
@@ -64,28 +60,16 @@ function sessionTimer(clocks){
         rangeStart.classList.add("rangePrevent");
         if(subChoosen !=='') {
             clocks['isTimerStarted'] = true;
-            // Verifica lo stato del bottone
             if (buttonT.innerHTML === "Start") {
                 blockSelection();
-                // Prima volta che è stato cliccato
-                console.log('Primo clic');
-                console.log("ora",clocks['modifiableTimeTimer'])
                 var time = new Date().getTime();
-                console.log(clocks,time,null);
-
                 startClock(clocks,time,null);
-                // Aggiorna lo stato
                 buttonT.innerHTML = "Stop";
                 buttonT.setAttribute("aria-label", "Stop");
             } else {
-
-                // Seconda volta che è stato cliccato
-                console.log('Secondo clic');
-                console.log(clocks);
                 overWrite(clocks);
-                console.log("trascrivi",clocks);
                 stopClock(clocks);
-                // Aggiorna lo stato
+
                 buttonT.innerHTML = "Start";
                 buttonT.removeAttribute("aria-label");
             }
@@ -93,15 +77,12 @@ function sessionTimer(clocks){
             alert("choose a subject to study first :)")
         }
     })
-    //-------------------------EVENTO PER RESETTARE -------------------------//
+
     resetTimerElement.addEventListener("click",()=> {
-        console.log("resetTimer 2")
         if(clocks['isTimerStarted'])  {
             {
-
                 stopClock(clocks);
                 generatePopUp(1,clocks);
-
             }
         }else
         {
@@ -120,27 +101,19 @@ function sessionStopwatch(clocks){
     startStopwatchElement.addEventListener('click', function() {
         if(subEventuallyStudied.value !=='') {
             clocks['isStopawatchStarted'] = true;
-            // Verifica lo stato del bottone
             if (buttonS.innerHTML === "Start") {
                 blockSelection();
-                // Prima volta che è stato cliccato
-                console.log('Primo clic');
                 var time = new Date().getTime();
-                console.log("ora2",clocks['modifiableTimeStopwatch'])
 
                 startClock(clocks,time,null);
-                // Aggiorna lo stato
+
                 buttonS.innerHTML = "Stop";
                 buttonS.setAttribute("aria-label", "Stop");
             } else {
-
-                // Seconda volta che è stato cliccato
-                console.log('Secondo clic');
                 overWrite(clocks)
-                console.log("trascritto",clocks)
 
                 stopClock(clocks);
-                // Aggiorna lo stato
+
                 buttonS.innerHTML = "Start";
                 buttonS.removeAttribute("aria-label");
             }
@@ -148,7 +121,7 @@ function sessionStopwatch(clocks){
             alert("choose a subject to study first :)")
         }
     })
-    //-------------------------EVENTO PER RESETTARE -------------------------//
+
     resetStopwatchElement.addEventListener("click",()=> {
         if(clocks['isStopawatchStarted'])  {
             {
@@ -159,8 +132,6 @@ function sessionStopwatch(clocks){
         {
             alert('Cannot reset without a start')
         }
-        console.log("bottone dello stopwatch " , buttonS.innerHTML)
-
     })
 }
 function subjectAdd(displaySubjects){
@@ -171,7 +142,7 @@ function subjectAdd(displaySubjects){
     newSubject.addEventListener("click", ()=> {
         const textMateria = document.getElementById("add_materie");
         addSubject = document.getElementById("add_materie").value;
-        console.log(addSubject)
+
         if (!isSubPresent(addSubject,subChoosen)) {
             alert("This subject has already been created");
         }
@@ -218,14 +189,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
     var displaySubjects=[];
     subjectsRequests(displaySubjects);
-
     swipe(clocks);
-
-        sessionStopwatch(clocks);
-
-
-        sessionTimer(clocks);
-
-
+    sessionStopwatch(clocks);
+    sessionTimer(clocks);
     subjectAdd(displaySubjects);
 });

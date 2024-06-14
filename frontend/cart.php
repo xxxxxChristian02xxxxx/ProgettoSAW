@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <title>Cart</title>
-    <link rel="stylesheet" type="text/css" href="../cart.css">
-    <link rel="stylesheet" type="text/css" href="../editTable.css">
+    <link rel="stylesheet" type="text/css" href="../css/cart.css">
+    <link rel="stylesheet" type="text/css" href="../css/editTable.css">
 </head>
 <body>
 <?php

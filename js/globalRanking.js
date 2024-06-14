@@ -19,6 +19,23 @@ function getData(currentPage, rowsPerPage) {
             return response.json();
         })
         .then(data => {
+            Object.keys(data).forEach(function(i){
+                data[i]['TOTAL_STUDY_TIME'] = parseInt(data[i]['TOTAL_STUDY_TIME']);
+                let hours = Math.floor(data[i]['TOTAL_STUDY_TIME']/3600);
+                let minutes = Math.floor((data[i]['TOTAL_STUDY_TIME']%3600)/60);
+                let seconds = Math.floor((data[i]['TOTAL_STUDY_TIME']%3600)%60);
+                let formattedTime;
+                if(hours){
+                    formattedTime = hours + "h " + minutes + "m " + seconds + "s";
+                }
+                else if(minutes){
+                    formattedTime = minutes + "m " + seconds + "s";
+                }
+                else{
+                    formattedTime = seconds + "s";
+                }
+                data[i]['TOTAL_STUDY_TIME'] = formattedTime;
+            })
             var first = document.getElementById('PfirstPlaceName');
             var second = document.getElementById('PsecondPlaceName');
             var third = document.getElementById('PthirdPlaceName');
@@ -57,7 +74,6 @@ function getData(currentPage, rowsPerPage) {
 
             populateTable(data, currentPage, rowsPerPage, table);
             updatePagination(data, currentPage, rowsPerPage, table);
-
             populateColumnSelection(data, table);
 
             var input = document.getElementById("editUserSearch");

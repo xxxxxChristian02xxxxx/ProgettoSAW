@@ -1,14 +1,13 @@
 function deleteUser() {
     var rows = document.querySelectorAll('#edituserTable tbody tr');
-    const dataTarget = {
+
+    var dataTarget = {
         email: null,
     }
-    // Per ogni riga
+
     rows.forEach(function (row) {
-        // Accedo alla cella relativa al campo ban (sapendo qual è la struttura della tabella ho fatto l'accesso tramite indice)
         var cell = row.cells[7];
         if (cell) {
-            // Memorizzo l'email relativa alla cella che è stata cliccata (anche in questo caso conoscendo la struttura so dove è memorizzata l'email)
             cell.addEventListener('click', function () {
                 dataTarget['firstname'] = row.cells[1];
                 dataTarget['lastname'] = row.cells[2];
@@ -60,14 +59,8 @@ function deleteUserFetch(dataTarget) {
             if (response.status === 204) { // No content
                 return null;
             }
-            return response.json();
         })
-        .then(
-            getData(1,5)
-        )
         .catch(error => {
-            console.error("qualcosa è andato storto", error);
+            console.error("Something went wrong", error);
         })
-
-
 }

@@ -8,7 +8,6 @@ window.addEventListener("DOMContentLoaded", () => {
                 mailFetch(confirmPass,email);
             }
     })
-
 })
 
 function mailFetch(confirmPass,email){
@@ -23,23 +22,20 @@ function mailFetch(confirmPass,email){
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            if (response.status === 204) { // No content
+            if (response.status === 204) {
                 return null;
             }
             return response.json();
      })
         .then(data => {
             if(data['present']) {
-
                 popup(email,confirmPass);
-
             }else{
                 let emailError = document.getElementById("emailErro");
                 emailError.classList.remove("errore")
             }
         })
         .catch(error => {
-            // Gestione degli errori durante la chiamata
             console.error('Si è verificato un errore durante la fetch:', error);
         })
 }
@@ -51,15 +47,11 @@ function passwordFetch(email,confiermPass){
         },
         body: JSON.stringify({email:email, password:confiermPass, action: 'updatePasswordLogin' }),
     })
-
-
         .catch(error => {
-            // Gestione degli errori durante la chiamata
             console.error('Si è verificato un errore durante la fetch:', error);
         })
 }
 function generateRandom(values){
-
     values[0]= Math.floor(Math.random() * 100).toString();
     values[1]= Math.floor(Math.random() * 100).toString();
     values[2]= Math.floor(Math.random() * 100).toString();

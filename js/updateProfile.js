@@ -10,7 +10,7 @@ function displayMyProfile(){
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            if (response.status === 204) { // No content
+            if (response.status === 204) {
                 return null;
             }
             return response.json();

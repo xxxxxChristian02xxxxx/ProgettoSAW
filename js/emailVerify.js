@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('email').addEventListener('change', function (event) {
         const emailInput = document.getElementById('email').value;
-
         fetch('../backend/emailVerify.php', {
             method: 'POST',
             headers: {
@@ -16,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (response.status === 204) { // No content
                     return null;
                 }
-                return response.json();
+                return response.text();
             })
             .then(data => {
                 if(data['present']) {
@@ -28,8 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             })
             .catch(error => {
-                // Gestione degli errori durante la chiamata
-                console.error('Si è verificato un errore durante la fetch:', error);
+                console.error('Error during fetch:', error);
             })
     });
 });

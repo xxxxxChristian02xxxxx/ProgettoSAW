@@ -1,6 +1,5 @@
 <?php
 if ($_POST['submit'] == "submit") {
-    //Memorizzazione in variabili dei dati inseriti nel form
     $firstname = $_POST['firstname'];
     $firstname = trim($firstname);
     $lastname = $_POST['lastname'];
@@ -13,7 +12,6 @@ if ($_POST['submit'] == "submit") {
     $confirm = trim($confirm);
 
     include('backend/be_registration.php');
-
     echo json_encode(registration($firstname, $lastname, $email, $password, $confirm));
 }
 

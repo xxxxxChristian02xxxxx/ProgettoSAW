@@ -1,13 +1,10 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-require ('../backend/function_files/inputCheck.php');
+require ('function_files/inputCheck.php');
 
-
-// Get the raw POST data
 $postData = file_get_contents("php://input");
 
-// Decode the JSON data
 $data = json_decode($postData, true);
 
 if ($data && $_SERVER["REQUEST_METHOD"] == "POST") {
@@ -35,25 +32,21 @@ function registration($firstname, $lastname, $email, $password, $confirm){
     include("function_files/connection.php");
     $con = connect();
 
-    //Cifratura della password
     if($password ===  $confirm){
         $password = password_hash($password, PASSWORD_DEFAULT);
     }
 
-    //Preparazione della query per aggiungere un nuovo utente
-    //Vediamo poi i prepared statement
     $query = "INSERT INTO USERS(ID, FIRSTNAME, LASTNAME, EMAIL, PASSWORD) VALUES (NULL, ?, ?, ?, ?)";
     $stmt = $con->prepare($query);
     $stmt->bind_param('ssss', $firstname, $lastname, $email, $password);
-    //Esecuzione della query
+
     $stmt->execute();
 
     if ($stmt->affected_rows == 1) {
-        //Utente registrtato correttamente, posso chiudere la connessione
         http_response_code(200);
         $data = array("success" => true);
-    } else {
-        //Non è stato possibile aggiungere utente al db
+    }
+    else {
         $data = array("success" => false);
     }
     $con->close();

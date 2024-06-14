@@ -3,8 +3,8 @@
 <head>
     <title>Global ranking</title>
     <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../ranking.css">
-    <link rel="stylesheet" type="text/css" href="../editTable.css">
+    <link rel="stylesheet" type="text/css" href="../css/ranking.css">
+    <link rel="stylesheet" type="text/css" href="../css/editTable.css">
 </head>
 <body>
     <?php
@@ -60,7 +60,7 @@
                         <th>POSITION</th>
                         <th>USER</th>
                         <th>MOST EXPENSIVE STICKER</th>
-                        <th>TOTAL STUDY HOURS</th>
+                        <th>TOTAL STUDY TIME</th>
                     </tr>
                     </thead>
                     <tbody>

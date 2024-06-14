@@ -7,4 +7,3 @@ $session = getSession(true);
 $data = rethriveData();
 
 echo $data['FIRSTNAME'], $data['LASTNAME'], $data['EMAIL'];
-?>

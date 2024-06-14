@@ -1,19 +1,14 @@
-// Funzione per popolare la tabella
 function populateTable(data, currentPage, rowsPerPage, table) {
     if (table) {
-        //Pulizia della tabella
+
         table.innerHTML = '';
 
-        // Indice del primo elemento da visualizzare nella tabella
         var start = (currentPage - 1) * rowsPerPage;
-        // Indice ultimo elemento da visualizzare nella tabella per la pagina corrente
         var end = Math.min(start + rowsPerPage, data.length);
 
-        // Popolamento della tabella
         for (var i = start; i < end; i++) {
             var newRow = document.createElement('tr');
-            // Aggiunta delle colonne alla riga - iterazione attraverso tutte le chiavi dell'oggetto data[i]
-            // e applicazione di una funzione a ciascuna di esse
+
             if (table === document.querySelector('#globalRankTable tbody')) {
                 var newCell = document.createElement('td');
                 newCell.innerText = i - start + 1;
@@ -46,11 +41,6 @@ function populateTable(data, currentPage, rowsPerPage, table) {
                     banUnbanButton.className = "banUnbanButton";
                     newCell.appendChild(banUnbanButton);
                 }
-                else if (key === 'DATE'){
-                    var date = new Date(data[i][key]);
-
-                    newCell.textContent = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
-                }
                 else {
                     newCell.textContent = data[i][key];
                 }
@@ -68,7 +58,6 @@ function populateTable(data, currentPage, rowsPerPage, table) {
             }
 
             table.appendChild(newRow);
-
         }
 
         if (table === document.querySelector('#edituserTable tbody')) {
@@ -78,12 +67,10 @@ function populateTable(data, currentPage, rowsPerPage, table) {
             deleteUser();
         }
 
-        // Aggiornamento controlli di paginazione
         updatePagination(data, currentPage, rowsPerPage, table);
     }
 }
 
-// Funzione per la gestione della paginazione
 function updatePagination(data, currentPage, rowsPerPage, table) {
 
     var totalPages = Math.ceil(data.length / rowsPerPage);
@@ -110,7 +97,6 @@ function updatePagination(data, currentPage, rowsPerPage, table) {
 
 }
 
-// Funzione per cambaire il numero di righe per pagina
 function changeRowsPerPage() {
     var rowsPerPage = parseInt(document.getElementById('rowsPerPage').value);
     var currentPage = 1;
@@ -125,13 +111,10 @@ function searchTable(data, input, currentPage, rowsPerPage, table) {
 
     table.innerHTML = '';
 
-    // Tengo traccia degli indici delle righe che soddisfano i criteri della ricerca
     var foundIndexes = [];
 
-    // Iterazione attraverso le righe della struttura dati
     for(i=0; i<data.length; i++){
         var found = false;
-        // Iterazione sulla colonna della riga
         for(j = 0; j<Object.values(data[i]).length; j++) {
             text = String(Object.values(data[i])[j]);
             if (text.toUpperCase().includes(filter)) {
@@ -143,36 +126,13 @@ function searchTable(data, input, currentPage, rowsPerPage, table) {
         if(found) {
             foundIndexes.push(i);
         }
-
     }
 
-    // Indice del primo elemento da visualizzare nella tabella
-    var start = (currentPage - 1) * rowsPerPage;
-    // Indice ultimo elemento da visualizzare nella tabella per la pagina corrente
-    var end = Math.min(start + rowsPerPage, foundIndexes.length);
+    var filteredData = foundIndexes.map(function(index) {
+        return data[index];
+    });
 
-    // Vengono mostrate solo le righe che soddisfano i criteri di ricerca
-    for(var k=start; k<end; k++){
-        var rowIndex = foundIndexes[k];
-        var rowData = data[rowIndex];
-
-        var row = table.insertRow(-1);
-
-        if(table === document.querySelector('#globalRankTable tbody')){
-            var newCell = document.createElement('td');
-            newCell.innerText = k-start+1;
-            row.appendChild(newCell);
-        }
-
-        //Aggiunta delle colonne alla riga
-        Object.keys(rowData).forEach(function (key) {
-            var newCell = row.insertCell(-1);
-            newCell.textContent = rowData[key];
-        });
-    }
-
-    // Aggiornamento controlli di paginazione
-    updatePagination(data, currentPage, table);
+    populateTable(filteredData,currentPage,rowsPerPage, table);
 }
 
 
@@ -185,7 +145,6 @@ function populateColumnSelection(data, table) {
     emptyOption.text = 'Select column';
     columnSelection.appendChild(emptyOption);
 
-    //Elenco colonne dalla prima riga dei dati
     var columns = Object.keys(data[0]);
 
     columns.forEach(function(column) {
@@ -213,7 +172,6 @@ function populateColumnSelection(data, table) {
     });
 }
 
-//Funzione per popolare dinamicamente la selezioni del valori ripsetto cui filtrare
 function populateValueSelection(data, selectedColumn, table) {
     var filterValue = document.getElementById('valueFilter');
     filterValue.innerHTML = '';
@@ -244,7 +202,6 @@ function filterTable(data, table) {
     var filterValue = document.getElementById('valueFilter').value;
     var rowsPerPage = document.getElementById('rowsPerPage').value;
 
-    // Confronta il valore di filterColumn per ogni riga con il valore del filtro filterValue usando il metodo filter sull'array data
     var filteredData = data.filter(function (row) {
         return row[filterColumn].toString() === filterValue.toString();
     });
@@ -265,7 +222,6 @@ function resetFilters(data, table){
     valueFilterDiv.forEach(function (divElement) {
         divElement.style.display = 'none';
     });
-    valueFilterDiv.style.display = 'none';
     var rowsPerPage = document.getElementById('rowsPerPage').value;
     populateTable(data, 1, rowsPerPage, table);
 }

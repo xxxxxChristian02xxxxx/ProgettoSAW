@@ -9,10 +9,11 @@ function mygardenFetch() {
             if (response.status === 204) { // No content
                 return null;
             }
-            return response.json();
+            console.log(response.text());
+            //return response.json();
         })
         .then(data => {
-            plants = data; // store the data in the `plants` variable
+            plants = data;
             const plantsContainer = document.getElementById('plants-container');
             appendPlantsToContainer(plants, plantsContainer);
         })

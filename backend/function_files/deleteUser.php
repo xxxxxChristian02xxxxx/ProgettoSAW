@@ -1,33 +1,15 @@
 <?php
 session_start();
-if(!function_exists('deleteUser')){
 function deleteUser($email){
     require('connection.php');
     $con = connect();
 
-    $query = "DELETE FROM USERS WHERE EMAIL=?";
+    $query = "DELETE FROM USERS WHERE EMAIL=? AND ROLES = 0";
     $stmt = $con->prepare($query);
     $stmt->bind_param("s", $email);
     $stmt->execute();
-
-    $query = "SELECT * FROM USERS"; // query
-    $stmt = $con->prepare($query); // execute query
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    $data = array();
-
-    if($result->num_rows>0){
-        while($row = $result->fetch_assoc()){
-            $sanitized_row = array_map('htmlspecialchars', $row);
-            $data[] = $sanitized_row;        }
-    }
-
-    $con->close();
-    header('Content-Type: application/json');
-    echo json_encode($data);
-    }
 }
+
 $data = json_decode(file_get_contents('php://input'), true);
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
     require('session.php');

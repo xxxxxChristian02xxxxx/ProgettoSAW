@@ -1,16 +1,11 @@
 <?php
 session_start();
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-require ('../backend/function_files/inputCheck.php');
+require ('function_files/inputCheck.php');
 
-
-// Get the raw POST data
 $postData = file_get_contents("php://input");
 
-// Decode the JSON data
-$data = json_decode($postData, true); // prendo i dati che mi erano stati mandati dal login frontend tramite jason con apifetch
-// nostro sito funziona un po diverso dai test, noi non usiamo il form, ma usiamo il fetch per mandare i dati al backend
+$data = json_decode($postData, true);
+
 if ($data && $_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $data['email'];
     $email = trim($email);

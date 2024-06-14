@@ -1,6 +1,5 @@
 window.addEventListener("DOMContentLoaded", () => {
     let email=document.getElementById("email");
-
     let user={
         firstname:null,lastname:null,money:0,timeStudied:0,plantsPurchased:0,email:email,
     }
@@ -23,11 +22,8 @@ function dataFetch(user){
         }
         return response.json();
     })
-
     .then(data => {
-        user =data;
-
-        populateProfile(user);
+        populateProfile(data);
     })
     .catch(error => {
         console.error('Error: ', error);
@@ -46,7 +42,7 @@ function populateProfile(user){
     lastname.innerText = user['LASTNAME'];
     money.innerText = user['MONEY'];
     email.innerText=user['EMAIL'];
-    //user['TOTAL_TIME']=0;
+
     if(user['TOTAL_TIME'] === null){
         timestudied.innerText = "0";
     }else{
@@ -66,9 +62,6 @@ function displayTime(time,timestudied){
         formattedTime = minutes + "m " + seconds + "s";
     }
     timestudied.innerText = formattedTime;
-
-
-
 }
 
 

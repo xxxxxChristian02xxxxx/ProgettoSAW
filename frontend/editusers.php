@@ -3,9 +3,9 @@
 <head>
     <title>Edit users</title>
     <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../editusers.css">
-    <link rel="stylesheet" type="text/css" href="../editTable.css">
-    <link rel="stylesheet" type="text/css" href="../popup.css">
+    <link rel="stylesheet" type="text/css" href="../css/editusers.css">
+    <link rel="stylesheet" type="text/css" href="../css/editTable.css">
+    <link rel="stylesheet" type="text/css" href="../css/popup.css">
 </head>
 <body>
     <?php

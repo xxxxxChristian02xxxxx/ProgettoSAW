@@ -1,6 +1,6 @@
 <?php
 session_start();
-// Get the raw POST data
+
 if ($_POST['submit'] == 'submit') {
     $email = $_POST['email'];
     $email = trim($email);

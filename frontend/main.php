@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
     <title>Home</title>
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../main_dressing.css">
+    <link rel="stylesheet" type="text/css" href="../css/main_dressing.css">
 </head>
 
 <body>
@@ -30,7 +29,7 @@ echo "<h1>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
         <span>
             <label for="add_materie">Add new subject:</label>
             <input type="text" id="add_materie" name="Testo_materie">
-            <button id="newsub"> + </button></span>
+            <span><button id="newsub"> + </button></span>
         </span>
     </div>
 
@@ -45,7 +44,7 @@ echo "<h1>Welcome " . $session['firstname'] . " " . $session['lastname'] .  " </
                     <h1 id ="timerTitle">Timer</h1>
                 </div>
                 <p id="timeTimer" class="timer"></p>
-                <div >
+                <div>
                     <input type="range" id="TimerRange"></div>
                 <div class="tasto">
                     <button id="TimerStart">Start</button>
