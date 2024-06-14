@@ -32,49 +32,16 @@ function updateProfileData($firstname, $lastname, $email, $password){
     require('function_files/connection.php');
     $con = connect();
 
-    $query = "UPDATE USERS SET ";
-    $params = array();
+    $con->close();
+    $query = "UPDATE USERS SET FIRSTNAME = ?, LASTNAME = ?, EMAIL = ?, PASSWORD = ? WHERE ID = ?";
 
-    //Se è stato aggiornato il nome
-    if ($firstname) {
-        $query .= "FIRSTNAME = ?, ";
-        $params[] = $firstname;
-    }
+    $password = password_hash($password, PASSWORD_DEFAULT);
 
-    //Se è stato aggiornato il cognome
-    if ($lastname) {
-        $query .= "LASTNAME = ?, ";
-        $params[] = $lastname;
-    }
-
-    //Se è stata aggiornata l'email
-    if ($email) {
-        $query .= "EMAIL = ?, ";
-        $params[] = $email;
-    }
-
-    //Se è stata aggiornata la password
-    if ($password) {
-        $password = password_hash($password, PASSWORD_DEFAULT);
-        $query .= "PASSWORD = ?, ";
-        $params[] = $password;
-    }
-
-    if(!empty($params)){
-        //Rimozione dell'ultima virgola e spazio dalla query
-        $query = rtrim($query, ", ");
-
-        $query .= " WHERE ID = ?";
-        $params[] = $userId;
-
-        $stmt = $con->prepare($query);
-        $type = str_repeat('s', count($params)-1);
-        $stmt->bind_param($type.'i', ...$params);
-        $stmt->execute();
-    }
+    $stmt = $con->prepare($query);
+    $stmt->bind_param('ssssi', $firstname, $lastname, $email, $password, $userId);
+    $stmt->execute();
 
     $con->close();
-
 }
 
 $data = json_decode(file_get_contents('php://input'), true);
