@@ -6,12 +6,10 @@ function requestProfileData(){
     $con = connect();
 
     require('function_files/session.php');
-    $session = getSession(true);
-    $userId = $session['id'];
-    error_log($userId);
+
     $query = "SELECT FIRSTNAME, LASTNAME, EMAIL FROM USERS WHERE ID = ?";
     $stmt = $con->prepare($query);
-    $stmt->bind_param('i', $userId);
+    $stmt->bind_param('i', $_SESSION['id']);
     $stmt->execute();
     $result = $stmt->get_result();
     if($result->num_rows === 1){
@@ -26,8 +24,6 @@ function requestProfileData(){
 
 function updateProfileData($firstname, $lastname, $email, $password){
     require('function_files/session.php');
-    $session_variables = getSession(true);
-    $userId = $session_variables['id'];
 
     require('function_files/connection.php');
     $con = connect();
@@ -38,14 +34,13 @@ function updateProfileData($firstname, $lastname, $email, $password){
     $password = password_hash($password, PASSWORD_DEFAULT);
 
     $stmt = $con->prepare($query);
-    $stmt->bind_param('ssssi', $firstname, $lastname, $email, $password, $userId);
+    $stmt->bind_param('ssssi', $firstname, $lastname, $email, $password, $_SESSION['id']);
     $stmt->execute();
 
     $con->close();
 }
 
 $data = json_decode(file_get_contents('php://input'), true);
-error_log("sono qui");
 error_log(print_r($data, true));
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
 

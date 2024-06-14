@@ -4,8 +4,8 @@ require ('../backend/function_files/inputCheck.php');
 
 function addSessionStudied($moneyObtainedFromSession, $typesession, $total_time_spent, $subjectStudied, $descriptionSession){
     require('function_files/session.php');
-    $session_variables = getSession(true);
-    $userId =$session_variables['id'];
+    
+    $userId =$_SESSION['id'];
 
     require('function_files/connection.php');
     $con = connect();
@@ -53,7 +53,7 @@ function addSessionStudied($moneyObtainedFromSession, $typesession, $total_time_
 
 function updateSubject($subjectStudied){
     require('function_files/session.php');
-    $session_variables = getSession(true);
+    
 
     require('function_files/connection.php');
     $con = connect();
@@ -78,8 +78,8 @@ function updateSubject($subjectStudied){
 
 function subjectTend(){
     require('function_files/session.php');
-    $session_variables = getSession(true);
-    $userId =$session_variables['id'];
+    
+    $userId =$_SESSION['id'];
     require('function_files/connection.php');
     $con = connect();
 

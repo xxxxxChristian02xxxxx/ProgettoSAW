@@ -1,7 +1,7 @@
 <?php
 session_start();
 include('backend/function_files/session.php');
-$session = getSession(true);
+$session = getSession();
 
 if($_POST['submit']== 'submit'){
     include('backend/be_updateProfile.php');

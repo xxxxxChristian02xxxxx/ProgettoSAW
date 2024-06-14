@@ -29,7 +29,7 @@ function modifyMoney($email, $money){
 
 function resetMoney($email){
     require('session.php');
-    $session_variables = getSession(true);
+    
 
     require('connection.php');
     $con = connect();
@@ -60,8 +60,8 @@ function resetMoney($email){
 $data = json_decode(file_get_contents('php://input'), true);
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
     require('session.php');
-    $session_variables = getSession(true);
-    if($session_variables['role']) {
+    
+    if($_SESSION['loggedIn'] && $_SESSION['role']) {
         if (isset($data['action'])) {
             switch ($data['action']) {
                 case 'modifyMoney':

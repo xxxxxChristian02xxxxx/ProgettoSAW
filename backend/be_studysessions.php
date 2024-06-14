@@ -3,7 +3,7 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 include('function_files/session.php');
-$session = getSession(true);
+
 
 require("function_files/connection.php");
 $con = connect();
