@@ -1,33 +1,33 @@
 <?php
 session_start();
 if(!function_exists('banUnban')){
-    function banUnban($email){
-        require('connection.php');
-        $con = connect();
+function banUnban($email){
+    require('connection.php');
+    $con = connect();
 
-        $query = "UPDATE USERS SET BANNED = !BANNED WHERE EMAIL = ? AND ROLES = 0";
+    $query = "UPDATE USERS SET BANNED = !BANNED WHERE EMAIL = ? AND ROLES = 0";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+
+    if($stmt->affected_rows === 1){
+        $query = "SELECT BANNED FROM USERS WHERE EMAIL = ?";
         $stmt = $con->prepare($query);
         $stmt->bind_param("s", $email);
         $stmt->execute();
+        $result = $stmt->get_result();
 
-        if($stmt->affected_rows === 1){
-            $query = "SELECT BANNED FROM USERS WHERE EMAIL = ?";
-            $stmt = $con->prepare($query);
-            $stmt->bind_param("s", $email);
-            $stmt->execute();
-            $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
 
-            $data = $result->fetch_assoc();
+        $con->close();
 
-            $con->close();
-
-            header('Content-Type: application/json');
-            echo json_encode($data);
-        }
-        else{
-            echo('Something went wrong with the query result');
-        }
+        header('Content-Type: application/json');
+        echo json_encode($data);
     }
+    else{
+        echo('Something went wrong with the query result');
+    }
+}
 }
 
 
