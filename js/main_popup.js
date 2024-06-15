@@ -28,26 +28,25 @@ function sessionPopUpAssembling(popUpContent, typePopUp) {
 function generatePopUpSession() {
     return `
     <div class="popup-inner">
-            <h2  class="popup-title"> Your Statistics </h2>
-                
+            <h2  class="popup-title"> Your Statistics </h2>  
                 <div class="infoPopup">
                     <div>
                         <p id="durata_session" class="dataText">Duration session:</p>
-                        <span><p id="timeDuration" >Tempo</p></span>
+                        <p id="timeDuration" >Tempo</p>
                     </div>
                     <div>
                         <p id="materia_studiata"  class="dataText">Subjects studied:</p>
-                        <span><p id="subStudied"></p></span>
+                        <p id="subStudied"></p>
                     </div>
                     <div>
                         <p id="soldi_ottenuti" class="dataText">Money earned:</p>
-                        <span><p id="moneyGotten" >Soldi</p></span>
+                        <p id="moneyGotten" >Soldi</p>
                     </div>
             
                     <div id="descrizione" class ="description">
                         <div>
                             <textarea id ="area_descrizione" rows="4" cols="50" placeholder="Add a short description..."></textarea>
-                            <div> <p id ="word counter" > 0/300</p></div>
+                            <p id ="word counter" > 0/300</p>
                         </div>
                     </div>
                 </div>
@@ -101,48 +100,36 @@ function sessionPopUpManager(popUpContent, typeClock, timeBreakStart) {
             if (buttonT.innerHTML === "Stop") {
                 buttonT.innerHTML = "Start";
                 buttonT.removeAttribute("aria-label");
-
             }
             if (buttonS.innerHTML === "Stop") {
                 buttonS.innerHTML = "Start";
                 buttonS.removeAttribute("aria-label");
-
             }
-            popUpContent.classList.remove("open");//aggiungo il css
-            console.log("sbagko")
+            popUpContent.classList.remove("open");
             overWrite(typeClock);
-            console.log(typeClock['modifiableTimeTimer'])
-
         }
     })
     //-------------------------EVENTO CONTARE NUMERO CARATTERI NELLA SEZIONE DESCRIZIONE  -------------------------//
     descriptionArea.addEventListener("keydown", function (e) {
         const text = descriptionArea.value;
 
-        // Se la lunghezza del testo supera il limite massimo e il tasto non è backspace o delete
         if (text.length >= limitWords && e.key !== 'Backspace' && e.key !== 'Delete') {
-            e.preventDefault(); // Impedisce all'utente di digitare oltre il limite
-
+            e.preventDefault();
         }
     });
     descriptionArea.addEventListener("paste", function (e) {
         const text = e.clipboardData.getData('text/plain');
-
-        // Se la lunghezza del testo incollato supera il limite massimo
         if ((descriptionArea.value.length + text.length) > limitWords) {
-            e.preventDefault(); // Impedisce all'utente di incollare testo oltre il limite
+            e.preventDefault();
         }
     });
     descriptionArea.addEventListener("input", function (e) {
         const text = descriptionArea.value;
-        // Se la lunghezza del testo supera il limite massimo
         if (text.length > limitWords) {
             descriptionArea.value = text.slice(0, limitWords); // Tronca il testo al limite massimo
         }
-
         wordCounter.textContent = text.length + "/" + limitWords; // Aggiorna il conteggio dei caratteri
     });
-
 }
 function generatePopUpBreak() {
     return `
@@ -158,7 +145,6 @@ function generatePopUpBreak() {
                 <button id="break15mins" class="break" style="">15 mins</button>
                 <button id="break30mins" class="break" style="" >30 mins</button>
             </div>
-
     </div>`
 }
 function breakPopUpManager(popUpContent, typeClock) {
@@ -166,7 +152,7 @@ function breakPopUpManager(popUpContent, typeClock) {
     const break5minsButton = document.getElementById('break5mins');
     const break15minsButton = document.getElementById('break15mins');
     const break30minsButton = document.getElementById('break30mins');
-    //typeClock['timeSpent'] =4000;
+
     break15minsButton.style.display="none";
     break30minsButton.style.display="none";
     if ((typeClock['timeSpent'] >= 1800) && (typeClock['timeSpent'] < 3600)) {
@@ -176,7 +162,6 @@ function breakPopUpManager(popUpContent, typeClock) {
         break15minsButton.removeAttribute("style");
     }
     break5minsButton.addEventListener('click', () => {
-        // handle 5 mins break
         let timeBreakStart = typeClock['shortBreak'];
         typeClock['idTimerOrStopwatch'] = false;
         popUpContent.classList.remove("open");
@@ -184,7 +169,6 @@ function breakPopUpManager(popUpContent, typeClock) {
         unlockSelection();
         break15minsButton.style.display="none";
         break30minsButton.style.display="none";
-
     });
 
     break15minsButton.addEventListener('click', () => {

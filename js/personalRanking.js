@@ -14,14 +14,12 @@ fetch("../backend/be_personalRanking.php")
     return response.json();
 })
 .then(data => {
-    console.log(data);
     var first = document.getElementById('PfirstPlaceSubject');
     var second = document.getElementById('PsecondPlaceSubject');
     var third = document.getElementById('PthirdPlaceSubject');
 
     if (data[0]) {
         first.textContent = data[0]['SUBJECT'];
-        console.log(first.textContent);
     }
     if (data[1]) {
         second.textContent = data[1]['SUBJECT'];
@@ -57,13 +55,11 @@ fetch("../backend/be_personalRanking.php")
         var newCell = document.createElement('td');
         newCell.textContent = i+1;
         newRow.appendChild(newCell)
-        //Aggiunta delle colonne alla riga
         Object.keys(data[i]).forEach(function (key) {
             var newCell = document.createElement('td');
             newCell.textContent = data[i][key];
             newRow.appendChild(newCell)
         });
-
         table.appendChild(newRow);
     }
 })

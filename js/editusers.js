@@ -63,16 +63,16 @@ function popup(cell, row, dataTarget) {
                 });
                 break;
             case row.cells[5]:
-                const yesBan = document.getElementById("yesBanUnban");
-                const noBan = document.getElementById("noBanUnban");
+                const yesBanUnban = document.getElementById("yesBanUnban");
+                const noBanUnban = document.getElementById("noBanUnban");
 
-                yesBan.addEventListener('click', () => {
+                yesBanUnban.addEventListener('click', () => {
                     banUnbanFetch(dataTarget, cell);
                     popUp.classList.add('hidden');
                     document.body.style.overflow = 'auto';
                 });
 
-                noBan.addEventListener('click', () => {
+                noBanUnban.addEventListener('click', () => {
                     popUp.classList.add('hidden');
                     document.body.style.overflow = 'auto';
                 });
@@ -152,6 +152,7 @@ function popup(cell, row, dataTarget) {
 
                 yesDelete.addEventListener('click', () => {
                     deleteUserFetch(dataTarget, cell);
+                    row.remove();
                     popUp.classList.add('hidden');
                     document.body.style.overflow = 'auto';
                 });
@@ -161,7 +162,6 @@ function popup(cell, row, dataTarget) {
                     document.body.style.overflow = 'auto';
                 });
                 break;
-
         }
 
         closePopUpButton.addEventListener('click', () => {

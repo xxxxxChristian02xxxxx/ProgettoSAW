@@ -1,5 +1,5 @@
 function displayMyProfile(){
-    fetch('../backend/be_updateProfile.php', {
+    fetch('../backend/be_updateprofile.php', {
         method: 'POST',
         headers: {
             'Content-Type':'application/json'
@@ -10,7 +10,7 @@ function displayMyProfile(){
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            if (response.status === 204) { // No content
+            if (response.status === 204) {
                 return null;
             }
             return response.json();

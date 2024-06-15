@@ -1,8 +1,8 @@
 <?php
 if(isset($_SESSION['loggedIn'])) {
     include('../backend/function_files/session.php');
-    $session = getSession(true);
-    if($session['role']){
+
+    if($_SESSION['role']){
         include('privateHeaderAdmin.html');
 
     }

@@ -1,5 +1,5 @@
 function isSubPresent(addSubject, subChoosen) {
-    const options = subChoosen.options; // Get an array-like object of all the options
+    const options = subChoosen.options;
     for (let i = 0; i < options.length; i++) {
         if(options[i].innerText===addSubject){
             return false
@@ -16,7 +16,6 @@ function unlockSelection() {
     subChoosen.disabled = false;
 }
 function toggleButtonTS(typeClock, displayTimer, displayStopwatch, swipeCount) {
-
     if ((swipeCount % 2) === 0) {
         displayTimer.classList.remove("hide");
         displayStopwatch.classList.add("hide");
@@ -28,11 +27,9 @@ function toggleButtonTS(typeClock, displayTimer, displayStopwatch, swipeCount) {
     }
 }
 function toggleButton(buttonId) {
-    // Riferimento all'elemento del bottone
     var button = document.getElementById(buttonId);
     if (button.innerHTML !== 'Start') {
         button.innerHTML = "Stop";
-        // Impostazione attributo per cambiare colore bottone
         button.setAttribute("aria-label", "Stop");
     } else {
         button.innerHTML = "Start";
@@ -56,10 +53,9 @@ function showStudySession() {
     subSubStudied.innerHTML = subChoosen.value;
 }
 function populateSelect(options) {
-    //let gridHtml = '';
     let subEventuallyStudied = document.getElementById("scelta");
     options.forEach(op => {
-        subEventuallyStudied.appendChild(generateOptions(op));
+        subEventuallyStudied.appendChild(generateOptions(op['SUBJECT']));
     })
 }
 function generateOptions(option) {
@@ -90,7 +86,6 @@ function updateTimer(typeClock, timeGone) {
 
 }
 function startClock(typeClock, time, timeBreakStart) {
-    //var timeGone  = typeClock['startTimeST'];
     if (typeClock['idTimerOrStopwatch']) {    /*intervallo che deve essere aggiornato ogni 1000 ms*/
         toggleButton('startStopwatch');
 
@@ -106,7 +101,6 @@ function startClock(typeClock, time, timeBreakStart) {
         }, 1000)
     } else {
         if (!typeClock['idTimerEndOrStop']) {
-            console.log("nel timer",typeClock['modifiableTimeTimer'])
             toggleButton('TimerStart');
             typeClock['interval'] = setInterval(() => {
                 const currentTime = new Date();
@@ -114,7 +108,6 @@ function startClock(typeClock, time, timeBreakStart) {
                 const secondsPassed = Math.floor(diff / 1000);
                 typeClock['timegone'] = typeClock['modifiableTimeTimer'] - secondsPassed;
                 dataTime['timeSpent']++;
-                console.log(dataTime['timeSpent']);
                 updateTimer(typeClock,  typeClock['timegone']);
                 updateMoney();
                 if ( typeClock['timegone'] === 0) {
@@ -234,7 +227,7 @@ function databaseDelivery(json_data, operationType) {
         });
 
 }
-function subjectsRequests(displaySubjects) {
+function subjectsRequests() {
     fetch('../backend/be_main.php', { // dico il percorso del file di back end
         method: 'POST', //metodo get o post
         headers: {
@@ -243,18 +236,17 @@ function subjectsRequests(displaySubjects) {
         body: JSON.stringify({action: 'subjectTend'}) // encode
     })
         .then(response => {
-
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             if (response.status === 204) { // No content
                 return null;
             }
+
             return response.json();
         })
         .then(data => {
-            displaySubjects = data;
-            populateSelect(displaySubjects);
+            populateSelect(data);
         })
         .catch(error => {
             console.error('Error:', error);

@@ -1,41 +1,37 @@
 <?php
 session_start();
-if(!function_exists('promoteDemote')) {
-    function promoteDemote($email)
-    {
-        require('connection.php');
-        $con = connect();
+require('connection.php');
+function promoteDemote($email) {
+    $con = connect();
 
-        $query = "UPDATE USERS SET ROLES = !ROLES WHERE EMAIL = ?";
+    $query = "UPDATE USERS SET ROLES = !ROLES WHERE EMAIL = ?";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param('s', $email);
+    $stmt->execute();
+
+    if($stmt->affected_rows === 1){
+        $query = "SELECT ROLES FROM USERS WHERE EMAIL = ?";
         $stmt = $con->prepare($query);
-        $stmt->bind_param('s', $email);
+        $stmt->bind_param("s", $email);
         $stmt->execute();
+        $result = $stmt->get_result();
 
-        if($stmt->affected_rows === 1){
-            $query = "SELECT ROLES FROM USERS WHERE EMAIL = ?";
-            $stmt = $con->prepare($query);
-            $stmt->bind_param("s", $email);
-            $stmt->execute();
-            $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
 
-            $data = $result->fetch_assoc();
+        $con->close();
 
-            $con->close();
-
-            header('Content-Type: application/json');
-            echo json_encode($data['ROLES']);
-        }
-        else{
-            echo('Something went wrong with the query result');
-        }
+        header('Content-Type: application/json');
+        echo json_encode($data['ROLES']);
+    }
+    else{
+        echo('Something went wrong with the query result');
     }
 }
 
 $data = json_decode(file_get_contents('php://input'), true);
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
     require('session.php');
-    $session_variables = getSession(true);
-    if($session_variables['role']) {
+    if($_SESSION['loggedIn'] && $_SESSION['role']) {
         if (isset($data['action']) && $data['action'] === 'promoteDemote') {
             promoteDemote($data['email']);
         } else {

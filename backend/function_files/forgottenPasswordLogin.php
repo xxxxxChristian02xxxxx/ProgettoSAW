@@ -1,40 +1,35 @@
 <?php
-if(!function_exists('checkPresenceEmail')){
-    function checkPresenceEmail($email){
-        require("connection.php");
-        $con = connect();
+require("connection.php");
+function checkPresenceEmail($email){
+    $con = connect();
 
-        $query = "SELECT * FROM USERS WHERE EMAIL=?";
-        $stmt = $con->prepare($query);
-        $stmt->bind_param('s', $email);
-        $stmt->execute();
+    $query = "SELECT * FROM USERS WHERE EMAIL=?";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param('s', $email);
+    $stmt->execute();
 
-        $result = $stmt->get_result();
+    $result = $stmt->get_result();
 
-        if ($result->num_rows === 1) {
-            $emailPresent['present'] = true;
-        } else {
-            $emailPresent['present'] = false;
-        }
-
-        header('Content-Type: application/json');
-        echo json_encode($emailPresent);
+    if ($result->num_rows === 1) {
+        $emailPresent['present'] = true;
+    } else {
+        $emailPresent['present'] = false;
     }
+
+    header('Content-Type: application/json');
+    echo json_encode($emailPresent);
 }
-if(!function_exists('updatePasswordLogin')){
-    function updatePasswordLogin($email, $password){
 
-        require('connection.php');
-        $con = connect();
+function updatePasswordLogin($email, $password){
+    $con = connect();
 
-        if ($password) {
-            $pas = trim($password);
-            $pass = password_hash($pas, PASSWORD_DEFAULT);
-            $query = "UPDATE USERS SET PASSWORD = ? WHERE EMAIL = ?";
-            $stmt = $con->prepare($query);
-            $stmt->bind_param('ss', $pass, $email);
-            $stmt->execute();
-        }
+    if ($password) {
+        $pas = trim($password);
+        $pass = password_hash($pas, PASSWORD_DEFAULT);
+        $query = "UPDATE USERS SET PASSWORD = ? WHERE EMAIL = ?";
+        $stmt = $con->prepare($query);
+        $stmt->bind_param('ss', $pass, $email);
+        $stmt->execute();
     }
 }
 

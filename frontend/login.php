@@ -4,7 +4,7 @@
     <title>Login</title>
     <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../form.css">
+    <link rel="stylesheet" type="text/css" href="../css/form.css">
 
 </head>
 
@@ -40,7 +40,7 @@
                 <input type="checkbox" id="ReMe" name="ReMe">
             </div>
             <div class="ForgotPassword">
-                <a href="rescuePassword.html">Forgot password?</a>
+                <a href="rescuePassword.php">Forgot password?</a>
             </div>
         </div>
     </div>

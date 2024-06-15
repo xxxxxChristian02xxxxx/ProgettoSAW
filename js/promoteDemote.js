@@ -1,15 +1,13 @@
 function promoteDemoteUser() {
-    // Come prima cosa accedo alle righe della tabelle
-    // querySelectorAll restituisce una lista, in questo caso la lista di quelle che sono le righe della tabella
     var rows = document.querySelectorAll('#edituserTable tbody tr');
-    const dataTarget= {
+
+    let dataTarget= {
         email:null,
         firstname:null,
         lastname:null
     }
-    // Per ogni riga
+
     rows.forEach(function(row){
-        // Accedo alla cella relativa al campo roles (sapendo qual è la struttura della tabella ho fatto l'accesso tramite indice)
         var cellAdmin = row.cells[4];
         if(cellAdmin){
             // Memorizzo l'email relativa alla cella che è stata cliccata (anche in questo caso conoscendo la struttura so dove è memorizzata l'email)
@@ -93,7 +91,6 @@ function promoteDemoteFetch(dataTarget,cell){
             }
             return response.json();        })
         .then(data => {
-            console.log(data);
             var promoteDemoteButton = cell.querySelector('.promoteDemoteButton');
             if(data === 1){
                 promoteDemoteButton.innerHTML = 'Demote';
@@ -107,6 +104,6 @@ function promoteDemoteFetch(dataTarget,cell){
             }
         })
         .catch(error => {
-            console.error("Something went wrong");
+            console.error("Something went wrong", error);
         })
 }

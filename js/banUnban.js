@@ -1,7 +1,4 @@
-// Funzione per cambiare bannare o sbannare un utente
 function banUnban() {
-    // Come prima cosa accedo alle righe della tabelle
-    // querySelectorAll restituisce una lista, in questo caso la lista di quelle che sono le righe della tabella
     var rows = document.querySelectorAll('#edituserTable tbody tr');
     var dataTarget= {
         email:null,
@@ -9,12 +6,10 @@ function banUnban() {
         lastname:null,
         banned:null
     }
-    // Per ogni riga
+
     rows.forEach(function(row){
-        // Accedo alla cella relativa al campo ban (sapendo qual è la struttura della tabella ho fatto l'accesso tramite indice)
         var cellBan = row.cells[5];
         if(cellBan){
-            // Memorizzo l'email relativa alla cella che è stata cliccata (anche in questo caso conoscendo la struttura so dove è memorizzata l'email)
             cellBan.addEventListener('click', function () {
                 dataTarget['email'] = row.cells[3];
                 dataTarget['firstname']=row.cells[1];
@@ -22,11 +17,8 @@ function banUnban() {
                 dataTarget['banned']=cellBan.innerText;
                 popup(cellBan,row,dataTarget);
             });
-            // Aggiungo un listener relativo al click sulla cella della tabella
-            // Quando clicco -> chiamata fetch a file che faccia lo sban o il ban nel db
         }
     });
-
 }
 
 function appendBanUnabanToContainer(popUpContent, dataTarget) {
@@ -95,21 +87,19 @@ function banUnbanFetch(dataTarget, cell) {
             if (response.status === 204) { // No content
                 return null;
             }
-            console.log(response);
-            return response.text();
+            return response.json();
         })
         .then(data => {
-            console.log(data);
             var banUnbanButton = cell.querySelector('.banUnbanButton');
-            if(data === 1){
+            if(data['BANNED'] === 1){
                 banUnbanButton.innerHTML = 'Unban';
                 banUnbanButton.setAttribute('data-content', 'Unban');
-                banUnbanButton.classList.add('.promoteButton[data-content="Unban"');
+                banUnbanButton.classList.add('.banUnbanButton[data-content="Unban"');
             }
             else{
                 banUnbanButton.innerHTML = 'Ban';
                 banUnbanButton.setAttribute('data-content', 'Ban');
-                banUnbanButton.classList.add('.promoteButton[data-content="Ban"');
+                banUnbanButton.classList.add('.banUnbanButton[data-content="Ban"');
             }
         })
         .catch(error => {
