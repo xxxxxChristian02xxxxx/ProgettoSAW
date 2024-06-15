@@ -1,8 +1,8 @@
 <?php
-if(!function_exists('connect')){
+
     function connect()
     {
-        $con = new mysqli("localhost", "s5223956", "Dadedi1917", "s5223956");
+        $con = new mysqli("localhost", "root", "", "s5223956");
 
         if ($con->connect_errno) {
             die("Failed to connect to server MySQL: " . $con->connect_error);
@@ -10,4 +10,3 @@ if(!function_exists('connect')){
 
         return $con;
     }
-}

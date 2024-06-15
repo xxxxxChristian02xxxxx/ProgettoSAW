@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 require ('function_files/inputCheck.php');
 require_once('function_files/connection.php');
@@ -27,10 +31,11 @@ if ($data && $_SERVER["REQUEST_METHOD"] == "POST") {
     echo json_encode($response);
 }
 
-function login($email, $password, $remember){
+function login($email, $password, $remember)
+{
     //Connessione al db
-    $db = new Database();
-    $con = $db->getConnection();
+    $con = connect();
+    header('Content-Type: application/json');
 
     //Preparazione della query con prepared statement
     $query = "SELECT * FROM USERS WHERE EMAIL= ? ";
@@ -41,33 +46,32 @@ function login($email, $password, $remember){
     $res = $stmt->get_result();
 
     header('Content-Type: application/json');
-    if($res->num_rows !== 1){
+    if ($res->num_rows !== 1) {
         $response = array("success" => false);
-    }
-    else{
+    } else {
         $row = $res->fetch_assoc();
-        if($row['BANNED']){
+
+        if ($row['BANNED']) {
             $response = array("success" => false, "banned" => true);
-        }
-        else{
+        } else {
             $storedPassword = $row["PASSWORD"];
 
             if (password_verify($password, $storedPassword)) {
                 require('function_files/session.php');
-                setSession($row['ID']);
+                setSession($row['ID'], $row['FIRSTNAME'], $row['LASTNAME'], $row['EMAIL'], $row['ROLES']);
 
-                if($remember) {
+                if ($remember) {
                     require('function_files/RememberMe.php');
                     setRememberMe($remember);
                 }
 
                 http_response_code(200);
                 $response = array("success" => true, "banned" => false);
-            }else{
+            } else {
                 $response = array("success" => false, "banned" => false);
             }
         }
     }
-    $db->closeConnection();
+    $con->close();
     return $response;
 }
