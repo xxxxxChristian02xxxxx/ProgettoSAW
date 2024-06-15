@@ -1,26 +1,8 @@
 <?php
 session_start();
+require("function_files/test_session.php");
 include("function_files/inputCheck.php");
 require_once('function_files/connection.php');
-function requestProfileData(){
-    $con = connect();
-
-    require('function_files/session.php');
-
-    $query = "SELECT FIRSTNAME, LASTNAME, EMAIL FROM USERS WHERE ID = ?";
-    $stmt = $con->prepare($query);
-    $stmt->bind_param('i', $_SESSION['id']);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if($result->num_rows === 1){
-        $data = $result->fetch_assoc();
-        $sanitized_data = array_map('htmlspecialchars', $data);
-
-        $con->close();
-
-        echo json_encode($sanitized_data);
-    }
-}
 
 function updateProfileData($firstname, $lastname, $email, $password){
     require('function_files/session.php');
@@ -47,7 +29,13 @@ if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
     if(isset($data['action'])) {
         switch ($data['action']) {
             case 'requestProfileData':
-                requestProfileData();
+                $res = [
+                    "FIRSTNAME" => $_SESSION['firstname'],
+                    "LASTNAME" => $_SESSION['lastname'],
+                    "EMAIL" => $_SESSION['email']
+                ];
+                $res = array_map('htmlspecialchars', $res);
+                echo json_encode($res);
                 break;
             case 'updateProfileData':
                 if(!inputMailcheck($data['data']['email'])){

@@ -1,5 +1,8 @@
 <?php
 session_start();
+if(!isset($_SESSION['loggedIn'])) {
+    header("Location: ../../frontend/index.html");
+}
 require('connection.php');
 function promoteDemote($email) {
     $con = connect();

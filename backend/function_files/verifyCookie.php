@@ -22,8 +22,12 @@ function verifyCookie()
             if (date(time()) > $row['EXPIRE']) {
                 header("Location: frontend/login.php");
             } else {
-                include('session.php');
-                setSession($row['ID'], $row['FIRSTNAME'], $row['LASTNAME'], $row['EMAIL'], $row['ROLES']);
+                $_SESSION['loggedIn'] = true;
+                $_SESSION['id'] = $row['ID'];
+                $_SESSION['firstname'] = $row['FIRSTNAME'];
+                $_SESSION['lastname'] = $row['LASTNAME'];
+                $_SESSION['email'] = $row['EMAIL'];
+                $_SESSION['role'] = $row['ROLES'];
             }
         } else {
             echo('Something went wrong with the query result');

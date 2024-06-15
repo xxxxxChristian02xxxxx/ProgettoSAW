@@ -5,5 +5,5 @@ $session = getSession();
 
 if($_POST['submit']== 'submit'){
     include('backend/be_updateProfile.php');
-    updateProfileData($_POST['email'],$_POST['firstname'], $_POST['lastname'],NULL);
+    updateProfileData($_POST['firstname'], $_POST['lastname'],$_POST['email'],NULL);
 }

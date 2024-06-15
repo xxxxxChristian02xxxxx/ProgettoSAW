@@ -19,6 +19,7 @@ function getData(currentPage, rowsPerPage) {
             return response.json();
         })
         .then(data => {
+            console.log(data)
             Object.keys(data).forEach(function(i){
                 data[i]['TOTAL_STUDY_TIME'] = parseInt(data[i]['TOTAL_STUDY_TIME']);
                 let hours = Math.floor(data[i]['TOTAL_STUDY_TIME']/3600);

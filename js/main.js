@@ -188,6 +188,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     var displaySubjects=[];
+    console.log("entreremo nella funziona")
     subjectsRequests(displaySubjects);
     swipe(clocks);
     sessionStopwatch(clocks);

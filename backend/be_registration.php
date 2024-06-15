@@ -8,24 +8,26 @@ $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
 
 if ($data && $_SERVER["REQUEST_METHOD"] == "POST") {
-    //Memorizzazione in variabili dei dati inseriti nel form
-    $firstname = $data['firstname'];
-    $firstname = trim($firstname);
-    $lastname = $data['lastname'];
-    $lastname = trim($lastname);
-    $email = $data['email'];
-    $email = trim($email);
-    $password = $data['pass'];
-    $password = trim($password);
-    $confirm = $data['confirm'];
-    $confirm = trim($confirm);
+    if(isset($data['firstname']) && isset($data['lastname'])  && isset($data['email']) && isset($data['pass']) && isset($data['confirm'])) {
 
-    if(!inputMailcheck($email)){
-        echo json_encode('no valid email');
+        $firstname = $data['firstname'];
+        $firstname = trim($firstname);
+        $lastname = $data['lastname'];
+        $lastname = trim($lastname);
+        $email = $data['email'];
+        $email = trim($email);
+        $password = $data['pass'];
+        $password = trim($password);
+        $confirm = $data['confirm'];
+        $confirm = trim($confirm);
+
+        if (!inputMailcheck($email)) {
+            echo json_encode('no valid email');
+        }
+
+        $data = registration($firstname, $lastname, $email, $password, $confirm);
+        echo json_encode($data);
     }
-
-    $data = registration($firstname, $lastname, $email, $password, $confirm);
-    echo json_encode($data);
 }
 
 function registration($firstname, $lastname, $email, $password, $confirm){

@@ -1,12 +1,12 @@
 <?php
 session_start();
+require ("function_files/test_session.php");
 require ('../backend/function_files/inputCheck.php');
 require_once('function_files/connection.php');
 
 function addSessionStudied($moneyObtainedFromSession, $typesession, $total_time_spent, $subjectStudied, $descriptionSession){
-    require('function_files/session.php');
     
-    $userId =$_SESSION['id'];
+    $userId = $_SESSION['id'];
 
     $con = connect();
 
@@ -18,8 +18,7 @@ function addSessionStudied($moneyObtainedFromSession, $typesession, $total_time_
         echo "Error in user money modification";
     }
 
-    $query = "INSERT INTO STUDY_SESSIONS (SESSION_ID, TYPE, DATE, TOTAL_TIME, TOTAL_REWARD, USER, SUBJECT, DESCRIPTION) VALUES (NULL, ?, CURRENT_DATE, ?, ?, ?, ?, ?)";
-
+    $query = "INSERT INTO STUDY_SESSIONS ( TYPE, DATE, TOTAL_TIME, TOTAL_REWARD, USER, SUBJECT, DESCRIPTION) VALUES ( ?, CURRENT_DATE, ?, ?, ?, ?, ?)";
     $stmt = $con->prepare($query);
     $stmt->bind_param('iiiiss', $typesession, $total_time_spent, $moneyObtainedFromSession, $userId, $subjectStudied, $descriptionSession);
     $stmt->execute();
@@ -28,9 +27,9 @@ function addSessionStudied($moneyObtainedFromSession, $typesession, $total_time_
     $sessionId = mysqli_insert_id($con);
     error_log("sono qui: ". $sessionId);
     // Query per ricavare id della materia studiata
-    $query = "SELECT ID FROM SUBJECTS WHERE NAME = ?";
+    $query = "SELECT ID FROM SUBJECTS WHERE NAME = ? AND CREATED_BY = ?";
     $stmt = $con->prepare($query);
-    $stmt->bind_param("s", $subjectStudied);
+    $stmt->bind_param("si", $subjectStudied, $_SESSION[id]);
     $stmt->execute();
     $res = $stmt->get_result();
 
@@ -40,7 +39,7 @@ function addSessionStudied($moneyObtainedFromSession, $typesession, $total_time_
 
         $subjectId = $row['ID'];
         error_log("sono qua: ". $subjectId);
-        $query = "INSERT INTO subject_sessions (SUBJECT_ID, SESSION_ID) VALUES (?, ?)";
+        $query = "INSERT INTO SUBJECTS_SESSIONS (SUBJECT_ID, SESSION_ID) VALUES (?, ?)";
         $stmt = $con->prepare($query);
         $stmt->bind_param("ii", $subjectId, $sessionId);
         $stmt->execute();
@@ -52,13 +51,12 @@ function addSessionStudied($moneyObtainedFromSession, $typesession, $total_time_
 }
 
 function updateSubject($subjectStudied){
-    require('function_files/session.php');
 
     $con = connect();
 
-        $query = "INSERT INTO SUBJECTS (NAME) VALUES (?) ON DUPLICATE KEY UPDATE NAME=NAME";
+        $query = "INSERT INTO SUBJECTS (NAME, CREATED_BY) VALUES (?, ?) ON DUPLICATE KEY UPDATE NAME=NAME";
         $stmt=$con->prepare($query);
-        $stmt->bind_param('s',$subjectStudied);
+        $stmt->bind_param('si',$subjectStudied, $_SESSION['id']);
 
         $stmt->execute();
 
@@ -81,7 +79,7 @@ function subjectTend(){
 
     $con = connect();
 
-        $query = "SELECT DISTINCT SUBJECT FROM STUDY_SESSIONS WHERE STUDY_SESSIONS.USER = ?";
+        $query = "SELECT DISTINCT NAME FROM SUBJECTS WHERE CREATED_BY = ?";
         $stmt = $con->prepare($query);
         $stmt->bind_param('i',$userId);
         $stmt->execute();

@@ -3,6 +3,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 require ('../backend/function_files/inputCheck.php');
 
+
 function checkPresenceEmail($email)
 {
     require("function_files/connection.php");

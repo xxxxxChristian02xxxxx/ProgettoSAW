@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+
 function deleteUser($email){
     require('connection.php');
     $con = connect();

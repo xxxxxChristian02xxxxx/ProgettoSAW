@@ -1,5 +1,6 @@
 <?php
 session_start();
+require("function_files/test_session.php");
     function rethriveData()
     {
         require_once('function_files/connection.php');
@@ -42,6 +43,6 @@ if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
                 break;
         }
     }else{
-        echo json_encode('Unsupported action');
+        echo json_encode(['error' => 'Something went wrong with the query result']);
     }
 }

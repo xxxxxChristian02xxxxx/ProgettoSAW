@@ -1,5 +1,6 @@
 <?php
 session_start();
+require("function_files/test_session.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 include('function_files/session.php');
@@ -8,13 +9,12 @@ include('function_files/session.php');
 require("function_files/connection.php");
 $con = connect();
 
-$query = "SELECT SUBJECT, TYPE, DATE, TOTAL_TIME, TOTAL_REWARD, DESCRIPTION 
+$query = "SELECT  SUBJECT, TYPE, DATE, TOTAL_TIME, TOTAL_REWARD,  DESCRIPTION
           FROM STUDY_SESSIONS
-          INNER JOIN USERS ON STUDY_SESSIONS.USER = USERS.ID
-          WHERE USERS.EMAIL = ?
+          WHERE USER = ?
           ORDER BY STUDY_SESSIONS.DATE";
 $stmt = $con->prepare($query);
-$stmt->bind_param('s', $session['email']);
+$stmt->bind_param('s', $_SESSION['id']);
 $stmt->execute();
 
 $data = array();

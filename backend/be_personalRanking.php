@@ -1,5 +1,6 @@
 <?php
 session_start();
+require ("function_files/test_session.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 include('function_files/session.php');
@@ -10,7 +11,7 @@ $con = connect();
 $query = "SELECT SUBJECT, SUM(STUDY_SESSIONS.TOTAL_TIME) AS TOTAL_TIME_STUDIED, SUM(STUDY_SESSIONS.TOTAL_REWARD) AS TOTAL_REWARD 
           FROM STUDY_SESSIONS 
           GROUP BY SUBJECT
-          ORDER BY TOTAL_REWARD DESC";
+          ORDER BY TOTAL_TIME_STUDIED DESC ";
 $stmt = $con->prepare($query);
 $stmt->execute();
 $res = $stmt->get_result();

@@ -1,5 +1,8 @@
  <?php
 session_start();
+ if(!isset($_SESSION['loggedIn'])) {
+     header("Location: ../../frontend/index.html");
+ }
 require('inputCheck.php');
  require('connection.php');
 function modifyMoney($email, $money){

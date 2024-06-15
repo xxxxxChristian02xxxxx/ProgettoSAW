@@ -57,8 +57,12 @@ function login($email, $password, $remember)
             $storedPassword = $row["PASSWORD"];
 
             if (password_verify($password, $storedPassword)) {
-                require('function_files/session.php');
-                setSession($row['ID'], $row['FIRSTNAME'], $row['LASTNAME'], $row['EMAIL'], $row['ROLES']);
+                $_SESSION['loggedIn'] = true;
+                $_SESSION['id'] = $row['ID'];
+                $_SESSION['firstname'] = $row['FIRSTNAME'];
+                $_SESSION['lastname'] = $row['LASTNAME'];
+                $_SESSION['email'] = $row['EMAIL'];
+                $_SESSION['role'] = $row['ROLES'];
 
                 if ($remember) {
                     require('function_files/RememberMe.php');

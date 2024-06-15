@@ -1,5 +1,8 @@
 <?php
 session_start();
+if(!isset($_SESSION['loggedIn'])) {
+    header("Location: ../../frontend/index.html");
+}
 function banUnban($email){
     require('connection.php');
     $con = connect();

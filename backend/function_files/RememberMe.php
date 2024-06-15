@@ -2,8 +2,6 @@
 function setRememberMe($remember)
 {
     if ($remember) {
-        require('session.php');
-
         $expire = time() + ((60 * 60 * 24) * 7);
         $salt = "%salt&/";
 
@@ -14,7 +12,6 @@ function setRememberMe($remember)
         setcookie('ReMe', $sessiondata, $expire, '/');
         $expire = date("Y-m-d", $expire);
 
-        include("connection.php");
         $con = connect();
 
         $query = "UPDATE USERS SET REMEMBER = '1', TOKEN=?, EXPIRE=? WHERE ID=?";

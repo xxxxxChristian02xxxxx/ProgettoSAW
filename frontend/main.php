@@ -72,7 +72,8 @@ echo "<h1>Welcome " . $_SESSION['firstname'] . " " . $_SESSION['lastname'] .  " 
     </div>
 
     <script src="../js/main.js"></script>
-    <script src="../js/main_timer.js"></script>
+    <script src="../js/main_timer.js">
+    </script>
     <script src="../js/main_popup.js"></script>
 </main>
     <footer id="footer">

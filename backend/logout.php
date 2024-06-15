@@ -1,4 +1,5 @@
  <?php
+ require("function_files/test_session.php");
 function logout()
 {
     error_reporting(E_ALL);

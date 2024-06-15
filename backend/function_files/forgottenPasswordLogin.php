@@ -1,5 +1,8 @@
 <?php
 require("connection.php");
+if(!isset($_SESSION['loggedIn'])) {
+    header("Location: ../../frontend/index.html");
+}
 function checkPresenceEmail($email){
     $con = connect();
 

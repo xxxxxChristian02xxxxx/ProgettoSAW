@@ -32,20 +32,16 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-function createbuyButton(cart, money) {
+function createbuyButton(cart, totalprice, money) {
     document.getElementById('buy').addEventListener('click', () => {
-
+        if(money < totalprice){
+            alert("You don't have enough money");
+        }else {
             fetch("../backend/be_shop.php?buy=1", {
                 method: 'POST',
                 body: JSON.stringify({carts: cart, money: money}),
             })
                 .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    if (response.status === 204) { // No content
-                        return null;
-                    }
                     return response.json();
                 })
                 .then(data => {
@@ -57,6 +53,7 @@ function createbuyButton(cart, money) {
                 .catch(error => {
                     console.error("Vengo qua: ", error);
                 });
+        }
     });
 }
 
@@ -73,10 +70,10 @@ function createCart(plants) {
             totalprice += $price;
         }
     }
-    document.getElementById('totalPrice').innerHTML = 'Total price: ' + totalprice;
+    document.getElementById('totalPrice').innerHTML = 'Total price: '+ totalprice;
     console.log(cart);
     populatecartTable(cart);
-    createbuyButton(cart, money);
+    createbuyButton(cart,totalprice, money);
     return totalprice;
 }
 

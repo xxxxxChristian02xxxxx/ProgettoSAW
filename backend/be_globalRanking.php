@@ -1,5 +1,6 @@
 <?php
 session_start();
+require ("function_files/test_session.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 include('function_files/session.php');
@@ -23,10 +24,20 @@ $data = array();
 header('Content-Type: application/json');
 if($res->num_rows > 0)
     while($row = $res->fetch_assoc()){
-        $sanitized_row = array_map('htmlspecialchars', $row);
-        $data[] = $sanitized_row;
+        $data[] = sanitize_row($row);
     }
 
 $con->close();
 
 echo json_encode($data);
+
+function sanitize_row($row) {
+    foreach($row as $key => $value) {
+        if(is_null($value)) {
+            $row[$key] = ''; // Replace null values with an empty string
+        }else{
+            $row[$key] = htmlspecialchars($value);
+        }
+    }
+    return $row;
+}
