@@ -37,39 +37,17 @@ function updateDataProfile() {
         const firstname = document.getElementById('firstname').value;
         const lastname = document.getElementById('lastname').value;
         const email = document.getElementById('email').value;
-        const password = document.getElementById('pass').value;
-        const confirm = document.getElementById('confirm').value;
 
         let data = {};
 
-        if(firstname !== storedFirstname){
-            data['firstname'] = firstname;
-        }
-        else{
-            data['firstname'] = '';
-        }
+        data['firstname'] = firstname;
 
-        if(lastname !== storedLastname){
-            data['lastname'] = lastname;
-        }
-        else{
-            data['lastname'] = '';
-        }
+        data['lastname'] = lastname;
 
-        if(email !== storedEmail){
-            data['email'] = email;
-        }
-        else{
-            data['email'] = '';
-        }
+        data['email'] = email;
 
-        if(password && confirm && password === confirm){
-            data['password'] = password;
-        }
-        else{
-            data['password'] = '';
-        }
 
+        console.log(data)
         fetch('../backend/be_updateprofile.php', {
             method: 'POST',
             headers: {
@@ -84,8 +62,12 @@ function updateDataProfile() {
                 if (response.status === 204) { // No content
                     return null;
                 }
+                return response.json()
             })
-            .then(() => window.location.reload())
+            .then(data=>{
+                console.log(data);
+                window.location.reload();
+            })
             .catch(error => {
                 console.error('Error: ', error);
             });
@@ -94,4 +76,8 @@ function updateDataProfile() {
 
 document.addEventListener('DOMContentLoaded', function() {
     displayMyProfile();
+    document.getElementById("changePassword").addEventListener('click', function(event) {
+        event.preventDefault();
+        window.location.href = "../frontend/change_password.php";
+    });
 })

@@ -18,7 +18,6 @@ function setMoney() {
             console.error('Error: ', error);
         });
 }
-
 document.addEventListener('DOMContentLoaded', function () {
     // Si ottengono i dati
     console.log("ciao");
@@ -31,21 +30,17 @@ document.addEventListener('DOMContentLoaded', function () {
         location.reload();
     });
 });
-
 function createbuyButton(cart, totalprice, money) {
     document.getElementById('buy').addEventListener('click', () => {
-        if(money < totalprice){
-            alert("You don't have enough money");
-        }else {
             fetch("../backend/be_shop.php?buy=1", {
                 method: 'POST',
                 body: JSON.stringify({carts: cart, money: money}),
             })
                 .then(response => {
-                    return response.json();
+                    return response.text();
                 })
                 .then(data => {
-                    console.log(data['cart']);
+                    console.log(data);
                     alert(data['cart']);
                     localStorage.clear();
                     location.reload();
@@ -53,10 +48,9 @@ function createbuyButton(cart, totalprice, money) {
                 .catch(error => {
                     console.error("Vengo qua: ", error);
                 });
-        }
+
     });
 }
-
 function createCart(plants) {
     const money = setMoney();
     let totalprice = 0;
@@ -76,7 +70,6 @@ function createCart(plants) {
     createbuyButton(cart,totalprice, money);
     return totalprice;
 }
-
 function getData(){
     let plants = [];
 

@@ -2,15 +2,16 @@ window.addEventListener("DOMContentLoaded", () => {
     document.getElementById('UserRescuePassword').addEventListener('submit', function(event) {
         event.preventDefault();
         var email = document.getElementById("email").value;
-            var password= document.getElementById("pass").value;
-            var confirmPass= document.getElementById("confirm").value;
-            if(password === confirmPass){
-                mailFetch(confirmPass,email);
-            }
+        var password= document.getElementById("pass").value;
+        var confirmPass= document.getElementById("confirm").value;
+        if(password === confirmPass){
+            mailFetch(confirmPass,email);
+        }
     })
 })
 
 function mailFetch(confirmPass,email){
+    console.log("poli")
     fetch('../backend/function_files/forgottenPasswordLogin.php', {
         method: 'POST',
         headers: {
@@ -19,21 +20,17 @@ function mailFetch(confirmPass,email){
         body: JSON.stringify({email: email, action:'checkPresenceEmail' }),
     })
         .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            if (response.status === 204) {
-                return null;
-            }
             return response.json();
-     })
+        })
         .then(data => {
+            console.log(data)
             if(data['present']) {
                 popup(email,confirmPass);
             }else{
                 let emailError = document.getElementById("emailErro");
                 emailError.classList.remove("errore")
             }
+
         })
         .catch(error => {
             console.error('Si è verificato un errore durante la fetch:', error);

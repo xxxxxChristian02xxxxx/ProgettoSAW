@@ -40,12 +40,12 @@ body {
     width: 50%;
 }
 
-.Firstname label, .Lastname label, .Email label, .Password label, .ConfirmPassword label {
+.Firstname label, .Lastname label, .Email label, .Password label, .ConfirmPassword label, .LastPassword label{
     display: flex;
     justify-items: flex-start;
 }
 
-.Firstname input[type="text"], .Lastname input[type="text"], .Email input[type="email"], .Password input[type="password"], .ConfirmPassword input[type="password"] {
+.Firstname input[type="text"], .Lastname input[type="text"], .Email input[type="email"], .Password input[type="password"], .ConfirmPassword input[type="password"], .LastPassword input[type="password"] {
     display: block;
     margin: 10px auto;
     width: 60%;

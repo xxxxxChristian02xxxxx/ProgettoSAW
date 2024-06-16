@@ -36,6 +36,8 @@ function registration($firstname, $lastname, $email, $password, $confirm){
 
     if($password ===  $confirm){
         $password = password_hash($password, PASSWORD_DEFAULT);
+    } else {
+        return array("success" => false);
     }
 
     $query = "INSERT INTO USERS(ID, FIRSTNAME, LASTNAME, EMAIL, PASSWORD) VALUES (NULL, ?, ?, ?, ?)";

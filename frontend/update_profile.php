@@ -42,21 +42,18 @@ include('header.php');
                     <span id="emailError" class="error"></span>
                 </div>
 
-                <div class="Password">
-                    <label for="pass">New password:</label>
-                    <input type="password" id="pass" name="pass"><br>
-                </div>
-
-                <div class="ConfirmPassword">
-                    <label for="confirm">Confirm new password:</label>
-                    <input type="password" id="confirm" name="confirm"><br>
-                </div>
-
                 <div id="Submit">
                     <input type="submit" value="Update">
                 </div>
 
             </form>
+        </div>
+
+        <div class="headerMyProfile">
+            <div id="ChangePassword">
+                <h5>To change the password click here:</h5>
+                <button id="changePassword">Change Password</button>
+            </div>
         </div>
         <script src="../js/updateProfile.js"></script>
 

@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!isset($_SESSION['loggedIn'])) {
+if(!isset($_SESSION['loggedIn']) &&  $_SESSION['role']  != 1) {
     header("Location: ../../frontend/index.html");
 }
 require('connection.php');

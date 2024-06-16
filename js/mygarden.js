@@ -9,8 +9,7 @@ function mygardenFetch() {
             if (response.status === 204) { // No content
                 return null;
             }
-            console.log(response.text());
-            //return response.json();
+            return response.json();
         })
         .then(data => {
             plants = data;

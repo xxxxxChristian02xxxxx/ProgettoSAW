@@ -3,7 +3,6 @@ session_start();
 require("function_files/test_session.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-include('function_files/session.php');
 
 
 include("function_files/connection.php");
@@ -35,7 +34,8 @@ if(isset($_GET['search'])){
     $search = $_GET['search'];
     $query = "SELECT PLANTS_ID, NAME, IMG_DIR, PRICE FROM PLANTS WHERE NAME LIKE ?";
     $stmt = $con->prepare($query);
-    $stmt->bind_param('s', $search);
+    $str = '%' . $search . '%';
+    $stmt->bind_param('s', $str);
     $stmt->execute();
 
     $result = $stmt->get_result();
@@ -62,7 +62,6 @@ if(isset($_GET['buy'])){
     $cart = $data['carts'];
     $money = $data['money'];
 
-    include('function_files/session.php');
 
     // Loop through each item in the cart
     foreach($cart as $item) {
