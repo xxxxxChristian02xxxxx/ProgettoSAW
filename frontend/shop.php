@@ -40,49 +40,6 @@ include('header.php');
     </div>
 </div>
 
-<script>
-    let items = [];
-
-    window.addEventListener('load', () => {
-        const shopContainer = document.getElementById('shop-container');
-
-        populateAllPlants(shopContainer);
-        getMoney();
-
-
-        document.getElementById('search_form').addEventListener('submit', (event) => {
-            let items = [];
-            event.preventDefault();
-            const search = document.getElementById('search').value;
-            const shopContainer = document.getElementById('shop-container');
-            if (search === '') {
-                alert('Empty search');
-                populateAllPlants(shopContainer);
-                return;
-            }
-            fetch(`../backend/be_shop.php?search=${search}`,{
-                method: 'GET',
-            })
-                .then(response => {
-                    return response.json();
-                })
-                .then(data => {
-                    items = data;
-                    if (items.length === 0) {
-                        alert('No items found');
-                        populateAllPlants(shopContainer);
-                    }else{
-                        appendPlantsToContainer(items, shopContainer);
-                    }
-
-                })
-                .catch(error => {
-                    console.error("Si è verificato un errore: ", error);
-                });
-        });
-    });
-
-</script>
 
 </body>
 </html>

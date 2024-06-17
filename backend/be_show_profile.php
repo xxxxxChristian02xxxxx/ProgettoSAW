@@ -8,7 +8,7 @@ require("function_files/test_session.php");
 
         
 
-        $query = "  SELECT FIRSTNAME, LASTNAME, EMAIL, MONEY,
+        $query = "  SELECT ID, FIRSTNAME, LASTNAME, EMAIL, MONEY,
                     (SELECT COUNT(DISTINCT TRANSACTIONS_ID) FROM TRANSACTIONS WHERE USER_ID = ?) AS OCCURENCIESPLANT,
                     (SELECT SUM(TOTAL_TIME) FROM STUDY_SESSIONS WHERE STUDY_SESSIONS.USER = ?) AS TOTAL_TIME
                     FROM USERS

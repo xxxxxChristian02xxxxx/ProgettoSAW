@@ -1,5 +1,6 @@
 const table = document.querySelector('#cartTable tbody')
-function setMoney() {
+let id = 0;
+function setMoney(plants) {
     return fetch('../backend/be_show_profile.php', {
         method: 'POST',
         headers: {
@@ -10,9 +11,22 @@ function setMoney() {
         .then(response =>
             response.json())
         .then(data => {
-            console.log(data);
+            console.log(plants);
             document.getElementById('yourMoney').innerHTML = 'Total money: ' + data['MONEY'];
-            return data['MONEY'];
+            id = data['ID']
+            let cart = [];
+            let dat = JSON.parse(localStorage.getItem(id))
+            for (let i = 0; i < plants.length; i++){
+                console.log(plants[i]['NAME'])
+                if(dat.hasOwnProperty(plants[i].NAME)){
+                    $price = parseInt(plants[i].PRICE) * parseInt(dat[plants[i].NAME]);
+                    cart.push([plants[i].NAME, dat[plants[i].NAME], $price, plants[i].PLANTS_ID] );
+                }
+            }
+            document.getElementById('totalPrice').innerHTML = 'Total price: '+ dat['total_price'] ?? 0;
+            console.log(cart)
+            populatecartTable(cart)
+            createbuyButton(cart,data['total_price'] ?? 0, data['MONEY'])
         })
         .catch(error => {
             console.error('Error: ', error);
@@ -21,7 +35,7 @@ function setMoney() {
 document.addEventListener('DOMContentLoaded', function () {
     getData();
     document.getElementById('empty').addEventListener('click', () => {
-        localStorage.clear();
+        localStorage.removeItem(id);
         alert("Cart emptied");
         location.reload();
     });
@@ -37,7 +51,7 @@ function createbuyButton(cart, totalprice, money) {
                 })
                 .then(data => {
                     alert("Purchase completed");
-                    localStorage.clear();
+                    localStorage.removeItem(id);
                     location.reload();
                 })
                 .catch(error => {
@@ -45,25 +59,6 @@ function createbuyButton(cart, totalprice, money) {
                 });
 
     });
-}
-function createCart(plants) {
-    const money = setMoney();
-    let totalprice = 0;
-    let cart = [];
-    console.log(plants)
-    console.log(localStorage);
-    for (let i = 0; i < plants.length; i++){
-        if(localStorage.hasOwnProperty(plants[i].NAME)){
-            $price = plants[i].PRICE * localStorage.getItem(plants[i].NAME);
-            cart.push([plants[i].NAME, localStorage.getItem(plants[i].NAME), $price, plants[i].PLANTS_ID] );
-            totalprice += $price;
-        }
-    }
-    document.getElementById('totalPrice').innerHTML = 'Total price: '+ totalprice;
-    console.log(cart);
-    populatecartTable(cart);
-    createbuyButton(cart,totalprice, money);
-    return totalprice;
 }
 function getData(){
     let plants = [];
@@ -76,7 +71,7 @@ function getData(){
         })
         .then(data => {
             plants = data;
-            return createCart(plants);
+            return setMoney(plants);
         })
         .catch(error => {
             console.error("Si è verificato un errore: ", error);
@@ -96,15 +91,22 @@ function populatecartTable(cart){
         var lessButton = document.createElement('button');
         lessButton.innerHTML = '-';
         lessButton.className = "lessButton";
+
         lessButton.addEventListener('click', () => {
-            if(localStorage.getItem(cart[key][0]) > 1){
-                localStorage.setItem(cart[key][0], parseInt(localStorage.getItem(cart[key][0])) - 1);
+            let data = JSON.parse(localStorage.getItem(id))
+            let $single = cart[key][2]/cart[key][1]
+            if(data[cart[key][0]] > 1){
+                data[cart[key][0]] =  parseInt(data[cart[key][0]]) - 1;
                 location.reload();
             }else{
-                localStorage.removeItem(cart[key][0]);
+                delete data[cart[key][0]]
+
                 location.reload();
             }
+            data['total_price'] = parseInt((data['total_price']) - parseInt($single))
+            localStorage.setItem(id,JSON.stringify(data))
         });
+
         newCell.appendChild(lessButton);
         newRow.appendChild(newCell);
         table.appendChild(newRow);
