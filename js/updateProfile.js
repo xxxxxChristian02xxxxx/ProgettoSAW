@@ -47,7 +47,6 @@ function updateDataProfile() {
         data['email'] = email;
 
 
-        console.log(data)
         fetch('../backend/be_updateprofile.php', {
             method: 'POST',
             headers: {
@@ -64,8 +63,7 @@ function updateDataProfile() {
                 }
                 return response.json()
             })
-            .then(data=>{
-                console.log(data);
+            .then(()=>{
                 window.location.reload();
             })
             .catch(error => {

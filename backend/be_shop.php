@@ -62,23 +62,17 @@ if(isset($_GET['buy'])){
     $cart = $data['carts'];
     $money = $data['money'];
 
-
-    // Loop through each item in the cart
     foreach($cart as $item) {
-        // Here you would typically update the database to reflect the purchase
-        // This is just a placeholder. Replace this with your actual database query
         purchaseItem($item, $_SESSION['id'], $con, $money);
-
     }
     $con->close();
-    // Return a success message
     header('Content-Type: application/json');
     echo json_encode(['cart' => 'Purchase successful']);
 }
 
 function purchaseItem($item, $userId, $con, $money)
 {
-    //include('be_show_profile.php');
+    // item(name, quantity, price, plant_id)
     if ($money>=$item[2]) {
         $query = "UPDATE USERS SET MONEY = MONEY - ? WHERE ID = ?";
         $stmt = $con->prepare($query);

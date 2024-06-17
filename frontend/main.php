@@ -16,7 +16,7 @@ verifyCookie();
 //Aggiunta dell'header
 include('header.php');
 
-echo "<h1>Welcome " . $_SESSION['firstname'] . " " . $_SESSION['lastname'] .  " </h1>" ;
+echo "<h1>Welcome " . htmlspecialchars($_SESSION['firstname']) . " " . htmlspecialchars($_SESSION['lastname']).  " </h1>" ;
 ?>
 <main class="wrapper">
 

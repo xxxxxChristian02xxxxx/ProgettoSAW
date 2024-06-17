@@ -3,7 +3,6 @@ session_start();
 require("function_files/test_session.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-include('function_files/session.php');
 
 
 require("function_files/connection.php");
@@ -24,7 +23,6 @@ $result = $stmt->get_result();
 header('Content-Type: application/json');
 if($result->num_rows>0){
     while($row = $result->fetch_assoc()){
-        //to apply it to each element of the array
         $sanitized_row = array_map('htmlspecialchars', $row);
         $data[] = $sanitized_row;
     }

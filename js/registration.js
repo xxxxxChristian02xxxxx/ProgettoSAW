@@ -8,7 +8,6 @@ document.getElementById('UserRegistration').addEventListener('submit', function 
             pass: document.getElementById('pass').value,
             confirm: document.getElementById('confirm').value,
         };
-        //chiamata dal frontend login in backend login
         fetchRegistration(formData);
     }
 });

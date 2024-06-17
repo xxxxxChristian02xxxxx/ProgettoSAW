@@ -19,11 +19,7 @@ function setMoney() {
         });
 }
 document.addEventListener('DOMContentLoaded', function () {
-    // Si ottengono i dati
-    console.log("ciao");
     getData();
-
-    console.log("testiong");
     document.getElementById('empty').addEventListener('click', () => {
         localStorage.clear();
         alert("Cart emptied");
@@ -40,13 +36,12 @@ function createbuyButton(cart, totalprice, money) {
                     return response.text();
                 })
                 .then(data => {
-                    console.log(data);
-                    alert(data['cart']);
+                    alert("Purchase completed");
                     localStorage.clear();
                     location.reload();
                 })
                 .catch(error => {
-                    console.error("Vengo qua: ", error);
+                    console.error("Error: ", error);
                 });
 
     });
@@ -88,7 +83,6 @@ function getData(){
         });
 }
 function populatecartTable(cart){
-    console.log('sto popolando la tabella');
     table.innerHTML = '';
     for (let key in cart) {
         let newRow = document.createElement('tr');

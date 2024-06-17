@@ -55,7 +55,6 @@ function getMoney(){
     })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             document.getElementById('MyMoney').innerHTML = data['MONEY'];
             setMoneyInLocal(data['MONEY'])
             return data['MONEY'];
@@ -68,8 +67,6 @@ function getMoney(){
 }
 
 function addFunctiontoButtons(name, price) {
-    console.log(price)
-    console.log(localStorage.getItem('money'))
     if(parseInt(price) <= parseInt(localStorage.getItem('money'))) {
         localStorage.setItem('money',parseInt(parseInt(localStorage.getItem('money')) - parseInt(price)))
         if (localStorage.hasOwnProperty(name)) {

@@ -228,7 +228,6 @@ function databaseDelivery(json_data, operationType) {
 
 }
 function subjectsRequests() {
-    console.log("subject")
     fetch('../backend/be_main.php', { // dico il percorso del file di back end
         method: 'POST', //metodo get o post
         headers: {
@@ -243,11 +242,9 @@ function subjectsRequests() {
             if (response.status === 204) { // No content
                 return null;
             }
-            console.log(response)
             return response.json();
         })
         .then(data => {
-            console.log(data)
             populateSelect(data);
         })
         .catch(error => {

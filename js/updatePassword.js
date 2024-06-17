@@ -1,5 +1,5 @@
 function updatePassword() {
-    console.log("slfknrvkl")
+
     document.getElementById('UserUpdate').addEventListener('submit', function (event) {
         event.preventDefault();
 
@@ -50,6 +50,5 @@ function updatePassword() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("djcneckjnr")
     updatePassword()
 })

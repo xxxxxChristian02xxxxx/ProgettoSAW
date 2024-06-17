@@ -35,7 +35,6 @@ function banUnban($email){
 
 $data = json_decode(file_get_contents('php://input'), true);
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
-    require('session.php');
     if($_SESSION['loggedIn'] && $_SESSION['role']){
         if(isset($data['action']) && $data['action'] === 'banUnban'){
             banUnban($data['email']);

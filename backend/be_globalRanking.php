@@ -3,7 +3,6 @@ session_start();
 require ("function_files/test_session.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-include('function_files/session.php');
 
 require("function_files/connection.php");
 $con = connect();
@@ -34,7 +33,7 @@ echo json_encode($data);
 function sanitize_row($row) {
     foreach($row as $key => $value) {
         if(is_null($value)) {
-            $row[$key] = ''; // Replace null values with an empty string
+            $row[$key] = '';
         }else{
             $row[$key] = htmlspecialchars($value);
         }

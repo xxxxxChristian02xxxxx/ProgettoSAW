@@ -11,9 +11,7 @@ if ($data && $_SERVER["REQUEST_METHOD"] == "POST") {
     if(isset($data['firstname']) && isset($data['lastname'])  && isset($data['email']) && isset($data['pass']) && isset($data['confirm'])) {
 
         $firstname = $data['firstname'];
-        $firstname = trim($firstname);
         $lastname = $data['lastname'];
-        $lastname = trim($lastname);
         $email = $data['email'];
         $email = trim($email);
         $password = $data['pass'];

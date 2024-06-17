@@ -6,7 +6,6 @@ require("function_files/test_session.php");
         require_once('function_files/connection.php');
         $con = connect();
 
-        require('function_files/session.php');
         
 
         $query = "  SELECT FIRSTNAME, LASTNAME, EMAIL, MONEY,

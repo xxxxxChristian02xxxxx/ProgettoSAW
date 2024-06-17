@@ -87,17 +87,14 @@ function popup(cell, row, dataTarget) {
 
                 var confirm = document.getElementById('confirm');
                 modifyAmount.addEventListener("input", () => {
-                    console.log(num);
                     num = modifyAmount.value;
 
                     const regex = /^\d+$/;
                     if (regex.test(num)) {
-                        console.log("integer");
                         isnum = true;
                     } else {
                         isnum = false;
                         if (num.includes(" ")) {
-                            console.log("space");
                             space.classList.remove('hidden');
                             space.style.color = "red";
                         } else {

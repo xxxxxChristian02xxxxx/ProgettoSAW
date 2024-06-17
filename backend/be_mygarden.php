@@ -3,7 +3,6 @@ session_start();
 require ("function_files/test_session.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-include('function_files/session.php');
 
 include("function_files/connection.php");
 $con = connect();

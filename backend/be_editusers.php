@@ -3,14 +3,12 @@ session_start();
 require ("function_files/test_session.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-include('function_files/session.php');
 include("function_files/connection.php");
 
 if($_SESSION['loggedIn'] && $_SESSION['role']) {
 
     $con = connect();
 
-    //creazione prepared statemet per prelevare i dati dalla la tabella
     $query = "SELECT ID, FIRSTNAME, LASTNAME, EMAIL, ROLES, BANNED, MONEY FROM USERS"; // query
     $stmt = $con->prepare($query); // execute query
     $stmt->execute();

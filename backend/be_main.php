@@ -4,8 +4,9 @@ require ("function_files/test_session.php");
 require ('../backend/function_files/inputCheck.php');
 require_once('function_files/connection.php');
 
-function addSessionStudied($moneyObtainedFromSession, $typesession, $total_time_spent, $subjectStudied, $descriptionSession){
-    
+function addSessionStudied($moneyObtainedFromSession, $typesession, $total_time_spent, $subjectStudied, $descriptionSession)
+{
+
     $userId = $_SESSION['id'];
 
     $con = connect();
@@ -23,31 +24,6 @@ function addSessionStudied($moneyObtainedFromSession, $typesession, $total_time_
     $stmt->bind_param('iiiiss', $typesession, $total_time_spent, $moneyObtainedFromSession, $userId, $subjectStudied, $descriptionSession);
     $stmt->execute();
 
-    // Recupero l'id della sessione - restituisce l'id autogenerato nell'esecuzione dell'ultima query
-    $sessionId = mysqli_insert_id($con);
-    error_log("sono qui: ". $sessionId);
-    // Query per ricavare id della materia studiata
-    $query = "SELECT ID FROM SUBJECTS WHERE NAME = ? AND CREATED_BY = ?";
-    $stmt = $con->prepare($query);
-    $stmt->bind_param("si", $subjectStudied, $_SESSION[id]);
-    $stmt->execute();
-    $res = $stmt->get_result();
-
-    if($res->num_rows === 1){
-        error_log("qui ci siamo");
-        $row = $res->fetch_assoc();
-
-        $subjectId = $row['ID'];
-        error_log("sono qua: ". $subjectId);
-        $query = "INSERT INTO SUBJECTS_SESSIONS (SUBJECT_ID, SESSION_ID) VALUES (?, ?)";
-        $stmt = $con->prepare($query);
-        $stmt->bind_param("ii", $subjectId, $sessionId);
-        $stmt->execute();
-        $con->close();
-    }
-    else{
-        echo("Something went wrong with the query result");
-    }
 }
 
 function updateSubject($subjectStudied){
@@ -73,7 +49,6 @@ function updateSubject($subjectStudied){
 }
 
 function subjectTend(){
-    require('function_files/session.php');
     
     $userId =$_SESSION['id'];
 

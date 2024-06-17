@@ -17,7 +17,6 @@ document.getElementById('UserLogin').addEventListener('submit', function (event)
             body: JSON.stringify(formData)
         })
             .then(response => {
-                console.log(response);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -27,7 +26,6 @@ document.getElementById('UserLogin').addEventListener('submit', function (event)
                 return response.json();
             })
             .then(data => {
-                console.log(data);
                 if (data.success && !data.banned) {
                     window.location.href = 'main.php';
                 }

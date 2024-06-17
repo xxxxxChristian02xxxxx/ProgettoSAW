@@ -11,7 +11,6 @@ window.addEventListener("DOMContentLoaded", () => {
 })
 
 function mailFetch(confirmPass,email){
-    console.log("poli")
     fetch('../backend/function_files/forgottenPasswordLogin.php', {
         method: 'POST',
         headers: {
@@ -23,7 +22,6 @@ function mailFetch(confirmPass,email){
             return response.json();
         })
         .then(data => {
-            console.log(data)
             if(data['present']) {
                 popup(email,confirmPass);
             }else{
