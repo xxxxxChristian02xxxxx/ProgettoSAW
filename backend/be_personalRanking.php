@@ -8,9 +8,11 @@ $con = connect();
 
 $query = "SELECT SUBJECT, SUM(STUDY_SESSIONS.TOTAL_TIME) AS TOTAL_TIME_STUDIED, SUM(STUDY_SESSIONS.TOTAL_REWARD) AS TOTAL_REWARD 
           FROM STUDY_SESSIONS 
+          WHERE USER = ?
           GROUP BY SUBJECT
           ORDER BY TOTAL_TIME_STUDIED DESC ";
 $stmt = $con->prepare($query);
+$stmt->bind_param('i', $_SESSION['id']);
 $stmt->execute();
 $res = $stmt->get_result();
 

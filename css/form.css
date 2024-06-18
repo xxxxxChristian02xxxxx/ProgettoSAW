@@ -83,3 +83,8 @@ body {
 #firstname, #lastname, #email, #money, #timestudied, #plantpurchased {
     font-weight: bold;
 }
+
+#changePassword {
+    margin-bottom: 20px;
+    font-size: 15px;
+}

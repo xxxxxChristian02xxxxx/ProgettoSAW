@@ -19,7 +19,8 @@ function verifyCookie()
 
         if ($res->num_rows === 1) {
             $row = $res->fetch_assoc();
-            if (date(time()) > $row['EXPIRE']) {
+
+            if (date("Y-m-d",time()) > $row['EXPIRE']) {
                 header("Location: frontend/login.php");
             } else {
                 $_SESSION['loggedIn'] = true;
@@ -30,7 +31,7 @@ function verifyCookie()
                 $_SESSION['role'] = $row['ROLES'];
             }
         } else {
-            echo('Something went wrong with the query result');
+            echo('Soooomething went wrong with the query result');
         }
         $con->close();
     }

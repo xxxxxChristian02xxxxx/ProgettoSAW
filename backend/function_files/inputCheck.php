@@ -4,7 +4,7 @@ function inputMailcheck($email){
 }
 
 function inputSubject($name){
-    $inputSubject = htmlspecialchars(trim($_POST['inputSubject']));
+    $inputSubject = htmlspecialchars(trim($name));
 
     if (preg_match("/^(?!\s*['']\s*$)[a-zA-Z0-9' ]{1,50}$/", $inputSubject)) {
         // Input is valid

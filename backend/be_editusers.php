@@ -20,12 +20,10 @@ if($_SESSION['loggedIn'] && $_SESSION['role']) {
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $sanitized_row = array_map('htmlspecialchars', $row);
-            error_log(print_r($sanitized_row, true));
             $data[] = $sanitized_row;
         }
     }
 
     $con->close();
-    error_log(print_r($data, true));
     echo json_encode($data);
 }

@@ -6,8 +6,6 @@ require("function_files/test_session.php");
         require_once('function_files/connection.php');
         $con = connect();
 
-        
-
         $query = "  SELECT ID, FIRSTNAME, LASTNAME, EMAIL, MONEY,
                     (SELECT COUNT(DISTINCT TRANSACTIONS_ID) FROM TRANSACTIONS WHERE USER_ID = ?) AS OCCURENCIESPLANT,
                     (SELECT SUM(TOTAL_TIME) FROM STUDY_SESSIONS WHERE STUDY_SESSIONS.USER = ?) AS TOTAL_TIME
@@ -18,7 +16,7 @@ require("function_files/test_session.php");
         $stmt->bind_param('iii', $_SESSION['id'], $_SESSION['id'], $_SESSION['id']);
         $stmt->execute();
         $result = $stmt->get_result();
-        error_log('cio');
+
         if ($result->num_rows === 1) {
             $data = $result->fetch_assoc();
             $sanitized_data = array_map('htmlspecialchars', $data);

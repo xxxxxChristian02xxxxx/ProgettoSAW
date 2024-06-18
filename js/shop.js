@@ -3,9 +3,7 @@ let id = 0;
 window.addEventListener('load', () => {
     const shopContainer = document.getElementById('shop-container');
 
-
     getMoney(shopContainer);
-
 
     document.getElementById('search_form').addEventListener('submit', (event) => {
         let items = [];
@@ -38,7 +36,6 @@ window.addEventListener('load', () => {
             });
     });
 });
-
 
 function generateCard(plant) {
     let num = 0;
@@ -76,7 +73,6 @@ function setMoneyInLocal(id, money) {
     } else {
         data = JSON.parse(localStorage.getItem(id))
         data['money'] = money
-
     }
     localStorage.setItem(id, JSON.stringify(data))
 }
@@ -92,24 +88,18 @@ function getMoney(shopContainer){
     })
         .then(response => response.json())
         .then(data => {
-
             document.getElementById('MyMoney').innerHTML = data['MONEY'];
             id = data['ID'];
             setMoneyInLocal(data['ID'],data['MONEY']);
             populateAllPlants(shopContainer);
-            return data['MONEY'];
         })
         .catch(error => {
             console.error('Error: ', error);
         });
-    return 0;
-
 }
 
 function addFunctiontoButtons(name, price) {
-
     let data = JSON.parse(localStorage.getItem(id))
-    console.log(data)
     if(parseInt(price) <= parseInt(data['money']) - parseInt(data['total_price'] ?? 0)) {
         data['total_price'] = parseInt((data['total_price'] ?? 0) + parseInt(price))
         if (data.hasOwnProperty(name)) {
@@ -140,7 +130,6 @@ function populateAllPlants(shopContainer){
         .catch(error => {
             console.error("Si è verificato un errore: ", error);
         });
-
 }
 
 

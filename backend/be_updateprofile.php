@@ -9,7 +9,6 @@ function updateProfileData($firstname, $lastname, $email){
 
     $query = "UPDATE USERS SET FIRSTNAME = ?, LASTNAME = ?, EMAIL = ? WHERE ID = ?";
 
-
     $stmt = $con->prepare($query);
     $stmt->bind_param('sssi', $firstname, $lastname, $email, $_SESSION['id']);
     $stmt->execute();
@@ -22,7 +21,7 @@ function updateProfileData($firstname, $lastname, $email){
 }
 
 $data = json_decode(file_get_contents('php://input'), true);
-error_log(print_r($data, true));
+
 if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
 
     if(isset($data['action'])) {

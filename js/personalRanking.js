@@ -24,7 +24,7 @@ fetch("../backend/be_personalRanking.php")
     if (data[1]) {
         second.textContent = data[1]['SUBJECT'];
     }
-    if (data[3]) {
+    if (data[2]) {
         third.textContent = data[2]['SUBJECT'];
     }
 

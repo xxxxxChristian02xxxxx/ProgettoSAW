@@ -221,6 +221,7 @@ function databaseDelivery(json_data, operationType) {
             if (response.status === 204) { // No content
                 return null;
             }
+            console.log(response.text())
         })
         .catch(error => {
             console.error('Error:', error);
@@ -253,7 +254,7 @@ function subjectsRequests() {
 
 }
 function updateMoney(){
-    if(dataTime['timeSpent']%300 ===0 && dataTime['timeSpent']!==0){
+    if(dataTime['timeSpent']%30 ===0 && dataTime['timeSpent']!==0){
         dataTime['money'] += 20;
     }
 }

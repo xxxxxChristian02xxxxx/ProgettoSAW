@@ -11,22 +11,20 @@ function setMoney(plants) {
         .then(response =>
             response.json())
         .then(data => {
-            console.log(plants);
             document.getElementById('yourMoney').innerHTML = 'Total money: ' + data['MONEY'];
             id = data['ID']
             let cart = [];
             let dat = JSON.parse(localStorage.getItem(id))
             for (let i = 0; i < plants.length; i++){
-                console.log(plants[i]['NAME'])
                 if(dat.hasOwnProperty(plants[i].NAME)){
                     $price = parseInt(plants[i].PRICE) * parseInt(dat[plants[i].NAME]);
                     cart.push([plants[i].NAME, dat[plants[i].NAME], $price, plants[i].PLANTS_ID] );
                 }
             }
-            document.getElementById('totalPrice').innerHTML = 'Total price: '+ dat['total_price'] ?? 0;
-            console.log(cart)
+
+            document.getElementById('totalPrice').innerHTML = 'Total price: '+ (dat['total_price'] ?? 0);
             populatecartTable(cart)
-            createbuyButton(cart,data['total_price'] ?? 0, data['MONEY'])
+            createbuyButton(cart,dat['total_price'] ?? 0, data['MONEY'])
         })
         .catch(error => {
             console.error('Error: ', error);
@@ -35,30 +33,38 @@ function setMoney(plants) {
 document.addEventListener('DOMContentLoaded', function () {
     getData();
     document.getElementById('empty').addEventListener('click', () => {
-        localStorage.removeItem(id);
-        alert("Cart emptied");
+        let dat = JSON.parse(localStorage.getItem(id))
+        if(dat && dat.hasOwnProperty('total_price')) {
+            localStorage.removeItem(id);
+            alert("Cart emptied");
+        }else{
+            alert("Cart already empty");
+        }
         location.reload();
     });
 });
 function createbuyButton(cart, totalprice, money) {
-    document.getElementById('buy').addEventListener('click', () => {
-            fetch("../backend/be_shop.php?buy=1", {
-                method: 'POST',
-                body: JSON.stringify({carts: cart, money: money}),
-            })
-                .then(response => {
-                    return response.text();
-                })
-                .then(data => {
-                    alert("Purchase completed");
-                    localStorage.removeItem(id);
-                    location.reload();
-                })
-                .catch(error => {
-                    console.error("Error: ", error);
-                });
 
-    });
+        document.getElementById('buy').addEventListener('click', () => {
+            if(totalprice !== 0) {
+                fetch("../backend/be_shop.php?buy=1", {
+                    method: 'POST',
+                    body: JSON.stringify({carts: cart, money: money}),
+                })
+                    .then(response => {
+                        return response.text();
+                    })
+                    .then(data => {
+                        alert("Purchase completed");
+                        localStorage.removeItem(id);
+                        location.reload();
+                    })
+                    .catch(error => {
+                        console.error("Error: ", error);
+                    });
+            }
+        });
+
 }
 function getData(){
     let plants = [];

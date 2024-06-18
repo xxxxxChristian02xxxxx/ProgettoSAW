@@ -6,24 +6,23 @@ require_once('function_files/connection.php');
 
 function addSessionStudied($moneyObtainedFromSession, $typesession, $total_time_spent, $subjectStudied, $descriptionSession)
 {
-
     $userId = $_SESSION['id'];
 
     $con = connect();
 
     $query = "UPDATE USERS SET MONEY = MONEY + ? WHERE ID =?";
     $stmt = $con->prepare($query);
-    $stmt->bind_param('ii', $moneyObtainedFromSession, $userId);
+    $stmt->bind_param('di', $moneyObtainedFromSession, $userId);
     $stmt->execute();
+
     if ($stmt->affected_rows !== 1) {
         echo "Error in user money modification";
     }
 
-    $query = "INSERT INTO STUDY_SESSIONS ( TYPE, DATE, TOTAL_TIME, TOTAL_REWARD, USER, SUBJECT, DESCRIPTION) VALUES ( ?, CURRENT_DATE, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO STUDY_SESSIONS (TYPE, DATE, TOTAL_TIME, TOTAL_REWARD, USER, SUBJECT, DESCRIPTION) VALUES ( ?, CURRENT_DATE, ?, ?, ?, ?, ?)";
     $stmt = $con->prepare($query);
     $stmt->bind_param('iiiiss', $typesession, $total_time_spent, $moneyObtainedFromSession, $userId, $subjectStudied, $descriptionSession);
     $stmt->execute();
-
 }
 
 function updateSubject($subjectStudied){
@@ -83,13 +82,13 @@ if($data && $_SERVER["REQUEST_METHOD"] === "POST") {
         switch ($data['action']) {
             case 'addSessionStudied':
                 if (!inputSubject($data['json_data']['subjectName'])) {
-                    echo json_encode('Sunbject not allowed');
+                    echo json_encode('Subject not allowed');
                 }
                 addSessionStudied($data['json_data']['money'], $data['json_data']['typeSession'], $data['json_data']['timeSpent'], $data['json_data']['subjectName'], $data['json_data']['description']);
                 break;
             case 'updateSubject':
                 if (!inputSubject($data['json_data']['subjectName'])) {
-                    echo json_encode('Sunbject not allowed');
+                    echo json_encode('Subject not allowed');
 
                 }
                 updateSubject($data['json_data']['subjectName']);

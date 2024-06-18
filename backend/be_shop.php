@@ -63,14 +63,14 @@ if(isset($_GET['buy'])){
     $money = $data['money'];
 
     foreach($cart as $item) {
-        purchaseItem($item, $_SESSION['id'], $con, $money);
+        purchaseItem($item, $con, $money);
     }
     $con->close();
     header('Content-Type: application/json');
     echo json_encode(['cart' => 'Purchase successful']);
 }
 
-function purchaseItem($item, $userId, $con, $money)
+function purchaseItem($item, $con, $money)
 {
     // item(name, quantity, price, plant_id)
     if ($money>=$item[2]) {
@@ -80,9 +80,9 @@ function purchaseItem($item, $userId, $con, $money)
         $stmt->execute();
 
         for ($i = 0; $i < $item[1]; $i++) {
-            $query = "INSERT INTO TRANSACTIONS(TRANSACTIONS_ID, USER_ID, PLANT_ID,DATE) VALUES (NULL,?, ?,NULL)";
+            $query = "INSERT INTO TRANSACTIONS(USER_ID, PLANT_ID) VALUES (?, ?)";
             $stmt = $con->prepare($query);
-            $stmt->bind_param('ii',$userId, $item[3]);
+            $stmt->bind_param('ii',$_SESSION['id'], $item[3]);
             //Esecuzione della query
             $stmt->execute();
         }

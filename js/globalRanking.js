@@ -47,7 +47,7 @@ function getData(currentPage, rowsPerPage) {
             if (data[1]) {
                 second.textContent = data[1]['USER'];
             }
-            if (data[3]) {
+            if (data[2]) {
                 third.textContent = data[2]['USER'];
             }
 
