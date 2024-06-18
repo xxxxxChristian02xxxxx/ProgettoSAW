@@ -181,7 +181,7 @@ window.addEventListener("DOMContentLoaded", () => {
         isTimerStarted  : false,// false: timer is at max, true:timer is running
         isStopawatchStarted : false, // false : stopwatch is at max , true : stopwatch is running
         interval:0,
-        shortBreak: 20,
+        shortBreak: 300,
         middleBreak:900,
         longBreak :1800,
         timegone:0,
